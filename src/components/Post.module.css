@@ -1,0 +1,92 @@
+.post {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 4px;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.time {
+    font-size: 14px;
+    color: var(--accent);
+}
+
+.imageContainer {
+    width: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--secondary);
+}
+
+.postImage {
+    width: 100%;
+    display: block;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+}
+
+.leftActions {
+    display: flex;
+    gap: 16px;
+}
+
+.actionButton {
+    transition: transform 0.1s ease;
+}
+
+.actionButton:hover {
+    color: var(--accent);
+}
+
+.actionButton:active {
+    transform: scale(0.9);
+}
+
+.likes {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.caption {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.viewComments {
+    font-size: 14px;
+    color: var(--accent);
+    margin-top: 8px;
+    cursor: pointer;
+}

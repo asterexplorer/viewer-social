@@ -1,0 +1,48 @@
+.storyBar {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.storyBar::-webkit-scrollbar {
+    display: none;
+}
+
+.storyContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.storyCircle {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    padding: 2px;
+    background: var(--ig-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--background);
+    object-fit: cover;
+}
+
+.username {
+    font-size: 12px;
+    max-width: 74px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
