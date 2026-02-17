@@ -1,0 +1,171 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modal {
+    background: var(--background-elevated);
+    width: 90%;
+    max-width: 500px;
+    max-height: 85vh;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.closeBtn {
+    color: var(--foreground-muted);
+}
+
+.closeBtn:hover {
+    color: var(--foreground);
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 16px;
+}
+
+.section {
+    padding-top: 8px;
+}
+
+.sectionTitle {
+    padding: 12px 16px 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--foreground-muted);
+    text-transform: uppercase;
+}
+
+.settingItem {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.settingInfo {
+    flex: 1;
+}
+
+.settingLabel {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--foreground);
+    margin-bottom: 2px;
+}
+
+.settingDescription {
+    font-size: 12px;
+    color: var(--foreground-muted);
+}
+
+.toggle {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: var(--secondary);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.toggle.active {
+    background: var(--primary);
+}
+
+.toggleKnob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: transform var(--transition-fast);
+}
+
+.toggle.active .toggleKnob {
+    transform: translateX(20px);
+}
+
+.menuItem {
+    width: 100%;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--foreground);
+    transition: background var(--transition-fast);
+}
+
+.menuItem:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.menuItemRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.separator {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

@@ -1,59 +1,152 @@
 .post {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 20px;
+    margin-bottom: 32px;
+    border-radius: var(--radius-lg);
+    background: rgba(18, 18, 18, 0.6);
+    border: 1px solid var(--border);
+    padding: 0;
+    overflow: hidden;
+    transition: all var(--transition-smooth);
 }
 
+.post:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Header */
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 4px;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .userInfo {
     display: flex;
     align-items: center;
     gap: 12px;
+    cursor: pointer;
+    transition: all var(--transition-smooth);
+}
+
+.userInfo:hover {
+    transform: translateX(2px);
+}
+
+.avatarRing {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    padding: 2px;
+    background: var(--ig-gradient);
+    background-size: 400% 400%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    animation: gradientShift 8s ease infinite;
+    transition: all var(--transition-smooth);
+}
+
+.userInfo:hover .avatarRing {
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px rgba(240, 148, 51, 0.3);
 }
 
 .avatar {
-    width: 32px;
-    height: 32px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid var(--background-card);
+}
+
+.userMeta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .username {
     font-size: 14px;
     font-weight: 600;
+    letter-spacing: -0.1px;
+    transition: color var(--transition-fast);
+}
+
+.userInfo:hover .username {
+    color: var(--primary);
 }
 
 .time {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--accent);
+    font-weight: 400;
 }
 
+.moreBtn {
+    padding: 6px;
+    border-radius: 50%;
+    transition: all var(--transition-smooth);
+    color: var(--foreground);
+}
+
+.moreBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+}
+
+.moreBtn:active {
+    transform: rotate(90deg) scale(0.9);
+}
+
+/* Image */
 .imageContainer {
     width: 100%;
-    border-radius: 4px;
     overflow: hidden;
-    border: 1px solid var(--border);
-    background: var(--secondary);
+    background: var(--background-card);
+    position: relative;
+    cursor: pointer;
+    aspect-ratio: 1 / 1;
 }
 
 .postImage {
     width: 100%;
+    height: 100%;
     display: block;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.imageContainer:hover .postImage {
+    transform: scale(1.02);
+}
+
+.imageContainer:active .postImage {
+    transform: scale(0.98);
+}
+
+.largeHeart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 10;
+    filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.6));
+}
+
+/* Actions */
 .actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 0;
+    padding: 14px 16px 10px;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .leftActions {
@@ -62,31 +155,289 @@
 }
 
 .actionButton {
-    transition: transform 0.1s ease;
+    transition: all var(--transition-smooth);
+    color: var(--foreground);
+    padding: 4px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.actionButton::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    background: radial-gradient(circle, rgba(0, 149, 246, 0.25) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    border-radius: 50%;
+}
+
+.actionButton::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    background: linear-gradient(135deg, rgba(0, 149, 246, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+    opacity: 0;
+    border-radius: 50%;
+    filter: blur(8px);
+    transition: opacity var(--transition-smooth);
+    z-index: -1;
+}
+
+.actionButton:hover::before {
+    opacity: 1;
+}
+
+.actionButton:hover::after {
+    opacity: 0.6;
 }
 
 .actionButton:hover {
-    color: var(--accent);
+    transform: scale(1.2) rotate(-5deg);
 }
 
 .actionButton:active {
-    transform: scale(0.9);
+    transform: scale(0.95) rotate(0deg);
+}
+
+.actionButton svg {
+    transition: all var(--transition-smooth);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.actionButton:hover svg {
+    stroke: var(--primary);
+    filter: drop-shadow(0 4px 8px rgba(0, 149, 246, 0.4));
+}
+
+.actionButton.liked {
+    color: #ed4956;
+    animation: heartBeat 0.5s ease, heartPulse 1.5s ease-in-out infinite;
+}
+
+.actionButton.liked::before {
+    background: radial-gradient(circle, rgba(237, 73, 86, 0.3) 0%, transparent 70%);
+    opacity: 1;
+}
+
+.actionButton.liked::after {
+    background: radial-gradient(circle, rgba(237, 73, 86, 0.4) 0%, transparent 70%);
+    opacity: 0.8;
+}
+
+.actionButton.liked svg {
+    filter: drop-shadow(0 0 12px rgba(237, 73, 86, 0.6));
+}
+
+.actionButton.saved {
+    color: #ffd700;
+}
+
+.actionButton.saved::before {
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+    opacity: 1;
+}
+
+.actionButton.saved svg {
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.4));
+}
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.2);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes heartPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Engagement */
+.engagement {
+    padding: 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .likes {
     font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 8px;
+    font-weight: 700;
+    letter-spacing: -0.1px;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+    width: fit-content;
+}
+
+.likes:hover {
+    color: var(--primary);
 }
 
 .caption {
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.6;
+    color: var(--foreground);
+}
+
+.captionUser {
+    font-weight: 600;
+    color: var(--foreground);
+    margin-right: 6px;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.captionUser:hover {
+    color: var(--primary);
 }
 
 .viewComments {
     font-size: 14px;
     color: var(--accent);
-    margin-top: 8px;
     cursor: pointer;
+    text-align: left;
+    transition: all var(--transition-smooth);
+    padding: 0;
+    font-weight: 500;
+    width: fit-content;
+}
+
+.viewComments:hover {
+    color: var(--foreground);
+    transform: translateX(2px);
+}
+
+/* Image Skeleton */
+.imageSkeleton {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.04) 0%,
+            rgba(255, 255, 255, 0.08) 50%,
+            rgba(255, 255, 255, 0.04) 100%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+.postImage.loaded {
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* More Button */
+.moreBtn {
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.moreBtn:hover {
+    color: var(--foreground);
+}
+
+/* Comment Section */
+.commentSection {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.commentInput {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+}
+
+.input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--foreground);
+    transition: all var(--transition-smooth);
+    font-family: inherit;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(0, 149, 246, 0.1);
+}
+
+.input::placeholder {
+    color: var(--accent);
+}
+
+.postBtn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-smooth);
+}
+
+.postBtn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 149, 246, 0.3);
+}
+
+.postBtn:active {
+    transform: translateY(0);
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
 }

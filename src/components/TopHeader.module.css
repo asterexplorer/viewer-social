@@ -1,0 +1,143 @@
+.header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+}
+
+.leftSection {
+    flex: 1;
+}
+
+.rightSection {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.notificationBtn {
+    position: relative;
+    padding: 8px;
+    color: var(--foreground);
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notificationBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+    color: #ed4956;
+}
+
+.badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(135deg, #ff3b5c 0%, #ed4956 100%);
+    border-radius: 50%;
+    border: 2px solid #000;
+    box-shadow: 0 0 10px rgba(237, 73, 86, 0.5);
+    animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(237, 73, 86, 0.7);
+    }
+
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 6px rgba(237, 73, 86, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(237, 73, 86, 0);
+    }
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.logoContainer:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+
+.logoIcon {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, #0095f6 0%, #006baf 100%);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 149, 246, 0.4);
+}
+
+.logoText {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -1.2px;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 2px;
+}
+
+@media (max-width: 1264px) {
+    .header {
+        height: 60px;
+        padding: 0 16px;
+    }
+
+    .logoIcon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .logoText {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        height: 56px;
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .logoText {
+        font-size: 20px;
+        letter-spacing: -0.8px;
+    }
+}

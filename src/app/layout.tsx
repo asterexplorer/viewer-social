@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import MainLayout from "@/components/MainLayout";
 
 export const metadata: Metadata = {
-  title: "Instagram Clone",
-  description: "A premium Instagram clone built with Next.js",
+  title: "Viewer — Social Media",
+  description: "A premium social media experience for visual storytelling",
+  keywords: ["social media", "photos", "sharing", "viewer"],
 };
 
 export default function RootLayout({
@@ -14,13 +16,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body>
-        <div style={{ display: 'flex' }}>
-          <Sidebar />
-          <main className="main-content">
+        <ThemeProvider>
+          <MainLayout>
             {children}
-          </main>
-        </div>
+          </MainLayout>
+        </ThemeProvider>
       </body>
     </html>
   );

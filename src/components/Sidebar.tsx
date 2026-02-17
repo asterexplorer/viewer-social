@@ -1,43 +1,54 @@
-'use strict';
+'use client';
 
 import React from 'react';
 import Link from 'next/link';
-import { Home, Search, Compass, Film, MessageCircle, Heart, PlusSquare, User, Menu } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Home, Search, Compass, Film, MessageCircle, PlusSquare, User, MoreHorizontal } from 'lucide-react';
 import styles from './Sidebar.module.css';
 
 const Sidebar = () => {
-  const navItems = [
-    { icon: Home, label: 'Home', href: '/' },
-    { icon: Search, label: 'Search', href: '/search' },
-    { icon: Compass, label: 'Explore', href: '/explore' },
-    { icon: Film, label: 'Reels', href: '/reels' },
-    { icon: MessageCircle, label: 'Messages', href: '/messages' },
-    { icon: Heart, label: 'Notifications', href: '/notifications' },
-    { icon: PlusSquare, label: 'Create', href: '/create' },
-    { icon: User, label: 'Profile', href: '/profile' },
-  ];
+    const pathname = usePathname();
 
-  return (
-    <div className={styles.sidebar}>
-      <div className={styles.logo}>
-        <span className={styles.logoText}>Instagram</span>
-      </div>
-      
-      <div className={styles.navItems}>
-        {navItems.map((item) => (
-          <Link key={item.label} href={item.href} className={styles.navItem}>
-            <item.icon size={26} strokeWidth={2} />
-            <span>{item.label}</span>
-          </Link>
-        ))}
-      </div>
+    const navItems = [
+        { icon: Home, label: 'Home', href: '/' },
+        { icon: Search, label: 'Search', href: '/search' },
+        { icon: Compass, label: 'Explore', href: '/explore' },
+        { icon: Film, label: 'Shots', href: '/shots' },
+        { icon: MessageCircle, label: 'Chat', href: '/messages' },
+        { icon: PlusSquare, label: 'Create', href: '/create' },
+        { icon: User, label: 'Profile', href: '/profile' },
+    ];
 
-      <div className={`${styles.navItem} ${styles.more}`}>
-        <Menu size={26} strokeWidth={2} />
-        <span>More</span>
-      </div>
-    </div>
-  );
+    return (
+        <nav className={styles.sidebar}>
+            <div className={styles.navItems}>
+                {navItems.map((item) => {
+                    const isActive = pathname === item.href;
+
+                    return (
+                        <Link
+                            key={item.label}
+                            href={item.href}
+                            className={`${styles.navItem} ${isActive ? styles.active : ''}`}
+                        >
+                            <div className={styles.iconWrap}>
+                                <item.icon size={26} strokeWidth={isActive ? 2.5 : 1.8} />
+                                {isActive && <div className={styles.activeIndicator} />}
+                            </div>
+                            <span>{item.label}</span>
+                        </Link>
+                    );
+                })}
+            </div>
+
+            <button className={styles.navItem}>
+                <div className={styles.iconWrap}>
+                    <MoreHorizontal size={26} strokeWidth={1.8} />
+                </div>
+                <span>More</span>
+            </button>
+        </nav>
+    );
 };
 
 export default Sidebar;

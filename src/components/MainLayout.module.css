@@ -1,0 +1,53 @@
+.layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--background);
+    color: var(--foreground);
+    overflow-x: hidden;
+}
+
+.mainContent {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    transition: margin-left var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    position: relative;
+}
+
+.contentWrapper {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+.loaderContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    background: var(--background);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1264px) {
+    .mainContent {
+        margin-left: var(--sidebar-width-md);
+    }
+}
+
+@media (max-width: 768px) {
+    .mainContent {
+        margin-left: 0;
+        padding-bottom: 64px;
+        /* Space for bottom tab bar */
+    }
+
+    .contentWrapper {
+        padding: 0;
+    }
+}

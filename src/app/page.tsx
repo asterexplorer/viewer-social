@@ -1,45 +1,114 @@
 'use client';
 
 import React from 'react';
-import StoryBar from '@/components/StoryBar';
 import Post from '@/components/Post';
-
-const MOCK_POSTS = [
-  {
-    id: 1,
-    user: { username: 'traveler_globe', avatar: 'https://i.pravatar.cc/150?u=10' },
-    image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80',
-    likes: 1240,
-    caption: 'Lost in the beauty of Yosemite. Nature never fails to amaze me! 🏔️✨',
-    time: '2h'
-  },
-  {
-    id: 2,
-    user: { username: 'foodie_vibes', avatar: 'https://i.pravatar.cc/150?u=11' },
-    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80',
-    likes: 850,
-    caption: 'Best brunch in town! These pancakes are to die for 🥞🍓 #foodie #brunch',
-    time: '4h'
-  },
-  {
-    id: 3,
-    user: { username: 'tech_insider', avatar: 'https://i.pravatar.cc/150?u=12' },
-    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80',
-    likes: 3200,
-    caption: 'Designing the future of AI. Stay tuned for the big reveal! 🚀💻 #tech #coding',
-    time: '1d'
-  }
-];
+import styles from './home.module.css';
+import StoryBar from '@/components/StoryBar';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
 
 export default function Home() {
-  return (
-    <div className="container" style={{ maxWidth: '630px', padding: '16px 0' }}>
-      <StoryBar />
+  const [feedItems, setFeedItems] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
 
-      <div style={{ marginTop: '24px' }}>
-        {MOCK_POSTS.map((post) => (
-          <Post key={post.id} {...post} />
-        ))}
+  const fetchContent = async () => {
+    try {
+      const [postsRes, shotsRes] = await Promise.all([
+        fetch('/api/posts'),
+        fetch('/api/shots')
+      ]);
+
+      const postsData = await postsRes.json();
+      const shotsData = await shotsRes.json();
+
+      const formattedPosts = Array.isArray(postsData) ? postsData.map((post: any) => ({
+        id: post.id,
+        type: 'post',
+        user: post.user,
+        image: post.image,
+        caption: post.caption,
+        likes: post.likes ? post.likes.length : 0,
+        isLiked: false,
+        time: post.createdAt ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true }) : 'Just now'
+      })) : [];
+
+      const formattedShots = Array.isArray(shotsData) ? shotsData.map((shot: any) => ({
+        id: shot.id,
+        type: 'shot',
+        user: shot.user,
+        image: undefined,
+        video: shot.video,
+        caption: shot.caption,
+        likes: shot.likes?.length || 0,
+        isLiked: false,
+        time: shot.createdAt ? formatDistanceToNow(new Date(shot.createdAt), { addSuffix: true }) : 'Just now'
+      })) : [];
+
+      const combined = [...formattedPosts, ...formattedShots];
+      return combined.sort(() => Math.random() - 0.5);
+    } catch (err) {
+      console.error('Failed to fetch content:', err);
+      return [];
+    }
+  };
+
+  React.useEffect(() => {
+    let isMounted = true;
+    const init = async () => {
+      setLoading(true);
+      const data = await fetchContent();
+      if (isMounted) {
+        setFeedItems(data);
+        setLoading(false);
+      }
+    };
+    init();
+    return () => { isMounted = false; };
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.feedSection}>
+          <StoryBar />
+          <div className="skeleton" style={{ height: '500px', width: '100%', borderRadius: '12px', marginTop: '24px' }}></div>
+          <div className="skeleton" style={{ height: '500px', width: '100%', borderRadius: '12px', marginTop: '24px' }}></div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.feedSection}>
+        <StoryBar />
+
+        <motion.div
+          className={styles.feedItemsList}
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+        >
+          <AnimatePresence mode="popLayout">
+            {feedItems.map((item, index) => (
+              <Post
+                key={`${item.id}-${index}`}
+                {...item}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </div>
   );

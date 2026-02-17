@@ -1,0 +1,492 @@
+/* Shots Container */
+.shotsContainer {
+    position: fixed;
+    inset: 0;
+    margin-left: var(--sidebar-width);
+    background: #000;
+    overflow: hidden;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-width);
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+    z-index: 100;
+    pointer-events: none;
+}
+
+.header * {
+    pointer-events: auto;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.cameraBtn {
+    width: 40px;
+    height: 40px;
+    color: white;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.cameraBtn:hover {
+    transform: scale(1.1);
+}
+
+/* Shots Feed */
+.shotsFeed {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.shotsFeed::-webkit-scrollbar {
+    display: none;
+}
+
+.shotItem {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #121212;
+}
+
+.videoWrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Changed to contain for better aspect ratio handling */
+    cursor: pointer;
+    background: #000;
+    max-width: 500px;
+    /* Constrain width on desktop similar to mobile feel */
+}
+
+/* Gradient Overlay */
+.gradientOverlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.2) 0%,
+            transparent 15%,
+            transparent 80%,
+            rgba(0, 0, 0, 0.8) 100%);
+    /* Only cover the video area essentially */
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Big Heart Animation */
+.bigHeart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 20;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.animateHeart {
+    animation: heartPopup 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes heartPopup {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+
+    15% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+
+    30% {
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 1;
+    }
+
+    45% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    80% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(0) translateY(-100px);
+        opacity: 0;
+    }
+}
+
+/* Play/Pause Overlay */
+.playOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    animation: fadeScale 0.2s ease-out;
+}
+
+@keyframes fadeScale {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Progress Bar */
+.progressBarContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 20;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.progressBar {
+    height: 100%;
+    background: var(--primary);
+    /* Or white */
+    background: #fff;
+    width: 0%;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Top Controls */
+.topControls {
+    position: absolute;
+    top: 24px;
+    /* Adjusted to be inside video area effectively */
+    right: 24px;
+    z-index: 10;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    left: 0;
+    pointer-events: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.topControls * {
+    pointer-events: auto;
+}
+
+.muteBtn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-right: 16px;
+}
+
+.muteBtn:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+/* Bottom Info */
+.bottomInfo {
+    position: absolute;
+    bottom: 24px;
+    left: 16px;
+    right: 80px;
+    z-index: 10;
+    color: white;
+    max-width: 400px;
+    margin: 0 auto;
+    /* ensure it stays within the video constraints visually if needed, 
+       but absolute positioning refers to shotItem or videoWrapper */
+    pointer-events: none;
+}
+
+.bottomInfo * {
+    pointer-events: auto;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+}
+
+.username {
+    font-size: 15px;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.followBtn {
+    padding: 4px 12px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 6px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.followBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.caption {
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Music Ticker */
+.musicInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 6px 6px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    border-radius: 16px;
+    width: fit-content;
+    max-width: 80%;
+}
+
+.musicIcon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.musicTicker {
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+/* Side Actions */
+.sideActions {
+    position: absolute;
+    right: 12px;
+    bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+    max-width: 500px;
+    margin: 0 auto;
+    /* tricky centring for absolute right inside flex container */
+}
+
+/* On desktop, keep actions to the right of the video content */
+@media (min-width: 768px) {
+    .shotItem {
+        /* Centering already handles this, but let's constrain the content block */
+        flex-direction: column;
+    }
+
+    .videoWrapper {
+        max-width: 500px;
+        /* Standard Shot Width */
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+        /* For progress bar containment */
+    }
+
+    .sideActions {
+        position: absolute;
+        /* Position relative to the center video */
+        left: 50%;
+        margin-left: 260px;
+        /* 250px (half video) + 10px gap */
+        right: auto;
+        bottom: 100px;
+    }
+
+    .bottomInfo {
+        left: 50%;
+        margin-left: -240px;
+        /* Inside video */
+        bottom: 20px;
+    }
+
+    .header {
+        left: var(--sidebar-width);
+    }
+}
+
+.actionBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: white;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.actionBtn:hover {
+    transform: scale(1.1);
+}
+
+.actionBtn:active {
+    transform: scale(0.9);
+}
+
+.actionBtn span {
+    font-size: 13px;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.actionBtn.liked svg {
+    color: #ff3b5c;
+    fill: #ff3b5c;
+    animation: heartBeat 0.4s ease-in-out;
+}
+
+@keyframes heartBeat {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .shotsContainer {
+        margin-left: 0;
+        margin-bottom: var(--bottom-nav-height);
+    }
+
+    .header {
+        left: 0;
+        top: 10px;
+        background: transparent;
+    }
+
+    .video {
+        max-width: 100%;
+        object-fit: cover;
+    }
+
+    .videoWrapper {
+        border-radius: 0;
+        max-width: 100%;
+    }
+
+    .bottomInfo {
+        left: 16px;
+        right: 70px;
+        bottom: 24px;
+        margin: 0;
+    }
+
+    .sideActions {
+        right: 12px;
+        left: auto;
+        bottom: 24px;
+        margin: 0;
+    }
+
+    .gradientOverlay {
+        max-width: 100%;
+    }
+
+    .progressBarContainer {
+        max-width: 100%;
+    }
+}

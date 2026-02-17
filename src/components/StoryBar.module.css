@@ -1,10 +1,25 @@
 .storyBar {
     display: flex;
-    gap: 16px;
-    padding: 16px 0;
+    gap: 18px;
+    padding: 20px 0;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.storyBar::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100px;
+    height: 1px;
+    background: var(--ig-gradient);
+    opacity: 0.5;
+    animation: slideWidth 3s ease-in-out infinite;
 }
 
 .storyBar::-webkit-scrollbar {
@@ -15,34 +30,209 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 8px;
     cursor: pointer;
     flex-shrink: 0;
+    /* Animation handled by Framer Motion */
+    transition: all var(--transition-smooth);
+}
+
+.storyContainer:hover {
+    transform: translateY(-4px);
+}
+
+.storyContainer:hover .storyCircle {
+    transform: scale(1.08);
+}
+
+.storyContainer:hover .username {
+    color: var(--foreground);
+}
+
+.storyContainer:active {
+    transform: translateY(-2px);
 }
 
 .storyCircle {
-    width: 66px;
-    height: 66px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
-    padding: 2px;
-    background: var(--ig-gradient);
+    padding: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    transition: all var(--transition-smooth);
+    background-size: 200% 200%;
+}
+
+.storyCircle.hasNew {
+    background: var(--ig-gradient);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite, pulse-glow 3s ease-in-out infinite;
+    animation-delay: inherit;
+    box-shadow: 0 4px 12px rgba(240, 148, 51, 0.2);
+}
+
+.storyCircle.hasNew:hover {
+    box-shadow: 0 6px 20px rgba(240, 148, 51, 0.35);
+}
+
+.storyCircle.seen {
+    background: linear-gradient(135deg, var(--border) 0%, rgba(38, 38, 38, 0.5) 100%);
+}
+
+.storyCircle.seen:hover {
+    background: linear-gradient(135deg, var(--border-hover) 0%, rgba(54, 54, 54, 0.5) 100%);
+}
+
+.yourStory {
+    background: linear-gradient(135deg, rgba(0, 149, 246, 0.1) 0%, rgba(0, 149, 246, 0.05) 100%) !important;
+    border: 2px dashed var(--border-hover);
+    animation: none !important;
+    transition: all var(--transition-smooth);
+}
+
+.yourStory:hover {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(0, 149, 246, 0.15) 0%, rgba(0, 149, 246, 0.08) 100%) !important;
+    box-shadow: 0 4px 16px rgba(0, 149, 246, 0.15);
+}
+
+.plusBadge {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border: 3px solid var(--background);
+    z-index: 2;
+    transition: all var(--transition-smooth);
+    animation: plusPulse 2s ease-in-out infinite;
+    box-shadow: 0 0 0 0 rgba(0, 149, 246, 0.4);
+}
+
+.plusBadge::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(0, 149, 246, 0.4) 0%, rgba(118, 75, 162, 0.4) 100%);
+    opacity: 0;
+    transition: all var(--transition-smooth);
+    z-index: -1;
+    filter: blur(4px);
+}
+
+.plusBadge svg {
+    transition: all var(--transition-smooth);
+}
+
+.yourStory:hover .plusBadge {
+    transform: scale(1.2) rotate(90deg);
+    box-shadow: 0 2px 12px rgba(0, 149, 246, 0.6), 0 0 0 4px rgba(0, 149, 246, 0.2);
+}
+
+.yourStory:hover .plusBadge::before {
+    opacity: 1;
+    inset: -6px;
+}
+
+.yourStory:hover .plusBadge svg {
+    transform: rotate(-90deg);
 }
 
 .avatar {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 2px solid var(--background);
+    border: 3px solid var(--background);
     object-fit: cover;
+    transition: all var(--transition-smooth);
+}
+
+.storyContainer:hover .avatar {
+    border-color: var(--background-elevated);
 }
 
 .username {
     font-size: 12px;
-    max-width: 74px;
+    max-width: 78px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: var(--foreground-muted);
+    font-weight: 500;
+    transition: all var(--transition-smooth);
+    letter-spacing: -0.01em;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(1.2);
+    }
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes plusPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes slideWidth {
+
+    0%,
+    100% {
+        width: 100px;
+        opacity: 0.5;
+    }
+
+    50% {
+        width: 200px;
+        opacity: 0.8;
+    }
 }
