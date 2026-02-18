@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Volume2, VolumeX, Play, Pause, Heart, MessageCircle, Send, Bookmark, MoreHorizontal } from 'lucide-react';
 import styles from './shots.module.css';
 import Loader from '@/components/Loader';
-import { toggleShotLike } from '@/app/actions';
+import { toggleShotLike, toggleSavedShot } from '@/app/actions';
 
 const ShotsPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,7 +23,20 @@ const ShotsPage = () => {
         setLoading(true);
         try {
             const res = await fetch('/api/shots');
-            const data = await res.json();
+            if (!res.ok) {
+                const text = await res.text().catch(() => '');
+                console.warn('Shots API responded with error:', res.status, text);
+                setShots([]);
+                return;
+            }
+
+            const data = await res.json().catch(() => null);
+
+            if (!Array.isArray(data)) {
+                console.warn('Shots API returned non-array, using empty list instead.');
+                setShots([]);
+                return;
+            }
             setShots(data.map((s: any) => ({
                 ...s,
                 username: s.user.username,
@@ -160,6 +173,30 @@ const ShotsPage = () => {
                 }));
             }
         });
+
+    };
+
+    const handleSave = (id: string) => {
+        setShots(prev => prev.map(s => {
+            if (s.id === id) {
+                return { ...s, isSaved: !s.isSaved };
+            }
+            return s;
+        }));
+
+        startTransition(async () => {
+            try {
+                await toggleSavedShot(id);
+            } catch (err) {
+                console.error('Failed to toggle saved shot:', err);
+                setShots(prev => prev.map(s => {
+                    if (s.id === id) {
+                        return { ...s, isSaved: !s.isSaved };
+                    }
+                    return s;
+                }));
+            }
+        });
     };
 
     const formatNumber = (num: number) => {
@@ -233,7 +270,9 @@ const ShotsPage = () => {
                                 </button>
                                 <button className={styles.actionBtn}><MessageCircle size={28} /><span>{formatNumber(shot.commentsCount)}</span></button>
                                 <button className={styles.actionBtn}><Send size={28} /></button>
-                                <button className={styles.actionBtn}><Bookmark size={28} /></button>
+                                <button className={`${styles.actionBtn} ${shot.isSaved ? styles.saved : ''}`} onClick={() => handleSave(shot.id)}>
+                                    <Bookmark size={28} fill={shot.isSaved ? '#ffd700' : 'none'} color={shot.isSaved ? '#ffd700' : 'currentColor'} />
+                                </button>
                                 <button className={styles.actionBtn}><MoreHorizontal size={28} /></button>
                             </div>
                         </div>

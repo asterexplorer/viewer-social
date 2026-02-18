@@ -441,3 +441,70 @@
         background-position: 200% 0;
     }
 }
+
+/* Comment List */
+.commentList {
+    padding: 0 16px 12px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.commentList::-webkit-scrollbar {
+    width: 4px;
+}
+
+.commentList::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.commentContent {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.commentUser {
+    font-weight: 600;
+    color: var(--foreground);
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+.commentUser:hover {
+    color: var(--primary);
+}
+
+.commentText {
+    color: var(--foreground);
+}
+
+.commentTime {
+    font-size: 11px;
+    color: var(--accent);
+    margin-top: 2px;
+}

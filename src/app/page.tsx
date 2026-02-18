@@ -30,7 +30,8 @@ export default function Home() {
         caption: post.caption,
         likes: post.likes ? post.likes.length : 0,
         isLiked: false,
-        time: post.createdAt ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true }) : 'Just now'
+        time: post.createdAt ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true }) : 'Just now',
+        comments: post.comments
       })) : [];
 
       const formattedShots = Array.isArray(shotsData) ? shotsData.map((shot: any) => ({
@@ -42,11 +43,27 @@ export default function Home() {
         caption: shot.caption,
         likes: shot.likes?.length || 0,
         isLiked: false,
-        time: shot.createdAt ? formatDistanceToNow(new Date(shot.createdAt), { addSuffix: true }) : 'Just now'
+        time: shot.createdAt ? formatDistanceToNow(new Date(shot.createdAt), { addSuffix: true }) : 'Just now',
+        comments: shot.comments
       })) : [];
 
-      const combined = [...formattedPosts, ...formattedShots];
-      return combined.sort(() => Math.random() - 0.5);
+      // Interleave: 4 Posts, 1 Shot, repeat
+      const combined = [];
+      let postIdx = 0;
+      let shotIdx = 0;
+
+      while (postIdx < formattedPosts.length || shotIdx < formattedShots.length) {
+        // Add up to 4 posts
+        for (let i = 0; i < 4 && postIdx < formattedPosts.length; i++) {
+          combined.push(formattedPosts[postIdx++]);
+        }
+        // Add 1 shot
+        if (shotIdx < formattedShots.length) {
+          combined.push(formattedShots[shotIdx++]);
+        }
+      }
+
+      return combined;
     } catch (err) {
       console.error('Failed to fetch content:', err);
       return [];

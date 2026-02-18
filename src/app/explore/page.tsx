@@ -7,7 +7,31 @@ import { MOCK_POSTS, Post } from '@/lib/mockData';
 import PostDetailModal from '@/components/PostDetailModal';
 
 const ExplorePage = () => {
-    const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+    const [posts, setPosts] = useState<any[]>([]);
+    const [selectedPost, setSelectedPost] = useState<any | null>(null);
+
+    React.useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const res = await fetch('/api/explore');
+                const data = await res.json();
+                if (Array.isArray(data)) {
+                    // Map API data to component structure if needed, or use directly
+                    // MOCK_POSTS structure: { id, user, image, likes, comments }
+                    // API returns: { ..., likes: [...], comments: [...] }
+                    const formatted = data.map((p: any) => ({
+                        ...p,
+                        likes: p.likes.length,
+                        comments: p.comments.length
+                    }));
+                    setPosts(formatted);
+                }
+            } catch (err) {
+                console.error('Failed to fetch explore posts:', err);
+            }
+        };
+        fetchPosts();
+    }, []);
 
     return (
         <div className="container" style={{ maxWidth: '935px' }}>
@@ -17,7 +41,7 @@ const ExplorePage = () => {
             </div>
 
             <div className={styles.grid}>
-                {MOCK_POSTS.map((post, index) => (
+                {posts.map((post, index) => (
                     <div
                         key={post.id}
                         className={styles.gridItem}
@@ -44,7 +68,7 @@ const ExplorePage = () => {
                 ))}
             </div>
 
-            {MOCK_POSTS.length === 0 && (
+            {posts.length === 0 && (
                 <div className={styles.empty}>
                     <div className={styles.emptyIcon}>🔍</div>
                     <h3>Nothing to explore yet</h3>

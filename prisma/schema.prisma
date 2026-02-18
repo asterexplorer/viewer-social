@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @default(uuid())
   username      String    @unique
   email         String    @unique
   password      String
@@ -33,6 +33,7 @@ model User {
   shotComments  ShotComment[]
   shotLikes     ShotLike[]
   savedPosts    SavedPost[]
+  savedShots    SavedShot[]
 
   // Social
   followedBy    Follows[] @relation("following")
@@ -40,19 +41,17 @@ model User {
 
   // Messaging
   sentMessages  Message[]      @relation("SentMessages")
-  seenMessageIds String[]      @db.ObjectId
-  seenMessages  Message[]      @relation("SeenMessages", fields: [seenMessageIds], references: [id])
-  conversationIds String[]     @db.ObjectId
-  conversations Conversation[] @relation("UserConversations", fields: [conversationIds], references: [id])
+  seenMessages  Message[]      @relation("SeenMessages")
+  conversations Conversation[] @relation("UserConversations")
 
   // Notifications
   notifications Notification[] @relation("UserNotifications")
 }
 
 model Follows {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  followerId  String   @db.ObjectId
-  followingId String   @db.ObjectId
+  id          String   @id @default(uuid())
+  followerId  String
+  followingId String
   createdAt   DateTime @default(now())
 
   follower    User     @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
@@ -63,28 +62,27 @@ model Follows {
 }
 
 model Post {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  id        String      @id @default(uuid())
   caption   String?
   image     String
   location  String?
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
   
-  userId    String      @db.ObjectId
+  userId    String
   user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   comments  Comment[]
   likes     Like[]
   savedBy   SavedPost[]
-  tags      Tag[]       @relation("PostTags", fields: [tagIds], references: [id])
-  tagIds    String[]    @db.ObjectId
+  tags      Tag[]       @relation("PostTags")
 
   @@index([userId])
   @@index([createdAt])
 }
 
 model Shot {
-  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  id        String        @id @default(uuid())
   video     String
   caption   String?
   music     String?
@@ -93,25 +91,25 @@ model Shot {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 
-  userId    String        @db.ObjectId
+  userId    String
   user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   comments  ShotComment[]
   likes     ShotLike[]
-  tags      Tag[]         @relation("ShotTags", fields: [tagIds], references: [id])
-  tagIds    String[]      @db.ObjectId
+  savedBy   SavedShot[]
+  tags      Tag[]         @relation("ShotTags")
 
   @@index([userId])
   @@index([createdAt])
 }
 
 model Story {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid())
   image     String
   expiresAt DateTime
   createdAt DateTime @default(now())
   
-  userId    String   @db.ObjectId
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
@@ -119,15 +117,15 @@ model Story {
 }
 
 model Comment {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid())
   text      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
-  userId    String   @db.ObjectId
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  postId    String   @db.ObjectId
+  postId    String
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@index([postId])
@@ -135,13 +133,13 @@ model Comment {
 }
 
 model Like {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   
-  userId    String   @db.ObjectId
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  postId    String   @db.ObjectId
+  postId    String
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@unique([userId, postId])
@@ -150,15 +148,15 @@ model Like {
 }
 
 model ShotComment {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid())
   text      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId    String   @db.ObjectId
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  shotId    String   @db.ObjectId
+  shotId    String
   shot      Shot     @relation(fields: [shotId], references: [id], onDelete: Cascade)
 
   @@index([shotId])
@@ -166,13 +164,13 @@ model ShotComment {
 }
 
 model ShotLike {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
 
-  userId    String   @db.ObjectId
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  shotId    String   @db.ObjectId
+  shotId    String
   shot      Shot     @relation(fields: [shotId], references: [id], onDelete: Cascade)
 
   @@unique([userId, shotId])
@@ -181,70 +179,80 @@ model ShotLike {
 }
 
 model SavedPost {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
 
-  userId    String   @db.ObjectId
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  postId    String   @db.ObjectId
+  postId    String
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@unique([userId, postId])
   @@index([userId])
 }
 
+model SavedShot {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  shotId    String
+  shot      Shot     @relation(fields: [shotId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, shotId])
+  @@index([userId])
+}
+
 model Tag {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  id      String   @id @default(uuid())
   name    String   @unique
-  posts   Post[]   @relation("PostTags", fields: [postIds], references: [id])
-  postIds String[] @db.ObjectId
-  shots   Shot[]   @relation("ShotTags", fields: [shotIds], references: [id])
-  shotIds String[] @db.ObjectId
+  posts   Post[]   @relation("PostTags")
+  shots   Shot[]   @relation("ShotTags")
 }
 
 model Notification {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(uuid())
   type      String   // LIKE, COMMENT, FOLLOW
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
 
-  userId    String   @db.ObjectId
+  userId    String
   user      User     @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
   
-  // Optional relations to the source of the notification
-  actorId   String?  @db.ObjectId
-  postId    String?  @db.ObjectId
-  shotId    String?  @db.ObjectId
+  // Optional relations IDs (explicit foreign keys are optional here, but good for storage)
+  actorId   String?
+  postId    String?
+  shotId    String?
 
   @@index([userId])
   @@index([createdAt])
 }
 
 model Conversation {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  id              String    @id @default(uuid())
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   
-  participants    User[]    @relation("UserConversations", fields: [participantIds], references: [id])
-  participantIds  String[]  @db.ObjectId
+  participants    User[]    @relation("UserConversations")
   messages        Message[]
 }
 
 model Message {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  id             String       @id @default(uuid())
   content        String
   createdAt      DateTime     @default(now())
   
-  conversationId String       @db.ObjectId
+  conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   
-  senderId       String       @db.ObjectId
+  senderId       String
   sender         User         @relation("SentMessages", fields: [senderId], references: [id])
   
-  seenBy         User[]       @relation("SeenMessages", fields: [seenByIds], references: [id])
-  seenByIds      String[]     @db.ObjectId
+  seenBy         User[]       @relation("SeenMessages")
 
   @@index([conversationId])
   @@index([senderId])

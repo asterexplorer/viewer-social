@@ -12,11 +12,16 @@ export async function GET() {
                     }
                 },
                 likes: true,
-                _count: {
-                    select: {
-                        comments: true,
+                comments: {
+                    include: {
+                        user: {
+                            select: {
+                                username: true,
+                                avatar: true,
+                            }
+                        }
                     }
-                }
+                },
             },
             orderBy: {
                 createdAt: 'desc',

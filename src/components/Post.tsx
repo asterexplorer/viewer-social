@@ -3,7 +3,8 @@
 import React, { useState, useTransition } from 'react';
 import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal } from 'lucide-react';
 import styles from './Post.module.css';
-import { toggleLike, toggleShotLike } from '@/app/actions';
+import { toggleLike, toggleShotLike, toggleSavedPost, toggleSavedShot, addComment, addShotComment } from '@/app/actions';
+import { formatDistanceToNow } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface PostProps {
@@ -11,7 +12,7 @@ interface PostProps {
     type?: 'post' | 'shot';
     user: {
         username: string;
-        avatar: string;
+        avatar?: string | null;
     };
     image?: string;
     video?: string;
@@ -19,9 +20,18 @@ interface PostProps {
     isLiked?: boolean;
     caption: string;
     time: string;
+    comments?: Array<{
+        id: string;
+        text: string;
+        user: {
+            username: string;
+            avatar?: string;
+        };
+        createdAt: string;
+    }>;
 }
 
-const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, likes, isLiked: initialIsLiked, caption, time }) => {
+const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, likes, isLiked: initialIsLiked, caption, time, comments = [] }) => {
     const [isLiked, setIsLiked] = useState(initialIsLiked || false);
     const [localLikes, setLocalLikes] = useState(likes);
     const [isPending, startTransition] = useTransition();
@@ -30,6 +40,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, like
     const [imageLoaded, setImageLoaded] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [comment, setComment] = useState('');
+    const [localComments, setLocalComments] = useState(comments);
     const [captionExpanded, setCaptionExpanded] = useState(false);
     const videoRef = React.useRef<HTMLVideoElement>(null);
 
@@ -64,9 +75,47 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, like
 
     const handleComment = () => {
         if (comment.trim()) {
-            console.log('Comment posted:', comment);
+            const newComment = {
+                id: Date.now().toString(),
+                text: comment,
+                user: { username: 'You', avatar: '' }, // Optimistic user
+                createdAt: new Date().toISOString()
+            };
+            setLocalComments([...localComments, newComment]);
             setComment('');
+
+            startTransition(async () => {
+                try {
+                    if (type === 'shot' || video) {
+                        await addShotComment(id, newComment.text);
+                    } else {
+                        await addComment(id, newComment.text);
+                    }
+                } catch (error) {
+                    console.error('Failed to post comment:', error);
+                    // Revert optimistic update
+                    setLocalComments(prev => prev.filter(c => c.id !== newComment.id));
+                }
+            });
         }
+    };
+
+    const handleSave = () => {
+        const newIsSaved = !isSaved;
+        setIsSaved(newIsSaved);
+
+        startTransition(async () => {
+            try {
+                if (type === 'shot' || video) {
+                    await toggleSavedShot(id);
+                } else {
+                    await toggleSavedPost(id);
+                }
+            } catch (error) {
+                setIsSaved(!newIsSaved);
+                console.error('Failed to toggle save:', error);
+            }
+        });
     };
 
     const handleShare = () => {
@@ -107,7 +156,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, like
             <div className={styles.header}>
                 <div className={styles.userInfo}>
                     <div className={styles.avatarRing}>
-                        <img src={user.avatar} alt={user.username} className={styles.avatar} />
+                        <img src={user.avatar || 'https://i.pravatar.cc/150'} alt={user.username} className={styles.avatar} />
                     </div>
                     <div className={styles.userMeta}>
                         <span className={styles.username}>{user.username}</span>
@@ -193,7 +242,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, like
                 <motion.button
                     whileTap={{ scale: 0.75 }}
                     className={`${styles.actionButton} ${isSaved ? styles.saved : ''}`}
-                    onClick={() => setIsSaved(!isSaved)}
+                    onClick={handleSave}
                 >
                     <Bookmark size={24} fill={isSaved ? 'currentColor' : 'none'} />
                 </motion.button>
@@ -236,6 +285,23 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, like
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3 }}
                     >
+                        {localComments && localComments.length > 0 && (
+                            <div className={styles.commentList}>
+                                {localComments.map((c) => (
+                                    <div key={c.id} className={styles.comment}>
+                                        <div className={styles.commentContent}>
+                                            <div>
+                                                <span className={styles.commentUser}>{c.user.username}</span>
+                                                <span className={styles.commentText}>{c.text}</span>
+                                            </div>
+                                            <span className={styles.commentTime}>
+                                                {formatDistanceToNow(new Date(c.createdAt), { addSuffix: true })}
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                         <div className={styles.commentInput}>
                             <input
                                 type="text"
