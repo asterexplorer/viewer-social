@@ -1,7 +1,8 @@
 .header {
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
+    /* Full width */
     right: 0;
     height: 64px;
     background: rgba(0, 0, 0, 0.6);
@@ -14,6 +15,24 @@
     z-index: 1000;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     transition: all 0.3s ease;
+    width: auto;
+}
+
+@media (max-width: 1264px) {
+    .header {
+        left: var(--sidebar-width-md);
+        height: 60px;
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        left: 0;
+        height: 56px;
+        background: rgba(0, 0, 0, 0.8);
+        top: 0;
+    }
 }
 
 .leftSection {
@@ -115,11 +134,8 @@
 }
 
 @media (max-width: 1264px) {
-    .header {
-        height: 60px;
-        padding: 0 16px;
-    }
 
+    /* Styles handled in main block now */
     .logoIcon {
         width: 30px;
         height: 30px;
@@ -132,8 +148,13 @@
 
 @media (max-width: 768px) {
     .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
         height: 56px;
         background: rgba(0, 0, 0, 0.8);
+        border-bottom: 1px solid var(--border);
     }
 
     .logoText {

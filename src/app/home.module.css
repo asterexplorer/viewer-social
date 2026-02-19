@@ -1,9 +1,10 @@
 .container {
     display: flex;
     justify-content: center;
-    gap: 32px;
+    gap: 0;
     width: 100%;
-    max-width: var(--max-width);
+    max-width: 935px;
+    /* Standard feed width */
     margin: 0 auto;
     padding: 32px 16px;
     min-height: calc(100vh - 64px);
@@ -12,11 +13,18 @@
 .feedSection {
     flex: 1;
     max-width: 630px;
-    min-width: 0;
+    width: 100%;
+    margin: 0 auto;
+    /* Center alignment */
     display: flex;
     flex-direction: column;
     gap: 24px;
-    /* Animation handled by Framer Motion */
+}
+
+.sidebarSection {
+    width: 320px;
+    flex-shrink: 0;
+    display: block;
 }
 
 .feedItemsList {
@@ -25,26 +33,32 @@
     gap: 24px;
 }
 
-.refreshLoader {
+.loaderContainer {
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding: 16px;
-    color: var(--primary);
-    background: rgba(var(--primary-rgb), 0.1);
-    border-radius: var(--radius-md);
-    margin-bottom: 16px;
+    padding: 32px;
+    width: 100%;
+}
+
+.endMessage {
+    text-align: center;
+    padding: 32px;
+    color: var(--accent);
     font-size: 14px;
-    font-weight: 600;
-    overflow: hidden;
-    /* For height animation */
 }
 
 /* Responsive */
 @media (max-width: 1160px) {
+    .container {
+        justify-content: center;
+        gap: 0;
+    }
+
+    .sidebarSection {
+        display: none;
+    }
+
     .feedSection {
-        max-width: 600px;
         margin: 0 auto;
     }
 }
@@ -52,7 +66,6 @@
 @media (max-width: 768px) {
     .container {
         padding: 16px 0;
-        gap: 0;
     }
 
     .feedSection {

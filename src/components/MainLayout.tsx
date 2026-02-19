@@ -49,7 +49,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             <Sidebar />
             <main className={styles.mainContent}>
                 <TopHeader />
-                <div className={styles.contentWrapper}>
+                <div
+                    className={styles.contentWrapper}
+                    style={{ paddingTop: pathname === '/shots' ? 0 : undefined }}
+                >
                     <PageTransition>
                         {children}
                     </PageTransition>

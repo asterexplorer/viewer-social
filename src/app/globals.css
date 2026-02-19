@@ -1,39 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-  --background: #000000;
-  --background-elevated: #0a0a0a;
-  --background-card: #121212;
-  --foreground: #fafafa;
-  --foreground-muted: #a8a8a8;
-  --primary: #0095f6;
-  --primary-hover: #1aa3ff;
-  --primary-glow: rgba(0, 149, 246, 0.25);
-  --secondary: #1a1a1a;
-  --secondary-hover: #242424;
-  --border: #262626;
-  --border-hover: #363636;
-  --accent: #737373;
-  --danger: #ed4956;
-  --success: #58c322;
-  --sidebar-width: 245px;
+  /* Spatial / Cosmic Theme */
+  --background: #030014;
+  --background-elevated: #0a0a20;
+  --background-card: rgba(20, 20, 40, 0.6);
+  --foreground: #ffffff;
+  --foreground-muted: #a0a0b0;
+
+  --primary: #7000ff;
+  --primary-hover: #8a2be2;
+  --primary-glow: rgba(112, 0, 255, 0.4);
+
+  --secondary: #1a1a2e;
+  --secondary-hover: #252540;
+
+  --border: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.2);
+
+  --accent: #00f0ff;
+  /* Cyan Neon */
+
+  --danger: #ff0055;
+  --success: #00ff9d;
+
+  --sidebar-width: 72px;
   --sidebar-width-md: 72px;
   --header-height: 60px;
   --max-width: 935px;
-  --ig-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-  --premium-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  /* Cosmic Gradients */
+  --ig-gradient: linear-gradient(45deg, #7000ff 0%, #ae00ff 50%, #00f0ff 100%);
+  --premium-gradient: linear-gradient(135deg, #030014 0%, #300050 50%, #030014 100%);
   --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
-  --neon-glow: 0 0 20px rgba(0, 149, 246, 0.15), 0 0 60px rgba(0, 149, 246, 0.05);
-  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-  --card-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.6);
+
+  --neon-glow: 0 0 20px rgba(112, 0, 255, 0.3), 0 0 40px rgba(0, 240, 255, 0.1);
+
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --card-shadow-hover: 0 12px 48px rgba(112, 0, 255, 0.15);
+
   --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-spring: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  --transition-bounce: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-spring: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 [data-theme='light'] {
@@ -66,6 +79,10 @@ html {
 
 body {
   background: var(--background);
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.05) 0%, transparent 40%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   overflow-x: hidden;
@@ -80,7 +97,8 @@ a {
 }
 
 a:hover {
-  color: var(--primary);
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--primary-glow);
 }
 
 button {
@@ -98,24 +116,25 @@ button:active {
 
 /* Glassmorphism utility */
 .glass {
-  background: rgba(10, 10, 10, 0.85);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(10, 10, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .glass-light {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .glass-strong {
-  background: rgba(18, 18, 18, 0.95);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 5, 20, 0.9);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Premium Scrollbar */

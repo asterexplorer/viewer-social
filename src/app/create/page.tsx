@@ -25,8 +25,21 @@ const CreatePostPage = () => {
     const [isPending, startTransition] = useTransition();
     const [isDragging, setIsDragging] = useState(false);
     const [isGeneratingCaption, setIsGeneratingCaption] = useState(false);
+    const [isEnhancing, setIsEnhancing] = useState(false);
+    const [isEnhanced, setIsEnhanced] = useState(false);
     const router = useRouter();
     const currentUser = MOCK_USERS[0];
+
+    // ... existing handlers ...
+
+    const handleAIEnhance = () => {
+        setIsEnhancing(true);
+        // Simulate AI processing
+        setTimeout(() => {
+            setIsEnhancing(false);
+            setIsEnhanced(!isEnhanced); // Toggle enhance
+        }, 2000);
+    };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files || []);
@@ -154,27 +167,40 @@ const CreatePostPage = () => {
                     {mediaItems.length > 0 ? (
                         <div className={styles.editorContainer}>
                             {/* Media Preview Side */}
+                            {/* Media Preview Side */}
                             <div className={styles.imagePreviewSection}>
-                                {mediaItems[currentMediaIndex].type === 'image' ? (
-                                    <img
-                                        src={mediaItems[currentMediaIndex].url}
-                                        alt="Preview"
-                                        className={styles.previewImage}
-                                        style={{ filter: activeFilter.value }}
-                                    />
-                                ) : (
-                                    <video
-                                        src={mediaItems[currentMediaIndex].url}
-                                        className={styles.previewImage}
-                                        style={{ filter: activeFilter.value }}
-                                        autoPlay
-                                        muted
-                                        loop
-                                    />
-                                )}
+                                <div className={styles.mainPreviewWrapper}>
+                                    {mediaItems[currentMediaIndex].type === 'image' ? (
+                                        <img
+                                            src={mediaItems[currentMediaIndex].url}
+                                            alt="Preview"
+                                            className={`${styles.previewImage} ${isEnhancing ? styles.enhancingScan : ''}`}
+                                            style={{ filter: isEnhanced ? 'contrast(1.1) saturate(1.2) brightness(1.05)' : activeFilter.value }}
+                                        />
+                                    ) : (
+                                        <video
+                                            src={mediaItems[currentMediaIndex].url}
+                                            className={styles.previewImage}
+                                            style={{ filter: isEnhanced ? 'contrast(1.1) saturate(1.2)' : activeFilter.value }}
+                                            autoPlay
+                                            muted
+                                            loop
+                                        />
+                                    )}
+
+                                    {/* AI Enhance Button */}
+                                    <button
+                                        className={`${styles.aiEnhanceBtn} ${isEnhanced ? styles.aiActive : ''}`}
+                                        onClick={handleAIEnhance}
+                                        disabled={isEnhancing}
+                                    >
+                                        <Sparkles size={16} className={isEnhancing ? styles.spin : ''} />
+                                        <span>{isEnhancing ? 'Enhancing...' : isEnhanced ? 'AI Enhanced' : 'AI Enhance'}</span>
+                                    </button>
+                                </div>
 
                                 {mediaItems.length > 1 && (
-                                    <>
+                                    <div className={styles.carouselControls}>
                                         {currentMediaIndex > 0 && (
                                             <button className={styles.navBtnPrev} onClick={() => setCurrentMediaIndex(i => i - 1)}>
                                                 <ChevronLeft size={20} />
@@ -190,7 +216,7 @@ const CreatePostPage = () => {
                                                 <div key={i} className={`${styles.dot} ${i === currentMediaIndex ? styles.activeDot : ''}`} />
                                             ))}
                                         </div>
-                                    </>
+                                    </div>
                                 )}
                             </div>
 

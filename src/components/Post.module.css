@@ -3,7 +3,7 @@
     flex-direction: column;
     margin-bottom: 32px;
     border-radius: var(--radius-lg);
-    background: rgba(18, 18, 18, 0.6);
+    background: var(--background-card);
     border: 1px solid var(--border);
     padding: 0;
     overflow: hidden;
@@ -12,7 +12,7 @@
 
 .post:hover {
     border-color: var(--border-hover);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--card-shadow-hover);
     transform: translateY(-2px);
 }
 
@@ -54,7 +54,7 @@
 
 .userInfo:hover .avatarRing {
     transform: scale(1.08);
-    box-shadow: 0 4px 16px rgba(240, 148, 51, 0.3);
+    box-shadow: 0 4px 16px var(--primary-glow);
 }
 
 .avatar {
@@ -62,7 +62,7 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--background-card);
+    border: 2px solid var(--background-elevated);
 }
 
 .userMeta {
@@ -166,7 +166,7 @@
     content: '';
     position: absolute;
     inset: -6px;
-    background: radial-gradient(circle, rgba(0, 149, 246, 0.25) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
     opacity: 0;
     transition: opacity var(--transition-fast);
     border-radius: 50%;
@@ -176,7 +176,7 @@
     content: '';
     position: absolute;
     inset: -8px;
-    background: linear-gradient(135deg, rgba(0, 149, 246, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+    background: linear-gradient(135deg, rgba(112, 0, 255, 0.3) 0%, rgba(0, 240, 255, 0.3) 100%);
     opacity: 0;
     border-radius: 50%;
     filter: blur(8px);
@@ -207,7 +207,7 @@
 
 .actionButton:hover svg {
     stroke: var(--primary);
-    filter: drop-shadow(0 4px 8px rgba(0, 149, 246, 0.4));
+    filter: drop-shadow(0 4px 8px var(--primary-glow));
 }
 
 .actionButton.liked {
@@ -403,7 +403,7 @@
     outline: none;
     border-color: var(--primary);
     background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 3px rgba(0, 149, 246, 0.1);
+    box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
 .input::placeholder {
@@ -425,7 +425,7 @@
 .postBtn:hover {
     background: var(--primary-hover);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 149, 246, 0.3);
+    box-shadow: 0 4px 12px var(--primary-glow);
 }
 
 .postBtn:active {

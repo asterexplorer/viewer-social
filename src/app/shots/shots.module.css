@@ -3,7 +3,10 @@
     position: fixed;
     inset: 0;
     margin-left: var(--sidebar-width);
-    background: #000;
+    background: var(--background);
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.1) 0%, transparent 40%);
     overflow: hidden;
 }
 
@@ -17,7 +20,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+    background: linear-gradient(to bottom, rgba(3, 0, 20, 0.8) 0%, transparent 100%);
     z-index: 100;
     pointer-events: none;
 }
@@ -30,25 +33,33 @@
     font-size: 24px;
     font-weight: 700;
     letter-spacing: -0.5px;
-    color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    background: var(--ig-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 10px rgba(112, 0, 255, 0.3);
 }
 
 .cameraBtn {
     width: 40px;
     height: 40px;
-    color: white;
-    background: transparent;
-    border: none;
+    color: var(--foreground);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    border: 1px solid var(--border);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s ease;
+    transition: all var(--transition-fast);
 }
 
 .cameraBtn:hover {
     transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 12px var(--primary-glow);
 }
 
 /* Shots Feed */
@@ -72,7 +83,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #121212;
+    background: transparent;
 }
 
 .videoWrapper {
@@ -82,6 +93,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background: transparent;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    /* Depth behind video */
 }
 
 .video {
@@ -90,7 +104,8 @@
     object-fit: contain;
     /* Changed to contain for better aspect ratio handling */
     cursor: pointer;
-    background: #000;
+    background: rgba(0, 0, 0, 0.2);
+    /* Slight tint for letterboxing */
     max-width: 500px;
     /* Constrain width on desktop similar to mobile feel */
 }

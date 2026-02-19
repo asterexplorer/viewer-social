@@ -8,12 +8,14 @@
 
 .mainContent {
     flex: 1;
-    margin-left: var(--sidebar-width);
+    /* margin-left removed, layout handled by flex/grid or fixed positioning in parent */
     transition: margin-left var(--transition-smooth);
     display: flex;
     flex-direction: column;
     min-width: 0;
     position: relative;
+    padding-left: var(--sidebar-width);
+    /* Push content instead of margin */
 }
 
 .contentWrapper {
@@ -22,6 +24,12 @@
     display: flex;
     flex-direction: column;
     z-index: 1;
+    padding-top: var(--header-height);
+    /* Clear fixed header */
+    max-width: var(--max-width);
+    /* Align with max page width */
+    margin: 0 auto;
+    /* Center content */
 }
 
 .loaderContainer {
@@ -34,15 +42,16 @@
 }
 
 /* Responsive adjustments */
+/* Responsive adjustments */
 @media (max-width: 1264px) {
     .mainContent {
-        margin-left: var(--sidebar-width-md);
+        padding-left: var(--sidebar-width-md);
     }
 }
 
 @media (max-width: 768px) {
     .mainContent {
-        margin-left: 0;
+        padding-left: 0;
         padding-bottom: 64px;
         /* Space for bottom tab bar */
     }
