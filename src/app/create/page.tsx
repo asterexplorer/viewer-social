@@ -5,7 +5,7 @@ import { Image as ImageIcon, X, Upload, Sparkles, MapPin, Smile, ChevronDown, Ch
 import styles from './create.module.css';
 import { useRouter } from 'next/navigation';
 import { createPost } from '@/app/actions';
-import { MOCK_USERS } from '@/lib/mockData';
+// import { MOCK_USERS } from '@/lib/mockData';
 
 const FILTERS = [
     { name: 'Normal', value: 'none' },
@@ -27,8 +27,23 @@ const CreatePostPage = () => {
     const [isGeneratingCaption, setIsGeneratingCaption] = useState(false);
     const [isEnhancing, setIsEnhancing] = useState(false);
     const [isEnhanced, setIsEnhanced] = useState(false);
+    const [currentUser, setCurrentUser] = useState<any>(null);
     const router = useRouter();
-    const currentUser = MOCK_USERS[0];
+
+    React.useEffect(() => {
+        const fetchMe = async () => {
+            try {
+                const res = await fetch('/api/users/me');
+                if (res.ok) {
+                    const data = await res.json();
+                    setCurrentUser(data);
+                }
+            } catch (err) {
+                console.error('Failed to fetch user', err);
+            }
+        };
+        fetchMe();
+    }, []);
 
     // ... existing handlers ...
 
@@ -222,10 +237,17 @@ const CreatePostPage = () => {
 
                             {/* Sidebar Details Side */}
                             <div className={styles.detailsSidebar}>
-                                <div className={styles.userInfo}>
-                                    <img src={currentUser.avatar} alt="Me" className={styles.avatar} />
-                                    <span className={styles.username}>{currentUser.username}</span>
-                                </div>
+                                {currentUser ? (
+                                    <div className={styles.userInfo}>
+                                        <img src={currentUser.avatar || "https://i.pravatar.cc/150"} alt="Me" className={styles.avatar} />
+                                        <span className={styles.username}>{currentUser.username}</span>
+                                    </div>
+                                ) : (
+                                    <div className={styles.userInfo}>
+                                        <div className={styles.avatar} style={{ background: '#333' }} />
+                                        <div style={{ height: 14, width: 80, background: '#333', borderRadius: 4 }} />
+                                    </div>
+                                )}
 
                                 <div className={styles.captionArea}>
                                     <textarea

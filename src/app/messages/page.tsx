@@ -112,12 +112,13 @@ const MessagesPage = () => {
     const [selectedConversation, setSelectedConversation] = useState<number | null>(null);
     const [messageText, setMessageText] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-    const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [conversations, setConversations] = useState<Conversation[]>([]);
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    // Use the constant
-    const conversations = CONVERSATIONS;
+    // Use empty for now until backend is ready
+    // const conversations = CONVERSATIONS; 
 
     // Scroll to bottom on new message
     useEffect(() => {
@@ -127,10 +128,10 @@ const MessagesPage = () => {
     // Initial load selection (optional)
     useEffect(() => {
         // On desktop, select first conversation if none selected
-        if (window.innerWidth > 768 && !selectedConversation) {
-            setSelectedConversation(1);
+        if (window.innerWidth > 768 && !selectedConversation && conversations.length > 0) {
+            setSelectedConversation(conversations[0].id);
         }
-    }, []);
+    }, [conversations, selectedConversation]);
 
     const selectedConv = conversations.find(c => c.id === selectedConversation);
 
@@ -148,19 +149,7 @@ const MessagesPage = () => {
         setMessages(prev => [...prev, newMessage]);
         setMessageText('');
 
-        // Simulate reply
-        setIsTyping(true);
-        setTimeout(() => {
-            setIsTyping(false);
-            const reply: Message = {
-                id: messages.length + 2,
-                text: 'That sounds amazing! Can you show me more? 🤩',
-                sender: 'other',
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                avatar: selectedConv?.avatar
-            };
-            setMessages(prev => [...prev, reply]);
-        }, 3000);
+        // No automatic reply since no backend logic
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -197,34 +186,41 @@ const MessagesPage = () => {
                 </div>
 
                 <div className={styles.conversationsScroll}>
-                    {conversations.map((conv) => (
-                        <div
-                            key={conv.id}
-                            className={`${styles.conversationItem} ${selectedConversation === conv.id ? styles.active : ''}`}
-                            onClick={() => setSelectedConversation(conv.id)}
-                        >
-                            <div className={styles.avatarContainer}>
-                                <img src={conv.avatar} alt={conv.name} className={styles.avatar} />
-                                {conv.online && <div className={styles.onlineIndicator} />}
-                            </div>
-                            <div className={styles.conversationInfo}>
-                                <div className={styles.conversationTop}>
-                                    <span className={styles.conversationName}>{conv.name}</span>
-                                    <span className={styles.timestamp}>{conv.timestamp}</span>
-                                </div>
-                                <div className={styles.conversationBottom}>
-                                    <span className={styles.lastMessage}>
-                                        {conv.id === selectedConversation && messages.length > 0
-                                            ? messages[messages.length - 1].text
-                                            : conv.lastMessage}
-                                    </span>
-                                    {conv.unread > 0 && (
-                                        <span className={styles.unreadBadge}>{conv.unread}</span>
-                                    )}
-                                </div>
-                            </div>
+                    {conversations.length === 0 ? (
+                        <div style={{ padding: '20px', textAlign: 'center', color: '#888' }}>
+                            <p>No conversations yet.</p>
+                            <p>Start a new chat to connect!</p>
                         </div>
-                    ))}
+                    ) : (
+                        conversations.map((conv) => (
+                            <div
+                                key={conv.id}
+                                className={`${styles.conversationItem} ${selectedConversation === conv.id ? styles.active : ''}`}
+                                onClick={() => setSelectedConversation(conv.id)}
+                            >
+                                <div className={styles.avatarContainer}>
+                                    <img src={conv.avatar} alt={conv.name} className={styles.avatar} />
+                                    {conv.online && <div className={styles.onlineIndicator} />}
+                                </div>
+                                <div className={styles.conversationInfo}>
+                                    <div className={styles.conversationTop}>
+                                        <span className={styles.conversationName}>{conv.name}</span>
+                                        <span className={styles.timestamp}>{conv.timestamp}</span>
+                                    </div>
+                                    <div className={styles.conversationBottom}>
+                                        <span className={styles.lastMessage}>
+                                            {conv.id === selectedConversation && messages.length > 0
+                                                ? messages[messages.length - 1].text
+                                                : conv.lastMessage}
+                                        </span>
+                                        {conv.unread > 0 && (
+                                            <span className={styles.unreadBadge}>{conv.unread}</span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
 

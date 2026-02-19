@@ -12,12 +12,8 @@ const SearchPage = () => {
 
     const tabs = ['Top', 'Accounts', 'Audio', 'Tags', 'Places'];
 
-    // Mock Data
-    const recentUsers = [
-        { id: 1, username: 'nature_photography', fullName: 'Nature Photography', avatar: 'https://i.pravatar.cc/150?u=100', followers: '12.5K', isVerified: true },
-        { id: 2, username: 'urban_explorer', fullName: 'Urban Explorer', avatar: 'https://i.pravatar.cc/150?u=101', followers: '8.2K', isVerified: false },
-        { id: 3, username: 'tech_geek', fullName: 'Tech Geek', avatar: 'https://i.pravatar.cc/150?u=102', followers: '23.1K', isVerified: true },
-    ];
+    const [recentUsers, setRecentUsers] = useState<any[]>([]);
+    const [discoveryPosts, setDiscoveryPosts] = useState<any[]>([]);
 
     const trendingTags = [
         { name: '#photography', posts: '1.2M' },
@@ -26,15 +22,34 @@ const SearchPage = () => {
         { name: '#nature', posts: '2.5M' },
     ];
 
-    const discoveryPosts = [
-        { id: 1, image: 'https://picsum.photos/seed/discover1/400/600', span: 'span 2' },
-        { id: 2, image: 'https://picsum.photos/seed/discover2/400/400', span: 'span 1' },
-        { id: 3, image: 'https://picsum.photos/seed/discover3/400/500', span: 'span 1' },
-        { id: 4, image: 'https://picsum.photos/seed/discover4/400/400', span: 'span 1' },
-        { id: 5, image: 'https://picsum.photos/seed/discover5/400/600', span: 'span 2' },
-        { id: 6, image: 'https://picsum.photos/seed/discover6/400/400', span: 'span 1' },
-        { id: 7, image: 'https://picsum.photos/seed/discover7/400/500', span: 'span 1' },
-    ];
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Fetch recent users (simulate with all users for now)
+                const usersRes = await fetch('/api/users');
+                if (usersRes.ok) {
+                    const users = await usersRes.json();
+                    setRecentUsers(users.slice(0, 5));
+                }
+
+                // Fetch posts for explore
+                const postsRes = await fetch('/api/posts');
+                if (postsRes.ok) {
+                    const posts = await postsRes.json();
+                    // Transform posts to grid format if needed
+                    const gridPosts = posts.map((p: any, i: number) => ({
+                        id: p.id,
+                        image: p.image,
+                        span: i % 5 === 0 ? 'span 2' : 'span 1' // Simple grid logic
+                    }));
+                    setDiscoveryPosts(gridPosts);
+                }
+            } catch (err) {
+                console.error('Search page fetch error', err);
+            }
+        };
+        fetchData();
+    }, []);
 
     // Simulate search
     const handleSearch = (term: string) => {

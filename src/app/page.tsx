@@ -190,6 +190,10 @@ export default function Home() {
         </div>
       </div>
 
+      <div className={styles.sidebarSection}>
+        <RightSidebar />
+      </div>
+
 
     </div>
   );

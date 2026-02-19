@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import styles from './StoryBar.module.css';
 import { Plus } from 'lucide-react';
-import { MOCK_STORIES } from '@/lib/mockData';
+// import { MOCK_STORIES } from '@/lib/mockData';
 import StoryViewer from './StoryViewer';
 
 const StoryBar = () => {

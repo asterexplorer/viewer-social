@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Heart, MessageCircle } from 'lucide-react';
 import styles from './explore.module.css';
-import { MOCK_POSTS, Post } from '@/lib/mockData';
+// import { MOCK_POSTS, Post } from '@/lib/mockData';
 import PostDetailModal from '@/components/PostDetailModal';
 
 const ExplorePage = () => {

@@ -2,13 +2,39 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { MOCK_USERS } from '@/lib/mockData';
+// import { MOCK_USERS } from '@/lib/mockData';
 import styles from './RightSidebar.module.css';
+import { useState, useEffect } from 'react';
 
 const RightSidebar = () => {
-    // Filter out the "current user" (first one) and take next 5 for suggestions
-    const currentUser = MOCK_USERS[0];
-    const suggestions = MOCK_USERS.slice(1, 6);
+    const [currentUser, setCurrentUser] = useState<any>(null);
+    const [suggestions, setSuggestions] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Fetch Me
+                const meRes = await fetch('/api/users/me');
+                if (meRes.ok) {
+                    const meData = await meRes.json();
+                    setCurrentUser(meData);
+                }
+
+                // Fetch Suggestions (all users for now, filter out me)
+                const usersRes = await fetch('/api/users');
+                if (usersRes.ok) {
+                    const allUsers = await usersRes.json();
+                    // Simple logic: take first 5 that are not me
+                    setSuggestions(allUsers.filter((u: any) => u.id !== currentUser?.id).slice(0, 5));
+                }
+            } catch (err) {
+                console.error('RightSidebar fetch error', err);
+            }
+        };
+        fetchData();
+    }, []);
+
+    if (!currentUser) return null; // Or a skeleton
 
     return (
         <aside className={styles.rightSidebar}>
@@ -16,13 +42,13 @@ const RightSidebar = () => {
             <div className={styles.userProfile}>
                 <Link href="/profile" className={styles.userInfo}>
                     <img
-                        src={currentUser.avatar}
+                        src={currentUser.avatar || "https://i.pravatar.cc/150"}
                         alt={currentUser.username}
                         className={styles.avatar}
                     />
                     <div className={styles.userDetails}>
                         <div className={styles.username}>{currentUser.username}</div>
-                        <div className={styles.fullName}>{currentUser.name}</div>
+                        <div className={styles.fullName}>{currentUser.fullName || currentUser.username}</div>
                     </div>
                 </Link>
                 <button className={styles.switchBtn}>Switch</button>
@@ -41,7 +67,7 @@ const RightSidebar = () => {
                         <div className={styles.suggestionUserInfo}>
                             <Link href={`/${user.username}`}>
                                 <img
-                                    src={user.avatar}
+                                    src={user.avatar || `https://i.pravatar.cc/150?u=${user.username}`}
                                     alt={user.username}
                                     className={styles.suggestionAvatar}
                                 />
