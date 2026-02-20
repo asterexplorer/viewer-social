@@ -3,11 +3,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Search, Compass, Film, MessageCircle, PlusSquare, User, MoreHorizontal } from 'lucide-react';
+import { Home, Search, Compass, Film, MessageCircle, PlusSquare, User, MoreHorizontal, Moon, Sun } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 import styles from './Sidebar.module.css';
 
 const Sidebar = () => {
     const pathname = usePathname();
+    const { theme, toggleTheme } = useTheme();
 
     const navItems = [
         { icon: Home, label: 'Home', href: '/' },
@@ -41,12 +43,20 @@ const Sidebar = () => {
                 })}
             </div>
 
-            <button className={styles.navItem}>
-                <div className={styles.iconWrap}>
-                    <MoreHorizontal size={26} strokeWidth={1.8} />
-                </div>
-                <span>More</span>
-            </button>
+            <div>
+                <button className={styles.navItem} onClick={toggleTheme}>
+                    <div className={styles.iconWrap}>
+                        {theme === 'dark' ? <Moon size={26} strokeWidth={1.8} /> : <Sun size={26} strokeWidth={1.8} />}
+                    </div>
+                    <span>{theme === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>
+                </button>
+                <button className={styles.navItem}>
+                    <div className={styles.iconWrap}>
+                        <MoreHorizontal size={26} strokeWidth={1.8} />
+                    </div>
+                    <span>More</span>
+                </button>
+            </div>
         </nav>
     );
 };
