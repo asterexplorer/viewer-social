@@ -50,17 +50,13 @@ export const MediaService = {
             console.warn('S3 upload failed, falling back to local storage', e);
         }
 
-        // 2. Fallback: Local Storage
-        const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-
-        const filePath = path.join(uploadDir, filename);
-        fs.writeFileSync(filePath, buffer);
+        // 2. Fallback: Base64 String Storage
+        // Skip ephemeral local storage completely, so images and videos save directly
+        // to the database and work instantly on Vercel without S3/Blob setup.
+        console.log('Skipping local FS, returning base64 string directly for database storage');
 
         return {
-            url: `/uploads/${filename}`,
+            url: fileBase64,
             type,
             mimeType
         };
