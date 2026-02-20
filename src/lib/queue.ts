@@ -3,8 +3,8 @@ import amqp from 'amqplib';
 const QUEUE_NAME = 'notifications';
 const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://localhost';
 
-let connection: amqp.Connection | null = null;
-let channel: amqp.Channel | null = null;
+let connection: any = null;
+let channel: any = null;
 
 export async function getChannel() {
     if (channel) return channel;
@@ -15,7 +15,7 @@ export async function getChannel() {
         await channel.assertQueue(QUEUE_NAME, { durable: true });
 
         // Handle connection errors
-        connection.on('error', (err) => {
+        connection.on('error', (err: any) => {
             console.error('RabbitMQ connection error', err);
             channel = null;
             connection = null;

@@ -92,7 +92,7 @@ const ProfilePage = () => {
                     username: meData.username,
                     avatar: meData.avatar,
                     bio: meData.bio || null,
-                    followers: meData._count?.followers || 0, // Using _count from API
+                    followers: meData._count?.followedBy || 0, // Using _count from API
                     website: meData.website || '',
                     category: meData.category || 'Digital Creator',
                     isPrivate: false,

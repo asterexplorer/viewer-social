@@ -8,7 +8,7 @@ export async function GET() {
         const user = await prisma.user.findFirst({
             include: {
                 _count: {
-                    select: { followers: true, following: true, posts: true }
+                    select: { followedBy: true, following: true, posts: true }
                 }
             }
         });
