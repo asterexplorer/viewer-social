@@ -142,7 +142,7 @@ const MessagesPage = () => {
             id: messages.length + 1,
             text: messageText,
             sender: 'user',
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            timestamp: 'Just now',
             status: 'sent'
         };
 

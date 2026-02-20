@@ -103,7 +103,7 @@ const ProfilePage = () => {
                         comments: post.comments ? post.comments.length : 0,
                         userId: post.userId || '',
                         caption: post.caption || '',
-                        createdAt: post.createdAt ? new Date(post.createdAt) : new Date(),
+                        createdAt: post.createdAt ? new Date(post.createdAt) : new Date(0), // Use fixed epoch instead of fluctuating new Date() to prevent hydration mismatches
                         isLiked: false,
                         isSaved: false,
                         user: {
