@@ -87,21 +87,23 @@
 }
 
 .appName {
-    font-size: 40px;
+    font-size: 44px;
     font-weight: 800;
     background: var(--ig-gradient);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: -1.5px;
+    letter-spacing: -2px;
+    font-family: 'Syne', 'Inter', sans-serif;
 }
 
 .heroTitle {
-    font-size: 56px;
+    font-size: 64px;
     font-weight: 800;
     color: white;
-    line-height: 1.1;
-    letter-spacing: -2px;
+    line-height: 1.05;
+    letter-spacing: -2.5px;
+    font-family: 'Syne', 'Inter', sans-serif;
 }
 
 .gradientText {
@@ -112,10 +114,11 @@
 }
 
 .heroSubtitle {
-    font-size: 18px;
+    font-size: 19px;
     color: var(--foreground-muted);
-    line-height: 1.6;
+    line-height: 1.7;
     max-width: 500px;
+    font-weight: 400;
 }
 
 .featureGrid {
@@ -130,12 +133,13 @@
     align-items: center;
     gap: 12px;
     color: white;
-    font-weight: 500;
-    font-size: 15px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-weight: 600;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 0.2px;
 }
 
 .featureIcon {
@@ -156,15 +160,18 @@
 }
 
 .title {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 30px;
+    font-weight: 800;
     color: white;
     margin-bottom: 8px;
+    letter-spacing: -0.8px;
+    font-family: 'Syne', 'Inter', sans-serif;
 }
 
 .subtitle {
-    font-size: 14px;
+    font-size: 15px;
     color: var(--foreground-muted);
+    line-height: 1.5;
 }
 
 .loginForm {
@@ -182,8 +189,10 @@
 
 .label {
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--foreground-muted);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
 }
 
 .forgotLink {
@@ -193,14 +202,16 @@
 }
 
 .input {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 14px;
-    padding: 14px 18px;
+    padding: 15px 20px;
     color: white;
-    font-size: 15px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
     outline: none;
     transition: all 0.3s;
+    letter-spacing: 0.2px;
 }
 
 .input:focus {
@@ -210,12 +221,15 @@
 }
 
 .loginBtn {
-    background: var(--primary);
+    background: var(--ig-gradient);
+    background-size: 200% 200%;
     color: white;
     font-weight: 700;
-    padding: 16px;
+    padding: 17px;
     border-radius: 14px;
-    font-size: 16px;
+    font-size: 17px;
+    font-family: 'Syne', 'Inter', sans-serif;
+    letter-spacing: 0.3px;
     transition: all 0.3s;
     display: flex;
     align-items: center;
@@ -253,14 +267,15 @@
 
 .guestBtn {
     width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     color: white;
-    font-weight: 600;
-    padding: 14px;
+    font-weight: 700;
+    padding: 15px;
     border-radius: 14px;
-    font-size: 14px;
+    font-size: 15px;
     transition: all 0.2s;
+    letter-spacing: 0.2px;
 }
 
 .guestBtn:hover {
@@ -332,7 +347,8 @@
     }
 
     .heroTitle {
-        font-size: 42px;
+        font-size: 46px;
+        letter-spacing: -2px;
     }
 
     .heroSubtitle {
@@ -354,7 +370,8 @@
     }
 
     .heroTitle {
-        font-size: 32px;
+        font-size: 36px;
+        letter-spacing: -1.5px;
     }
 
     .featureGrid {
