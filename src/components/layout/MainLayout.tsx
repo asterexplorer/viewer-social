@@ -18,33 +18,41 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     const pathname = usePathname();
 
     useEffect(() => {
-        const checkSession = async () => {
-            try {
-                const res = await fetch('/api/auth');
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.authenticated) {
-                        setIsLoggedIn(true);
-                    } else {
-                        // Automatically perform login bypass
-                        const loginRes = await fetch('/api/auth', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ username: 'test', password: 'test123' })
-                        });
+        const initAuth = async () => {
+            // Instantly check if we've logged in before to skip the loading screen
+            const hasFastAuth = localStorage.getItem('viewer_demo_auth') === 'true';
 
-                        if (loginRes.ok) {
-                            setIsLoggedIn(true);
-                        }
+            if (hasFastAuth) {
+                // Show the app IMMEDIATELY for returning users!
+                setIsLoggedIn(true);
+                setIsInitialized(true);
+            }
+
+            try {
+                // Always silently refresh the session cookie in the background
+                // This ensures the demo session never truly expires and always works
+                const loginRes = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: 'test', password: 'test123' })
+                });
+
+                if (loginRes.ok) {
+                    localStorage.setItem('viewer_demo_auth', 'true');
+                    if (!hasFastAuth) {
+                        setIsLoggedIn(true);
+                        setIsInitialized(true);
                     }
                 }
             } catch (err) {
-                console.error('Session check failed', err);
-            } finally {
-                setIsInitialized(true);
+                console.error('Auto-login failed', err);
+                if (!hasFastAuth) {
+                    setIsInitialized(true);
+                }
             }
         };
-        checkSession();
+
+        initAuth();
     }, []);
 
     const handleLogin = () => {
