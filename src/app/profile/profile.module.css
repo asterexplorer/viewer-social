@@ -144,10 +144,10 @@
 .monetizationBtn {
     background: #111827;
     border: none;
-    padding: 13px 30px;
-    border-radius: 16px;
-    font-size: 15px;
-    font-weight: 800;
+    padding: 9px 20px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
     color: white;
     cursor: pointer;
     letter-spacing: 0.2px;
