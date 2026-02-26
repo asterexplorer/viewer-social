@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { cookies } from 'next/headers';
-import { verifyPassword, hashPassword, getSession } from '@/lib/auth';
+import { hashPassword, getSession } from '@/lib/auth';
+
+// ✅ ALLOWED CREDENTIALS — only this login is permitted
+const ALLOWED_USERNAME = 'test';
+const ALLOWED_PASSWORD = 'test123';
 
 /**
- * Handle Login / Registration
+ * Handle Login — Only allows test / test123
  */
 export async function POST(req: Request) {
     try {
@@ -14,39 +18,36 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Username and password are required' }, { status: 400 });
         }
 
-        // Find user
+        // 🔒 Block all logins except the single allowed credential
+        if (username !== ALLOWED_USERNAME || password !== ALLOWED_PASSWORD) {
+            return NextResponse.json(
+                { error: 'Access denied. Use username: test and password: test123.' },
+                { status: 401 }
+            );
+        }
+
+        // Find or auto-create the 'test' user
         let user = await prisma.user.findUnique({
-            where: { username }
+            where: { username: ALLOWED_USERNAME }
         });
 
-        // Demo mode: Create dev user if it doesn't exist
-        if (!user && username === 'antigravity_dev') {
-            const hashedPassword = await hashPassword('password123');
+        if (!user) {
+            const hashedPassword = await hashPassword(ALLOWED_PASSWORD);
             user = await prisma.user.create({
                 data: {
-                    username: 'antigravity_dev',
-                    email: 'dev@antigravity.com',
+                    username: ALLOWED_USERNAME,
+                    email: 'test@viewer.app',
                     password: hashedPassword,
-                    fullName: 'Antigravity Developer',
-                    avatar: 'https://i.pravatar.cc/150?u=antigravity',
-                    bio: 'Building the next gen social app.',
+                    fullName: 'Test User',
+                    avatar: 'https://i.pravatar.cc/150?u=test',
+                    bio: 'Demo account for Viewer app.',
                     isVerified: true
                 }
             });
         }
 
-        if (!user) {
-            return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-        }
-
-        // Verify password
-        const isValid = await verifyPassword(password, user.password);
-        if (!isValid) {
-            return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-        }
-
-        // Secure Session Cookie
-        const sessionExpiry = 60 * 60 * 24 * 7; // 7 days
+        // Secure Session Cookie — 7 days
+        const sessionExpiry = 60 * 60 * 24 * 7;
         (await cookies()).set('userId', user.id, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
@@ -55,9 +56,10 @@ export async function POST(req: Request) {
             path: '/'
         });
 
-        // Don't return password
+        // Return user without password
         const { password: _, ...userWithoutPassword } = user;
         return NextResponse.json({ success: true, user: userWithoutPassword });
+
     } catch (error) {
         console.error('Auth POST error:', error);
         return NextResponse.json({ error: 'Authentication failed' }, { status: 500 });

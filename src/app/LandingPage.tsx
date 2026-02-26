@@ -10,8 +10,8 @@ interface LandingPageProps {
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
-    const [username, setUsername] = useState('antigravity_dev');
-    const [password, setPassword] = useState('password123');
+    const [username, setUsername] = useState('test');
+    const [password, setPassword] = useState('test123');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
