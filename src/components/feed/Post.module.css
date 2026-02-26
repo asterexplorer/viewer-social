@@ -95,10 +95,11 @@
 }
 
 .username {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: -0.1px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
     transition: color var(--transition-fast);
+    font-family: 'Inter', sans-serif;
 }
 
 .userInfo:hover .username {
@@ -333,9 +334,9 @@
 }
 
 .likes {
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: -0.1px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
     cursor: pointer;
     transition: color var(--transition-fast);
     width: fit-content;
@@ -346,9 +347,10 @@
 }
 
 .caption {
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.65;
     color: var(--foreground);
+    font-weight: 400;
 }
 
 .captionUser {
@@ -365,13 +367,14 @@
 
 .viewComments {
     font-size: 14px;
-    color: var(--accent);
+    color: var(--foreground-muted);
     cursor: pointer;
     text-align: left;
     transition: all var(--transition-smooth);
     padding: 0;
-    font-weight: 500;
+    font-weight: 600;
     width: fit-content;
+    letter-spacing: 0.1px;
 }
 
 .viewComments:hover {
@@ -506,7 +509,7 @@
     align-items: flex-start;
     gap: 8px;
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.5;
     animation: fadeIn 0.3s ease;
 }
 

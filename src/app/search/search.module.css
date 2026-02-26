@@ -197,11 +197,12 @@
 }
 
 .sectionHeader h2 {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 900;
     color: #111827;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.05em;
     margin: 0;
+    font-family: 'Syne', 'Inter', sans-serif;
 }
 
 :global(.dark) .sectionHeader h2 {
@@ -292,11 +293,12 @@
 
 .recentUsername {
     display: block;
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 950;
     color: #111827;
     margin-bottom: 8px;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.06em;
+    font-family: 'Syne', 'Inter', sans-serif;
 }
 
 :global(.dark) .recentUsername {
@@ -412,10 +414,11 @@
 
 .tagName {
     font-weight: 900;
-    font-size: 20px;
+    font-size: 22px;
     color: #111827;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.06em;
     transition: color 0.3s;
+    font-family: 'Syne', 'Inter', sans-serif;
 }
 
 .trendingTag:hover .tagName {
@@ -547,9 +550,10 @@
 
 .resultUsername {
     font-weight: 900;
-    font-size: 21px;
+    font-size: 22px;
     color: #111827;
     letter-spacing: -0.05em;
+    font-family: 'Syne', 'Inter', sans-serif;
 }
 
 :global(.dark) .resultUsername {
@@ -618,10 +622,11 @@
 
 .emptyState h3 {
     color: #111827;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 900;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.05em;
     margin: 0;
+    font-family: 'Syne', 'Inter', sans-serif;
 }
 
 :global(.dark) .emptyState h3 {
@@ -631,7 +636,8 @@
 .emptyState p {
     color: #6b7280;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
+    line-height: 1.6;
 }
 
 /* Responsive Customization */
