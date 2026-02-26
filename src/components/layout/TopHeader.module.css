@@ -66,6 +66,30 @@
     color: #ed4956;
 }
 
+.themeToggleBtn {
+    position: relative;
+    padding: 8px;
+    margin-right: 4px;
+    color: var(--foreground);
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: var(--secondary);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.themeToggleBtn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: scale(1.1) rotate(20deg);
+    box-shadow: 0 4px 16px var(--primary-glow);
+}
+
+
 .activeHeart {
     fill: #ed4956;
     color: #ed4956;

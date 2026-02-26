@@ -2,16 +2,18 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Camera, Heart } from 'lucide-react';
+import { Camera, Heart, Sun, Moon } from 'lucide-react';
 import styles from './TopHeader.module.css';
 import { usePathname } from 'next/navigation';
 import NotificationModal from '../modals/NotificationModal';
 import { notificationService } from '@/services/notification-service';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const TopHeader = () => {
     const pathname = usePathname();
     const [showNotifications, setShowNotifications] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
+    const { theme, toggleTheme } = useTheme();
 
     const fetchUnreadCount = async () => {
         try {
@@ -48,10 +50,17 @@ const TopHeader = () => {
                     <div className={styles.logoIcon}>
                         <Camera size={24} strokeWidth={2.5} />
                     </div>
-                    <span className={styles.logoText}>viewer</span>
+                    <span className={`${styles.logoText} text-gradient`}>viewer</span>
                 </Link>
 
                 <div className={styles.rightSection}>
+                    <button
+                        className={styles.themeToggleBtn}
+                        onClick={toggleTheme}
+                        aria-label="Toggle theme"
+                    >
+                        {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                    </button>
                     <button
                         className={styles.notificationBtn}
                         onClick={() => setShowNotifications(true)}

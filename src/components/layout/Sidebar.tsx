@@ -30,6 +30,8 @@ const Sidebar = () => {
                             key={item.label}
                             href={item.href}
                             className={`${styles.navItem} ${isActive ? styles.active : ''}`}
+                            data-tooltip={item.label}
+                            aria-label={item.label}
                         >
                             <div className={styles.iconWrap}>
                                 <item.icon size={26} strokeWidth={isActive ? 2.5 : 1.8} />

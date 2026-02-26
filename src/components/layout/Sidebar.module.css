@@ -340,3 +340,40 @@
         display: none !important;
     }
 }
+
+/* Tooltip on hover */
+.navItem[data-tooltip] {
+    position: relative;
+}
+
+.navItem[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%) translateX(-6px);
+    background: var(--foreground);
+    color: var(--background);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 9999;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    letter-spacing: 0.3px;
+}
+
+.navItem[data-tooltip]:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+@media (max-width: 768px) {
+    .navItem[data-tooltip]::after {
+        display: none;
+    }
+}

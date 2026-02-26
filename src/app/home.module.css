@@ -26,10 +26,11 @@
 }
 
 .welcomeText h1 {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 800;
-    margin-bottom: 4px;
-    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    letter-spacing: -0.8px;
+    font-family: 'Syne', 'Inter', sans-serif;
 }
 
 .subtitle {
