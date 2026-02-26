@@ -18,13 +18,9 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Username and password are required' }, { status: 400 });
         }
 
-        // 🔒 Block all logins except the single allowed credential
-        if (username !== ALLOWED_USERNAME || password !== ALLOWED_PASSWORD) {
-            return NextResponse.json(
-                { error: 'Access denied. Use username: test and password: test123.' },
-                { status: 401 }
-            );
-        }
+        // � ALWAYS ALLOW LOGIN: No matter what they type, log them in as 'test'
+        // This removes the "Access Denied" error completely for a flawless demo experience.
+
 
         // Find or auto-create the 'test' user
         let user = await prisma.user.findUnique({
