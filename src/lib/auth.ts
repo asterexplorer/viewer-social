@@ -34,7 +34,7 @@ export async function getSession() {
         // 🚀 ALWAYS-ON DEMO FALLBACK
         // If no cookie exists, automatically return the 'test' demo user
         // This stops "Unauthorized" errors from occurring before the silent login finishes
-        const demoUser = await prisma.user.findUnique({
+        let demoUser = await prisma.user.findUnique({
             where: { username: 'test' },
             select: {
                 id: true,
@@ -46,6 +46,31 @@ export async function getSession() {
                 isVerified: true
             }
         });
+
+        // 🛠️ Auto-create test user if they somehow don't exist yet (e.g. fresh start)
+        if (!demoUser) {
+            const hashedPassword = await hashPassword('test123');
+            const newlyCreated = await prisma.user.create({
+                data: {
+                    username: 'test',
+                    email: 'test@viewer.app',
+                    password: hashedPassword,
+                    fullName: 'Test User',
+                    avatar: 'https://i.pravatar.cc/150?u=test',
+                    bio: 'Demo account for Viewer app.',
+                    isVerified: true
+                }
+            });
+            demoUser = {
+                id: newlyCreated.id,
+                username: newlyCreated.username,
+                avatar: newlyCreated.avatar,
+                email: newlyCreated.email,
+                fullName: newlyCreated.fullName,
+                isPrivate: newlyCreated.isPrivate,
+                isVerified: newlyCreated.isVerified
+            };
+        }
 
         return demoUser;
     } catch (error) {
