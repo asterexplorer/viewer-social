@@ -1,0 +1,218 @@
+.rightSidebar {
+    width: 380px;
+    height: 100vh;
+    padding: 32px 32px 24px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    right: 0;
+    z-index: 10;
+}
+
+@media (max-width: 1264px) {
+    .rightSidebar {
+        display: none;
+    }
+}
+
+/* User Profile Mini */
+.userProfile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.userDetails {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.fullName {
+    font-size: 14px;
+    color: var(--accent);
+}
+
+.switchBtn {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.switchBtn:hover {
+    color: var(--foreground);
+}
+
+/* Suggestions */
+.suggestionsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.suggestionsTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.seeAllBtn {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--foreground);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.suggestionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.suggestionItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.suggestionUserInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.suggestionAvatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.suggestionDetails {
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestionUsername {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.suggestionMeta {
+    font-size: 12px;
+    color: var(--accent);
+}
+
+.followBtn {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.followBtn:hover {
+    color: var(--foreground);
+}
+
+
+/* App Stores */
+.appStoreSection {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.appStoreTitle {
+    font-size: 14px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.storeButtons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.storeBadge {
+    height: 40px;
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+}
+
+.storeBadge:hover {
+    transform: translateY(-2px);
+}
+
+/* Tech Stack Info */
+.techInfo {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--accent);
+    line-height: 1.5;
+}
+
+.techLabel {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+    color: var(--foreground-muted);
+}
+
+.footerLinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.footerLink {
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.footerLink:hover {
+    text-decoration: underline;
+}
+
+.copyright {
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+}

@@ -1,0 +1,93 @@
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 32px 16px;
+    min-height: calc(100vh - 64px);
+}
+
+.feedSection {
+    width: 100%;
+    max-width: 630px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    position: relative;
+    z-index: 10;
+}
+
+.pageHeader {
+    padding: 24px 0 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.welcomeText h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    color: var(--foreground-muted);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.feedItemsList {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.loaderContainer {
+    display: flex;
+    justify-content: center;
+    padding: 32px;
+    width: 100%;
+}
+
+.endMessage {
+    text-align: center;
+    padding: 48px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.05));
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border);
+}
+
+/* Responsive */
+@media (max-width: 1160px) {
+    .container {
+        justify-content: center;
+        gap: 0;
+    }
+
+    .sidebarSection {
+        display: none;
+    }
+
+    .feedSection {
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 16px 0;
+    }
+
+    .feedSection {
+        max-width: 100%;
+        gap: 0;
+    }
+}
