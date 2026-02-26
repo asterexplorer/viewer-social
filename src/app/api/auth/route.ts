@@ -58,7 +58,11 @@ export async function POST(req: Request) {
 
     } catch (error) {
         console.error('Auth POST error:', error);
-        return NextResponse.json({ error: 'Authentication failed' }, { status: 500 });
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        return NextResponse.json(
+            { error: `Authentication failed: ${errorMessage}. Please check your database connection.` },
+            { status: 500 }
+        );
     }
 }
 
