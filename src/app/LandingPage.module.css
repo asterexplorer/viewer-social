@@ -335,6 +335,63 @@
     }
 }
 
+/* Premium Error Banner */
+.errorBanner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(220, 38, 38, 0.08) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 4px;
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+}
+
+.errorIconWrap {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f87171;
+    flex-shrink: 0;
+}
+
+.errorContent {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.errorTitle {
+    font-size: 13px;
+    font-weight: 800;
+    color: #f87171;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.errorMsg {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.4;
+}
+
+.errorMsg strong {
+    color: #fca5a5;
+    font-weight: 800;
+    background: rgba(239, 68, 68, 0.15);
+    padding: 1px 6px;
+    border-radius: 5px;
+}
+
+
 @media (max-width: 1024px) {
     .gridContainer {
         grid-template-columns: 1fr;

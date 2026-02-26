@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import styles from './LandingPage.module.css';
-import { motion } from 'framer-motion';
-import { Smartphone, ShieldCheck, Zap, Globe } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Smartphone, ShieldCheck, Zap, Globe, AlertCircle, Lock } from 'lucide-react';
 
 interface LandingPageProps {
     onLogin: () => void;
@@ -132,19 +132,33 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                             </div>
 
                             <form className={styles.loginForm} onSubmit={handleLogin}>
-                                {error && (
-                                    <div className={styles.errorBanner} style={{ color: '#ef4444', marginBottom: '16px', fontSize: '14px', fontWeight: '600' }}>
-                                        {error}
-                                    </div>
-                                )}
+                                <AnimatePresence>
+                                    {error && (
+                                        <motion.div
+                                            className={styles.errorBanner}
+                                            initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                                            transition={{ duration: 0.25, ease: 'easeOut' }}
+                                        >
+                                            <div className={styles.errorIconWrap}>
+                                                <Lock size={16} />
+                                            </div>
+                                            <div className={styles.errorContent}>
+                                                <span className={styles.errorTitle}>Access Denied</span>
+                                                <span className={styles.errorMsg}>Use <strong>test</strong> / <strong>test123</strong> to login</span>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                                 <div className={styles.inputGroup}>
-                                    <label className={styles.label}>Username or Email</label>
+                                    <label className={styles.label}>Username</label>
                                     <input
                                         type="text"
                                         className={styles.input}
-                                        placeholder="antigravity_dev"
+                                        placeholder="Enter username"
                                         value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
+                                        onChange={(e) => { setUsername(e.target.value); setError(null); }}
                                         required
                                     />
                                 </div>
@@ -159,7 +173,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                         className={styles.input}
                                         placeholder="••••••••"
                                         value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        onChange={(e) => { setPassword(e.target.value); setError(null); }}
                                         required
                                     />
                                 </div>
@@ -183,13 +197,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                 <button
                                     className={styles.guestBtn}
                                     onClick={(e: any) => {
-                                        setUsername('antigravity_dev');
-                                        setPassword('password123');
+                                        setError(null);
+                                        setUsername('test');
+                                        setPassword('test123');
                                         setTimeout(() => handleLogin(e), 100);
                                     }}
                                     disabled={isLoading}
                                 >
-                                    Login as Guest (Dev Mode)
+                                    ⚡ Login as Guest (test / test123)
                                 </button>
                             </div>
 
