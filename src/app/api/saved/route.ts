@@ -8,13 +8,13 @@ export async function GET() {
 
         const saved = await prisma.savedPost.findMany({
             where: { userId: user.id },
-            include: { post: { include: { user: true, likes: true, comments: true } } },
+            include: { post: { include: { user: true, likes: true, comments: true, media: { orderBy: { order: 'asc' } } } } },
             orderBy: { createdAt: 'desc' }
         });
 
         const result = saved.map(s => ({
             id: s.post.id,
-            image: s.post.image,
+            image: s.post.media?.[0]?.url || '',
             caption: s.post.caption,
             likes: s.post.likes ? s.post.likes.length : 0,
             comments: s.post.comments ? s.post.comments.length : 0,

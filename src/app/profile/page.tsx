@@ -58,7 +58,7 @@ interface User {
 }
 
 const ProfilePage = () => {
-    const [activeTab, setActiveTab] = useState<'posts' | 'shots' | 'saved' | 'tagged'>('posts');
+    const [activeTab, setActiveTab] = useState<'posts' | 'shots' | 'saved' | 'tagged' | 'monetization'>('posts');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);

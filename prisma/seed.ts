@@ -93,8 +93,14 @@ async function main() {
             await prisma.post.create({
                 data: {
                     userId: user.id,
-                    image: p.image,
-                    caption: p.caption
+                    caption: p.caption,
+                    media: {
+                        create: {
+                            url: p.image,
+                            type: 'IMAGE',
+                            order: 0
+                        }
+                    }
                 }
             });
         }
