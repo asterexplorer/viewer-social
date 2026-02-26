@@ -201,13 +201,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                             <div className={styles.alternativeActions}>
                                 <button
                                     className={styles.guestBtn}
-                                    onClick={() => loginWithCredentials('test', 'test123')}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        loginWithCredentials('test', 'test123');
+                                    }}
                                     disabled={isLoading}
-
                                 >
-                                    ⚡ Login as Guest (test / test123)
+                                    <span className={styles.guestBtnIcon}>👤</span>
+                                    Continue as Guest
+                                    <span className={styles.guestBtnBadge}>No login needed</span>
                                 </button>
                             </div>
+
 
                             <p className={styles.signupText}>
                                 Don&apos;t have an account? <a href="#" className={styles.link}>Sign Up</a>
