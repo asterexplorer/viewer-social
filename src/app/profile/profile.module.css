@@ -122,9 +122,9 @@
 }
 
 .username {
-    font-size: 42px;
-    font-weight: 900;
-    letter-spacing: -0.05em;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
     color: #111827;
     font-family: 'Syne', 'Inter', sans-serif;
 }
