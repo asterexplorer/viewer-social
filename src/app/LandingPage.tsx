@@ -15,8 +15,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
+    // Core login function — accepts credentials directly to avoid React state timing issues
+    const loginWithCredentials = async (user: string, pass: string) => {
         setIsLoading(true);
         setError(null);
 
@@ -24,7 +24,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             const res = await fetch('/api/auth', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ username: user, password: pass })
             });
 
             const data = await res.json();
@@ -32,13 +32,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             if (res.ok && data.success) {
                 onLogin();
             } else {
-                setError(data.error || 'Login failed. Please check your credentials.');
+                setError(data.error || 'Login failed. Please try again.');
             }
         } catch (err) {
-            setError('Connection error. Is the server running?');
+            setError('Connection error. Please make sure the server is running.');
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        await loginWithCredentials(username, password);
     };
 
     const features = [
@@ -196,13 +201,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                             <div className={styles.alternativeActions}>
                                 <button
                                     className={styles.guestBtn}
-                                    onClick={(e: any) => {
-                                        setError(null);
-                                        setUsername('test');
-                                        setPassword('test123');
-                                        setTimeout(() => handleLogin(e), 100);
-                                    }}
+                                    onClick={() => loginWithCredentials('test', 'test123')}
                                     disabled={isLoading}
+
                                 >
                                     ⚡ Login as Guest (test / test123)
                                 </button>
