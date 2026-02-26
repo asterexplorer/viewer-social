@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import styles from './MainLayout.module.css';
 import { usePathname } from 'next/navigation';
+import LandingPage from '@/app/LandingPage';
 import Loader from '../common/Loader';
 import PageTransition from '../common/PageTransition';
 import TopHeader from './TopHeader';
@@ -13,9 +14,8 @@ interface MainLayoutProps {
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-    // Assume logged in by default for instant rendering, authentication happens silently
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
-    const [isInitialized, setIsInitialized] = useState<boolean>(true);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const pathname = usePathname();
 
     useEffect(() => {
@@ -26,30 +26,22 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             if (hasFastAuth) {
                 // Show the app IMMEDIATELY for returning users!
                 setIsLoggedIn(true);
-                setIsInitialized(true);
             }
 
             try {
-                // Always silently refresh the session cookie in the background
-                // This ensures the demo session never truly expires and always works
-                const loginRes = await fetch('/api/auth', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: 'test', password: 'test123' })
-                });
-
-                if (loginRes.ok) {
-                    localStorage.setItem('viewer_demo_auth', 'true');
-                    if (!hasFastAuth) {
+                // If we don't have fast auth, we check the backend session
+                const res = await fetch('/api/auth');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.authenticated) {
                         setIsLoggedIn(true);
-                        setIsInitialized(true);
+                        localStorage.setItem('viewer_demo_auth', 'true');
                     }
                 }
             } catch (err) {
-                console.error('Auto-login failed', err);
-                if (!hasFastAuth) {
-                    setIsInitialized(true);
-                }
+                console.error('Session check failed', err);
+            } finally {
+                setIsInitialized(true);
             }
         };
 
@@ -62,8 +54,17 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         window.location.reload();
     };
 
-    // Removed loader blocks entirely to ensure the app renders instantly
+    if (!isInitialized) {
+        return (
+            <div className={styles.loaderContainer}>
+                <Loader size="large" />
+            </div>
+        );
+    }
 
+    if (!isLoggedIn) {
+        return <LandingPage onLogin={handleLogin} />;
+    }
 
     return (
         <div className={styles.layout}>
