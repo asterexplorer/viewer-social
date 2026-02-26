@@ -13,8 +13,9 @@ interface MainLayoutProps {
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [isInitialized, setIsInitialized] = useState<boolean>(false);
+    // Assume logged in by default for instant rendering, authentication happens silently
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+    const [isInitialized, setIsInitialized] = useState<boolean>(true);
     const pathname = usePathname();
 
     useEffect(() => {
@@ -61,23 +62,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         window.location.reload();
     };
 
-    if (!isInitialized) {
-        return (
-            <div className={styles.loaderContainer}>
-                <Loader size="large" />
-            </div>
-        );
-    }
+    // Removed loader blocks entirely to ensure the app renders instantly
 
-    // Since we auto-login, we can just show loader or empty if not yet logged in but initialized.
-    // If somehow auto-login failed, they see the loader forever, or we can just render nothing.
-    if (!isLoggedIn) {
-        return (
-            <div className={styles.loaderContainer}>
-                <Loader size="large" />
-            </div>
-        );
-    }
 
     return (
         <div className={styles.layout}>
