@@ -10,13 +10,11 @@ interface LandingPageProps {
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
-    const [username, setUsername] = useState('test');
-    const [password, setPassword] = useState('test123');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     // Core login function — accepts credentials directly to avoid React state timing issues
-    const loginWithCredentials = async (user: string, pass: string) => {
+    const loginWithCredentials = async () => {
         setIsLoading(true);
         setError(null);
 
@@ -24,7 +22,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             const res = await fetch('/api/auth', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: user, password: pass })
+                body: JSON.stringify({ username: 'test', password: 'test123' })
             });
 
             const data = await res.json();
@@ -39,11 +37,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
         } finally {
             setIsLoading(false);
         }
-    };
-
-    const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
-        await loginWithCredentials(username, password);
     };
 
     const features = [
@@ -132,90 +125,49 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                     <div className={styles.loginSection}>
                         <div className={styles.loginCard}>
                             <div className={styles.cardHeader}>
-                                <h3 className={styles.title}>Welcome Back</h3>
-                                <p className={styles.subtitle}>Enter your details to access your account</p>
+                                <h3 className={styles.title}>Welcome to Viewer</h3>
+                                <p className={styles.subtitle}>Enter the demo experience instantly</p>
                             </div>
 
-                            <form className={styles.loginForm} onSubmit={handleLogin}>
-                                <AnimatePresence>
-                                    {error && (
-                                        <motion.div
-                                            className={styles.errorBanner}
-                                            initial={{ opacity: 0, y: -8, scale: 0.97 }}
-                                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                                            exit={{ opacity: 0, y: -8, scale: 0.97 }}
-                                            transition={{ duration: 0.25, ease: 'easeOut' }}
-                                        >
-                                            <div className={styles.errorIconWrap}>
-                                                <Lock size={16} />
-                                            </div>
-                                            <div className={styles.errorContent}>
-                                                <span className={styles.errorTitle}>Access Denied</span>
-                                                <span className={styles.errorMsg}>Use <strong>test</strong> / <strong>test123</strong> to login</span>
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                                <div className={styles.inputGroup}>
-                                    <label className={styles.label}>Username</label>
-                                    <input
-                                        type="text"
-                                        className={styles.input}
-                                        placeholder="Enter username"
-                                        value={username}
-                                        onChange={(e) => { setUsername(e.target.value); setError(null); }}
-                                        required
-                                    />
-                                </div>
+                            <AnimatePresence>
+                                {error && (
+                                    <motion.div
+                                        className={styles.errorBanner}
+                                        initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                                        transition={{ duration: 0.25, ease: 'easeOut' }}
+                                    >
+                                        <div className={styles.errorIconWrap}>
+                                            <AlertCircle size={16} />
+                                        </div>
+                                        <div className={styles.errorContent}>
+                                            <span className={styles.errorTitle}>Error</span>
+                                            <span className={styles.errorMsg}>{error}</span>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
 
-                                <div className={styles.inputGroup}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <label className={styles.label}>Password</label>
-                                        <a href="#" className={styles.forgotLink}>Forgot?</a>
-                                    </div>
-                                    <input
-                                        type="password"
-                                        className={styles.input}
-                                        placeholder="••••••••"
-                                        value={password}
-                                        onChange={(e) => { setPassword(e.target.value); setError(null); }}
-                                        required
-                                    />
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    className={`${styles.loginBtn} ${isLoading ? styles.loading : ''}`}
-                                    disabled={isLoading}
-                                >
-                                    {isLoading ? (
-                                        <div className={styles.spinner}></div>
-                                    ) : 'Sign In'}
-                                </button>
-                            </form>
-
-                            <div className={styles.divider}>
-                                <span>OR</span>
-                            </div>
-
-                            <div className={styles.alternativeActions}>
-                                <button
-                                    className={styles.guestBtn}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        loginWithCredentials('test', 'test123');
-                                    }}
-                                    disabled={isLoading}
-                                >
-                                    <span className={styles.guestBtnIcon}>👤</span>
-                                    Continue as Guest
-                                    <span className={styles.guestBtnBadge}>No login needed</span>
-                                </button>
-                            </div>
-
+                            <button
+                                className={`${styles.loginBtn} ${isLoading ? styles.loading : ''}`}
+                                onClick={() => loginWithCredentials()}
+                                disabled={isLoading}
+                                style={{ marginTop: '20px', height: '56px', fontSize: '16px' }}
+                            >
+                                {isLoading ? (
+                                    <div className={styles.spinner}></div>
+                                ) : (
+                                    <>
+                                        <span className={styles.guestBtnIcon}>⚡</span>
+                                        Continue as Guest
+                                        <span className={styles.guestBtnBadge} style={{ background: 'rgba(255,255,255,0.2)', border: 'none' }}>No login needed</span>
+                                    </>
+                                )}
+                            </button>
 
                             <p className={styles.signupText}>
-                                Don&apos;t have an account? <a href="#" className={styles.link}>Sign Up</a>
+                                Want your own account? <a href="#" className={styles.link}>Sign Up</a>
                             </p>
                         </div>
                     </div>
