@@ -12,6 +12,7 @@ const Sidebar = () => {
     const navItems = [
         { icon: Home, label: 'Home', href: '/' },
         { icon: Search, label: 'Search', href: '/search' },
+        { icon: Film, label: 'Reels', href: '/reels' },
         { icon: Film, label: 'Shots', href: '/shots' },
         { icon: MessageCircle, label: 'Chat', href: '/messages' },
         { icon: PlusSquare, label: 'Create', href: '/create' },
