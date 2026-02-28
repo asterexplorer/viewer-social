@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     LayoutDashboard,
     DollarSign,
@@ -35,12 +35,36 @@ const MonetizationPage = () => {
 
     // Influencer / Referral Data
     const [referralStats, setReferralStats] = useState({
-        code: 'ASTR9X2', // Example generated code
-        link: 'https://viewersocial.com/?ref=ASTR9X2',
-        totalClicks: 1205,
-        totalSignups: 48,
-        pendingEarnings: '$240.00'
+        code: '',
+        link: 'https://viewersocial.com/?ref=',
+        totalClicks: 0,
+        totalSignups: 0,
+        pendingEarnings: '$0.00'
     });
+
+    // Fetch Live Referral Stats from API
+    useEffect(() => {
+        const fetchReferrals = async () => {
+            try {
+                const res = await fetch('/api/referrals');
+                const data = await res.json();
+
+                if (data.success) {
+                    setReferralStats({
+                        code: data.referralCode || '',
+                        link: `${window.location.origin}/?ref=${data.referralCode}`,
+                        totalClicks: data.totalReferrals * 5, // Mock clicks if no sophisticated tracking, usually 1 signup : 5 clicks
+                        totalSignups: data.totalReferrals,
+                        pendingEarnings: `$${(data.pendingEarnings || 0).toFixed(2)}`
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to fetch referral stats:', error);
+            }
+        };
+
+        fetchReferrals();
+    }, []);
 
     // Mock data for earnings
     const [balance, setBalance] = useState(12450.50);
