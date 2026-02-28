@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './LandingPage.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Smartphone, ShieldCheck, Zap, Globe, AlertCircle, LogIn, UserPlus } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 
 interface LandingPageProps {
     onLogin: () => void;
@@ -20,6 +21,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
     const [fullName, setFullName] = useState('');
     const [password, setPassword] = useState('');
 
+    // Referral Tracking
+    const searchParams = useSearchParams();
+    const referralCode = searchParams.get('ref');
+
+    useEffect(() => {
+        // Automatically default to register mode if they came from a referral link
+        if (referralCode && mode === 'login') {
+            setMode('register');
+        }
+    }, [referralCode, mode]);
+
     const toggleMode = () => {
         setMode(mode === 'login' ? 'register' : 'login');
         setError(null);
@@ -33,7 +45,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
         const endpoint = mode === 'login' ? '/api/auth' : '/api/auth/register';
         const payload = mode === 'login'
             ? { username, password }
-            : { username, email, password, fullName };
+            : { username, email, password, fullName, referralCode };
 
         try {
             const res = await fetch(endpoint, {

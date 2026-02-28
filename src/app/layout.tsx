@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import MainLayout from "@/components/layout/MainLayout";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import AnalyticsTags from "@/components/marketing/AnalyticsTags";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -40,6 +41,7 @@ export default function RootLayout({
             <SpeedInsights />
           </MainLayout>
         </ThemeProvider>
+        <AnalyticsTags />
       </body>
     </html>
   );
