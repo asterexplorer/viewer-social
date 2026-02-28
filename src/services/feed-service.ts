@@ -1,6 +1,4 @@
 import prisma from '@/lib/prisma';
-import { getCassandraClient } from '@/lib/cassandra';
-import { getOrSet } from '@/lib/redis';
 
 export type FeedItem = {
     id: string;
@@ -21,24 +19,14 @@ export type FeedItem = {
 };
 
 export const FeedService = {
-    // Public: Get Feed (Cached or Fresh)
+    // Public: Get Feed
     async generateFeed(userId: string, page = 1, limit = 20): Promise<any[]> {
-        const cacheKey = `feed:user:${userId}`;
-
-        // Cache the first page for 60 seconds (Simulated Pre-computation)
-        if (page === 1) {
-            const cached = await getOrSet(cacheKey, async () => {
-                return await FeedService._generateRun(userId, page, limit);
-            }, 60);
-            return cached;
-        }
-
         return await FeedService._generateRun(userId, page, limit);
     },
 
-    // Public: Trigger Pre-computation (e.g. from Cron)
+    // Public: Trigger Pre-computation (e.g. from Cron) - simplified
     async precomputeFeed(userId: string) {
-        await FeedService.generateFeed(userId, 1, 20); // Warms the cache
+        await FeedService.generateFeed(userId, 1, 20);
         return { success: true };
     },
 
@@ -57,56 +45,30 @@ export const FeedService = {
         const followingIds = currentUser.following.map(f => f.followingId);
         const userIdsToFetch = [...followingIds, userId]; // Include self
 
-        // 2. Fetch Personal Content (Following + Self)
-        // Try Cassandra first for scalable timeline
-        let personalPosts: any[] = [];
-        const cassandra = getCassandraClient();
+        // 2. Fetch Personal Content (Following + Self) via Prisma
+        const personalPosts = await prisma.post.findMany({
+            where: { userId: { in: userIdsToFetch } },
+            include: {
+                user: { select: { username: true, avatar: true, fullName: true } },
+                likes: true,
+                comments: { include: { user: { select: { username: true } } } },
+                media: { orderBy: { order: 'asc' } },
+            },
+            orderBy: { createdAt: 'desc' },
+            take: 50 // Fetch recent pool
+        });
 
-        if (process.env.CASSANDRA_CONTACT_POINTS && cassandra) {
-            try {
-                // Simplified scatter-gather query
-                // In production, we'd use a dedicated timeline table pre-written on fanout
-                const query = `SELECT * FROM ${process.env.CASSANDRA_KEYSPACE || 'viewer_feed'}.posts_by_user WHERE user_id = ? LIMIT 20`;
-                const promises = userIdsToFetch.map(uid => cassandra.execute(query, [uid], { prepare: true }));
-                await Promise.all(promises);
-
-                // Map Cassandra rows ... (simplified for this reliable service implementation)
-                // If this complex mapping is needed, we'd put it here.
-                // For simplicity/reliability in this edit, let's stick to the high-level flow and fallback to Prisma if complex.
-                // But let's assume we want the Prisma path for rich relations unless Cassandra is fully set up.
-            } catch (e) {
-                console.warn("Cassandra fetch failed", e);
-            }
-        }
-
-        // Fallback/Default: Postgres (Prisma)
-        if (personalPosts.length === 0) {
-            personalPosts = await prisma.post.findMany({
-                where: { userId: { in: userIdsToFetch } },
-                include: {
-                    user: { select: { username: true, avatar: true, fullName: true } },
-                    likes: true,
-                    comments: { include: { user: { select: { username: true } } } },
-                    media: { orderBy: { order: 'asc' } },
-                },
-                orderBy: { createdAt: 'desc' },
-                take: 50 // Fetch recent pool
-            });
-        }
-
-        // 3. Fetch Suggested Content (Cached "Global Hot" Pool)
-        const suggestedPool = await getOrSet('feed:suggested_pool:v1', async () => {
-            return await prisma.post.findMany({
-                include: {
-                    user: { select: { username: true, avatar: true, fullName: true } },
-                    likes: true,
-                    comments: { include: { user: { select: { username: true } } } },
-                    media: { orderBy: { order: 'asc' } },
-                },
-                orderBy: { createdAt: 'desc' }, // Recent first
-                take: 100
-            });
-        }, 300); // 5 mins cache
+        // 3. Fetch Suggested Content (Global Hot Pool) via Prisma
+        const suggestedPool = await prisma.post.findMany({
+            include: {
+                user: { select: { username: true, avatar: true, fullName: true } },
+                likes: true,
+                comments: { include: { user: { select: { username: true } } } },
+                media: { orderBy: { order: 'asc' } },
+            },
+            orderBy: { createdAt: 'desc' }, // Recent first
+            take: 100
+        });
 
         // Filter suggested (remove followed users)
         const suggestedPosts = suggestedPool

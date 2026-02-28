@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import styles from './LandingPage.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Smartphone, ShieldCheck, Zap, Globe, AlertCircle, Lock } from 'lucide-react';
+import { Smartphone, ShieldCheck, Zap, Globe, AlertCircle, LogIn, UserPlus } from 'lucide-react';
 
 interface LandingPageProps {
     onLogin: () => void;
@@ -12,17 +12,34 @@ interface LandingPageProps {
 const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [mode, setMode] = useState<'login' | 'register'>('login');
 
-    // Core login function — accepts credentials directly to avoid React state timing issues
-    const loginWithCredentials = async () => {
+    // Form states
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [password, setPassword] = useState('');
+
+    const toggleMode = () => {
+        setMode(mode === 'login' ? 'register' : 'login');
+        setError(null);
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
         setIsLoading(true);
         setError(null);
 
+        const endpoint = mode === 'login' ? '/api/auth' : '/api/auth/register';
+        const payload = mode === 'login'
+            ? { username, password }
+            : { username, email, password, fullName };
+
         try {
-            const res = await fetch('/api/auth', {
+            const res = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: 'test', password: 'test123' })
+                body: JSON.stringify(payload)
             });
 
             const data = await res.json();
@@ -30,7 +47,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             if (res.ok && data.success) {
                 onLogin();
             } else {
-                setError(data.error || 'Login failed. Please try again.');
+                setError(data.error || `${mode === 'login' ? 'Login' : 'Registration'} failed.`);
             }
         } catch (err) {
             setError('Connection error. Please make sure the server is running.');
@@ -121,12 +138,12 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                         </div>
                     </div>
 
-                    {/* Right Side: Login Card */}
+                    {/* Right Side: Login/Register Card */}
                     <div className={styles.loginSection}>
                         <div className={styles.loginCard}>
                             <div className={styles.cardHeader}>
-                                <h3 className={styles.title}>Welcome to Viewer</h3>
-                                <p className={styles.subtitle}>Enter the demo experience instantly</p>
+                                <h3 className={styles.title}>{mode === 'login' ? 'Welcome Back' : 'Create Account'}</h3>
+                                <p className={styles.subtitle}>{mode === 'login' ? 'Enter your credentials to access your feed.' : 'Join Viewer today.'}</p>
                             </div>
 
                             <AnimatePresence>
@@ -149,25 +166,85 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                                 )}
                             </AnimatePresence>
 
-                            <button
-                                className={`${styles.loginBtn} ${isLoading ? styles.loading : ''}`}
-                                onClick={() => loginWithCredentials()}
-                                disabled={isLoading}
-                                style={{ marginTop: '20px', height: '56px', fontSize: '16px' }}
-                            >
-                                {isLoading ? (
-                                    <div className={styles.spinner}></div>
-                                ) : (
+                            <form onSubmit={handleSubmit} className={styles.loginForm}>
+                                {mode === 'register' && (
                                     <>
-                                        <span className={styles.guestBtnIcon}>⚡</span>
-                                        Continue as Guest
-                                        <span className={styles.guestBtnBadge} style={{ background: 'rgba(255,255,255,0.2)', border: 'none' }}>No login needed</span>
+                                        <div className={styles.inputGroup}>
+                                            <label className={styles.label}>Email Address</label>
+                                            <input
+                                                type="email"
+                                                className={styles.input}
+                                                placeholder="you@example.com"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                        <div className={styles.inputGroup}>
+                                            <label className={styles.label}>Full Name (Optional)</label>
+                                            <input
+                                                type="text"
+                                                className={styles.input}
+                                                placeholder="John Doe"
+                                                value={fullName}
+                                                onChange={(e) => setFullName(e.target.value)}
+                                            />
+                                        </div>
                                     </>
                                 )}
-                            </button>
 
-                            <p className={styles.signupText}>
-                                Want your own account? <a href="#" className={styles.link}>Sign Up</a>
+                                <div className={styles.inputGroup}>
+                                    <label className={styles.label}>{mode === 'login' ? 'Username or Email' : 'Username'}</label>
+                                    <input
+                                        type="text"
+                                        className={styles.input}
+                                        placeholder={mode === 'login' ? "Enter username or email" : "Choose a unique username"}
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        required
+                                    />
+                                </div>
+
+                                <div className={styles.inputGroup}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                        <label className={styles.label}>Password</label>
+                                        {mode === 'login' && <a href="#" className={styles.forgotLink}>Forgot?</a>}
+                                    </div>
+                                    <input
+                                        type="password"
+                                        className={styles.input}
+                                        placeholder="Enter your secure password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                        minLength={6}
+                                    />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    className={`${styles.loginBtn} ${isLoading ? styles.loading : ''}`}
+                                    disabled={isLoading}
+                                    style={{ marginTop: '10px', height: '56px', fontSize: '16px' }}
+                                >
+                                    {isLoading ? (
+                                        <div className={styles.spinner}></div>
+                                    ) : (
+                                        <>
+                                            {mode === 'login' ? <LogIn size={20} /> : <UserPlus size={20} />}
+                                            {mode === 'login' ? 'Secure Login' : 'Create Account'}
+                                        </>
+                                    )}
+                                </button>
+                            </form>
+
+                            <div className={styles.divider}>OR</div>
+
+                            <p className={styles.signupText} style={{ textAlign: 'center' }}>
+                                {mode === 'login' ? "Don't have an account? " : "Already have an account? "}
+                                <button type="button" onClick={toggleMode} className={styles.link} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 'inherit', padding: 0 }}>
+                                    {mode === 'login' ? "Sign Up" : "Log In"}
+                                </button>
                             </p>
                         </div>
                     </div>

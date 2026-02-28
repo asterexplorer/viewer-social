@@ -3,12 +3,8 @@
 import prisma from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 import { MediaService } from '@/services/media-service';
-import { sendNotification } from '@/lib/queue';
 import { sendWebPushNotification } from '@/lib/push';
-import { invalidateCache } from '@/lib/redis';
 import { pusherServer } from '@/lib/pusher';
-import dbConnect from '@/lib/mongodb';
-import { Activity } from '@/models/Activity';
 import { requireAuth } from '@/lib/auth';
 import { z } from 'zod';
 
@@ -103,7 +99,6 @@ export async function createPost(formData: FormData) {
                 });
             }
 
-            await invalidateCache('feed:suggested_pool*');
             revalidatePath('/');
             revalidatePath('/profile');
 
@@ -190,12 +185,6 @@ export async function toggleLike(postId: string) {
         });
 
         if (post && post.userId !== user.id) {
-            await sendNotification(post.userId, 'like', {
-                postId,
-                actorId: user.id,
-                actorName: user.username || 'User'
-            });
-
             // Send Web Push Notification
             await sendWebPushNotification(post.userId, {
                 title: 'New Like',
@@ -205,24 +194,9 @@ export async function toggleLike(postId: string) {
         }
     }
 
-    // Log to MongoDB for Real-time Analytics
-    try {
-        await dbConnect();
-        await Activity.create({
-            userId: user.id,
-            username: user.username,
-            type: 'LIKE',
-            targetId: postId,
-            targetType: 'POST'
-        });
+    // Trigger Pusher for real-time Like count increment (optional enhancement)
+    await pusherServer.trigger(`post-${postId}`, 'like-update', { count: 1 });
 
-        // Trigger Pusher for real-time Like count increment (optional enhancement)
-        await pusherServer.trigger(`post-${postId}`, 'like-update', { count: 1 });
-    } catch (e) {
-        console.warn('MongoDB log failed', e);
-    }
-
-    await invalidateCache('feed:suggested_pool*');
     revalidatePath('/');
 }
 
@@ -251,21 +225,7 @@ export async function toggleShotLike(shotId: string) {
         });
     }
 
-    // Log to MongoDB
-    try {
-        await dbConnect();
-        await Activity.create({
-            userId: user.id,
-            username: user.username,
-            type: 'LIKE',
-            targetId: shotId,
-            targetType: 'SHOT'
-        });
-
-        await pusherServer.trigger(`shot-${shotId}`, 'like-update', { increment: 1 });
-    } catch (e) {
-        console.warn('MongoDB log failed', e);
-    }
+    await pusherServer.trigger(`shot-${shotId}`, 'like-update', { increment: 1 });
 
     revalidatePath('/shots');
 }
@@ -294,29 +254,13 @@ export async function addComment(postId: string, text: string) {
         });
     }
 
-    // Log to MongoDB
-    try {
-        await dbConnect();
-        await Activity.create({
-            userId: user.id,
-            username: user.username,
-            type: 'COMMENT',
-            targetId: postId,
-            targetType: 'POST',
-            content: cleanText
-        });
+    // Real-time update for comments
+    await pusherServer.trigger(`post-${postId}`, 'new-comment', {
+        text: cleanText,
+        username: user.username,
+        createdAt: new Date()
+    });
 
-        // Real-time update for comments
-        await pusherServer.trigger(`post-${postId}`, 'new-comment', {
-            text: cleanText,
-            username: user.username,
-            createdAt: new Date()
-        });
-    } catch (e) {
-        console.warn('MongoDB log failed', e);
-    }
-
-    await invalidateCache('feed:suggested_pool*');
     revalidatePath('/');
 }
 
@@ -334,26 +278,11 @@ export async function addShotComment(shotId: string, text: string) {
         }
     });
 
-    // Log to MongoDB
-    try {
-        await dbConnect();
-        await Activity.create({
-            userId: user.id,
-            username: user.username,
-            type: 'COMMENT',
-            targetId: shotId,
-            targetType: 'SHOT',
-            content: cleanText
-        });
-
-        await pusherServer.trigger(`shot-${shotId}`, 'new-comment', {
-            text: cleanText,
-            username: user.username,
-            createdAt: new Date()
-        });
-    } catch (e) {
-        console.warn('MongoDB log failed', e);
-    }
+    await pusherServer.trigger(`shot-${shotId}`, 'new-comment', {
+        text: cleanText,
+        username: user.username,
+        createdAt: new Date()
+    });
 
     revalidatePath('/shots');
 }
@@ -381,20 +310,6 @@ export async function toggleSavedPost(postId: string) {
                 postId
             }
         });
-    }
-
-    // Log to MongoDB
-    try {
-        await dbConnect();
-        await Activity.create({
-            userId: user.id,
-            username: user.username,
-            type: 'SAVE',
-            targetId: postId,
-            targetType: 'POST'
-        });
-    } catch (e) {
-        console.warn('MongoDB log failed', e);
     }
 
     // Not strictly necessary for suggested feed rank, but good practice
@@ -427,20 +342,6 @@ export async function toggleSavedShot(shotId: string) {
         });
     }
 
-    // Log to MongoDB
-    try {
-        await dbConnect();
-        await Activity.create({
-            userId: user.id,
-            username: user.username,
-            type: 'SAVE',
-            targetId: shotId,
-            targetType: 'SHOT'
-        });
-    } catch (e) {
-        console.warn('MongoDB log failed', e);
-    }
-
     revalidatePath('/shots');
     revalidatePath('/saved');
 }
@@ -466,11 +367,6 @@ export async function toggleFollow(targetUsername: string) {
 
         // send notification (best effort)
         if (target.id !== user.id) {
-            await sendNotification(target.id, 'follow', {
-                actorId: user.id,
-                actorName: user.username || 'User'
-            });
-
             // Send Web Push Notification
             await sendWebPushNotification(target.id, {
                 title: 'New Follower',
@@ -530,17 +426,6 @@ export async function updateUserSettings(data: {
 
 export async function trackView(targetId: string, targetType: 'POST' | 'SHOT') {
     try {
-        let user = await prisma.user.findFirst();
-
-        await dbConnect();
-        await Activity.create({
-            userId: user?.id || 'anonymous',
-            username: user?.username || 'anonymous',
-            type: 'VIEW',
-            targetId: targetId,
-            targetType: targetType
-        });
-
         // Trigger real-time view counter update
         await pusherServer.trigger(`${targetType.toLowerCase()}-${targetId}`, 'view-update', { increment: 1 });
 
