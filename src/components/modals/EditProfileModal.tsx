@@ -72,7 +72,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, in
                         {/* Avatar Section */}
                         <div className={styles.avatarSection}>
                             <div className={styles.avatarContainer} onClick={() => document.getElementById('avatar-input')?.click()}>
-                                <Image src={formData.avatar || 'https://i.pravatar.cc/150'} alt="Avatar" className={styles.avatar} width={120} height={120} unoptimized />
+                                <Image src={formData.avatar || 'https://i.pravatar.cc/150'} alt="Avatar" className={styles.avatar} width={120} height={120} />
                                 <div className={styles.avatarOverlay}>
                                     <Camera size={32} />
                                 </div>

@@ -38,7 +38,7 @@ const FollowersModal: React.FC<Props> = ({ isOpen, onClose, title = 'Followers',
                     ) : (
                         items.map(i => (
                             <div key={i.id} style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '8px 0' }}>
-                                <Image src={i.avatar || `https://i.pravatar.cc/48?u=${i.username}`} alt={i.username} width={44} height={44} style={{ borderRadius: 8 }} unoptimized />
+                                <Image src={i.avatar || `https://i.pravatar.cc/48?u=${i.username}`} alt={i.username} width={44} height={44} style={{ borderRadius: 8 }} />
                                 <div>
                                     <div style={{ fontWeight: 600 }}>{i.username}</div>
                                     <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>{i.fullName}</div>

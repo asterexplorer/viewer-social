@@ -270,7 +270,7 @@ const ShotsPage = () => {
             </div>
             <div className={styles.bottomInfo}>
                 <div className={styles.userInfo}>
-                    <Image src={shot.avatar || 'https://i.pravatar.cc/150'} alt={shot.username} className={styles.avatar} width={36} height={36} unoptimized />
+                    <Image src={shot.avatar || 'https://i.pravatar.cc/150'} alt={shot.username} className={styles.avatar} width={36} height={36} />
                     <span className={styles.username}>{shot.username}</span>
                     <button
                         className={styles.followBtn}

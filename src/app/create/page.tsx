@@ -7,6 +7,7 @@ import styles from './create.module.css';
 import { useRouter } from 'next/navigation';
 import { createPost } from '@/app/actions';
 import Image from 'next/image';
+import { compressImage, compressVideo } from '@/lib/compression';
 
 const FILTERS = [
     { name: 'Original', value: 'none' },
@@ -24,6 +25,7 @@ const CreatePostPage = () => {
     const [activeFilter, setActiveFilter] = useState(FILTERS[0]);
     const [location, setLocation] = useState('');
     const [isPending, startTransition] = useTransition();
+    const [isCompressing, setIsCompressing] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
     const [isGeneratingCaption, setIsGeneratingCaption] = useState(false);
     const [isEnhancing, setIsEnhancing] = useState(false);
@@ -78,45 +80,77 @@ const CreatePostPage = () => {
     const handleShare = async () => {
         if (mediaItems.length === 0) return;
 
-        startTransition(async () => {
-            try {
-                const formData = new FormData();
-                formData.append('caption', caption);
-                formData.append('location', location);
-                formData.append('filter', activeFilter.name);
+        setIsCompressing(true);
 
-                for (let i = 0; i < mediaItems.length; i++) {
-                    const item = mediaItems[i];
-                    if (item.file) {
-                        const res = await fetch('/api/uploads', {
+        try {
+            const formData = new FormData();
+            formData.append('caption', caption);
+            formData.append('location', location);
+            formData.append('filter', activeFilter.name);
+
+            for (let i = 0; i < mediaItems.length; i++) {
+                const item = mediaItems[i];
+                if (item.file) {
+                    // Compress file before upload
+                    let fileToUpload = item.file;
+                    if (item.type === 'image') {
+                        fileToUpload = await compressImage(item.file);
+                    } else if (item.type === 'video') {
+                        fileToUpload = await compressVideo(item.file);
+                    }
+
+                    const res = await fetch('/api/uploads', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ fileName: fileToUpload.name, contentType: fileToUpload.type })
+                    });
+
+                    const data = await res.json();
+
+                    if (!res.ok || data.error) {
+                        console.warn('S3 Setup missing or failed, falling back to local upload logic.');
+                        const localData = new FormData();
+                        localData.append('file', fileToUpload);
+
+                        const localRes = await fetch('/api/uploads', {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ fileName: item.file.name, contentType: item.file.type })
+                            body: localData // Uses multipart/form-data automatically
                         });
 
-                        if (!res.ok) throw new Error(`Failed to get upload URL for item ${i}`);
-                        const data = await res.json();
-
+                        if (!localRes.ok) throw new Error('Local fallback upload failed');
+                        const localJson = await localRes.json();
+                        formData.append(`media-${i}`, localJson.publicUrl);
+                    } else {
+                        // Regular S3 upload
                         const putRes = await fetch(data.uploadUrl, {
                             method: 'PUT',
-                            headers: { 'Content-Type': item.file.type },
-                            body: item.file
+                            headers: { 'Content-Type': fileToUpload.type },
+                            body: fileToUpload
                         });
 
                         if (!putRes.ok) throw new Error(`Upload failed for item ${i}`);
                         formData.append(`media-${i}`, data.publicUrl);
-                    } else {
-                        formData.append(`media-${i}`, item.url);
                     }
+                } else {
+                    formData.append(`media-${i}`, item.url);
                 }
-
-                await createPost(formData);
-                router.push('/');
-            } catch (error) {
-                console.error('Failed to share post:', error);
-                alert('Failed to share post: ' + (error as Error).message);
             }
-        });
+
+            startTransition(async () => {
+                try {
+                    await createPost(formData);
+                    router.push('/');
+                } catch (error) {
+                    console.error('Failed to share post:', error);
+                    alert('Failed to share post: ' + (error as Error).message);
+                }
+            });
+        } catch (error) {
+            console.error('Compression or Upload failed:', error);
+            alert('Upload failed: ' + (error as Error).message);
+        } finally {
+            setIsCompressing(false);
+        }
     };
 
     const generateAICaption = () => {
@@ -148,7 +182,7 @@ const CreatePostPage = () => {
                 <div className={styles.header}>
                     <div style={{ width: 40 }}>
                         {mediaItems.length > 0 && (
-                            <button className={styles.backBtn} onClick={() => setMediaItems([])} disabled={isPending}>
+                            <button className={styles.backBtn} onClick={() => setMediaItems([])} disabled={isPending || isCompressing}>
                                 <ChevronLeft size={22} />
                             </button>
                         )}
@@ -163,9 +197,10 @@ const CreatePostPage = () => {
                             <button
                                 className={styles.shareButton}
                                 onClick={handleShare}
-                                disabled={isPending}
+                                disabled={isPending || isCompressing}
                             >
-                                {isPending ? <Loader2 className="animate-spin" size={20} /> : 'Publish'}
+                                {(isPending || isCompressing) ? <Loader2 className="animate-spin" size={20} /> : 'Publish'}
+                                {isCompressing && <span style={{ fontSize: '11px', display: 'block', marginTop: '-4px' }}>Compressing...</span>}
                             </button>
                         ) : (
                             <button className={styles.closeBtn} onClick={() => router.back()}>
@@ -203,7 +238,7 @@ const CreatePostPage = () => {
                                                 style={{ filter: isEnhanced ? 'contrast(1.1) saturate(1.15) brightness(1.02)' : activeFilter.value }}
                                                 width={1000}
                                                 height={1000}
-                                                unoptimized
+                                               
                                             />
                                         ) : (
                                             <video
@@ -234,7 +269,7 @@ const CreatePostPage = () => {
                                             src={currentUser.avatar || `https://ui-avatars.com/api/?name=${currentUser.username}&background=random`}
                                             alt="Me"
                                             className={styles.avatar}
-                                            width={40} height={40} unoptimized
+                                            width={40} height={40}
                                         />
                                         <span className={styles.username}>{currentUser.username}</span>
                                     </div>
@@ -293,7 +328,7 @@ const CreatePostPage = () => {
                                                             src={mediaItems[currentMediaIndex].url}
                                                             alt={filter.name}
                                                             style={{ filter: filter.value }}
-                                                            width={100} height={100} unoptimized
+                                                            width={100} height={100}
                                                         />
                                                     ) : (
                                                         <div className={styles.videoFilterPlaceholder}><Upload size={16} /></div>

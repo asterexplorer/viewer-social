@@ -6,10 +6,13 @@ import Link from 'next/link';
 import styles from './RightSidebar.module.css';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { usePushNotifications } from '@/hooks/usePushNotifications';
+import { Bell } from 'lucide-react';
 
 const RightSidebar = () => {
     const [currentUser, setCurrentUser] = useState<any>(null);
     const [suggestions, setSuggestions] = useState<any[]>([]);
+    const { isSupported, isSubscribed, isLoading, subscribe } = usePushNotifications();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,7 +38,42 @@ const RightSidebar = () => {
         fetchData();
     }, [currentUser?.id]);
 
-    if (!currentUser) return null; // Or a skeleton
+    if (!currentUser) {
+        return (
+            <aside className={styles.rightSidebar}>
+                {/* Skeleton Current User */}
+                <div className={styles.userProfile}>
+                    <div className={styles.userInfo}>
+                        <div className={`${styles.skeleton} ${styles.skeletonAvatar}`}></div>
+                        <div className={styles.userDetails}>
+                            <div className={`${styles.skeleton} ${styles.skeletonText}`} style={{ width: '80px' }}></div>
+                            <div className={`${styles.skeleton} ${styles.skeletonText}`} style={{ width: '120px', marginBottom: 0 }}></div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Skeleton Suggestions Header */}
+                <div className={styles.suggestionsHeader} style={{ marginTop: '24px' }}>
+                    <div className={`${styles.skeleton} ${styles.skeletonTitle}`}></div>
+                </div>
+
+                {/* Skeleton Suggestions List */}
+                <div className={styles.suggestionsList}>
+                    {[1, 2, 3, 4, 5].map((i) => (
+                        <div key={i} className={styles.suggestionItem}>
+                            <div className={styles.suggestionUserInfo}>
+                                <div className={`${styles.skeleton} ${styles.skeletonAvatar}`} style={{ width: '32px', height: '32px' }}></div>
+                                <div className={styles.suggestionDetails}>
+                                    <div className={`${styles.skeleton} ${styles.skeletonText}`} style={{ width: '90px' }}></div>
+                                    <div className={`${styles.skeleton} ${styles.skeletonText}`} style={{ width: '110px', marginBottom: 0 }}></div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </aside>
+        );
+    }
 
     return (
         <aside className={styles.rightSidebar}>
@@ -48,7 +86,7 @@ const RightSidebar = () => {
                         className={styles.avatar}
                         width={56}
                         height={56}
-                        unoptimized
+
                     />
                     <div className={styles.userDetails}>
                         <div className={styles.username}>{currentUser.username}</div>
@@ -57,6 +95,28 @@ const RightSidebar = () => {
                 </Link>
                 <button className={styles.switchBtn}>Switch</button>
             </div>
+
+            {/* Push Notifications Prompt */}
+            {isSupported && !isSubscribed && currentUser && (
+                <div style={{ marginBottom: '24px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '12px', padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div style={{ background: 'rgba(56, 189, 248, 0.15)', padding: '10px', borderRadius: '50%' }}>
+                            <Bell size={20} color="#38bdf8" />
+                        </div>
+                        <div>
+                            <div style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>Stay Updated</div>
+                            <div style={{ fontSize: '12px', color: '#9ca3af', marginTop: '2px' }}>Turn on notifications</div>
+                        </div>
+                    </div>
+                    <button
+                        onClick={subscribe}
+                        disabled={isLoading}
+                        style={{ background: '#fff', color: '#000', padding: '6px 14px', borderRadius: '16px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer', opacity: isLoading ? 0.7 : 1 }}
+                    >
+                        {isLoading ? '...' : 'Enable'}
+                    </button>
+                </div>
+            )}
 
             {/* Suggestions Header */}
             <div className={styles.suggestionsHeader}>
@@ -76,7 +136,7 @@ const RightSidebar = () => {
                                     className={styles.suggestionAvatar}
                                     width={32}
                                     height={32}
-                                    unoptimized
+
                                 />
                             </Link>
                             <div className={styles.suggestionDetails}>
@@ -101,7 +161,7 @@ const RightSidebar = () => {
                         className={styles.storeBadge}
                         width={135}
                         height={40}
-                        unoptimized
+
                     />
                     <Image
                         src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
@@ -109,7 +169,7 @@ const RightSidebar = () => {
                         className={styles.storeBadge}
                         width={135}
                         height={40}
-                        unoptimized
+
                     />
                 </div>
             </div>

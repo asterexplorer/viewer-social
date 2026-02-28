@@ -231,7 +231,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
             <div className={styles.header}>
                 <div className={styles.userInfo}>
                     <div className={styles.avatarRing}>
-                        <Image src={user.avatar || 'https://i.pravatar.cc/150'} alt={user.username} className={styles.avatar} width={40} height={40} unoptimized />
+                        <Image src={user.avatar || 'https://i.pravatar.cc/150'} alt={user.username} className={styles.avatar} width={40} height={40} />
                     </div>
                     <div className={styles.userMeta}>
                         <span className={styles.username}>{user.username}</span>
@@ -284,7 +284,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
                                         width={600}
                                         height={600}
                                         onLoad={() => setImageLoaded(true)}
-                                        unoptimized
+                                       
                                     />
                                 ) : (
                                     <div className={styles.imagePlaceholder}>

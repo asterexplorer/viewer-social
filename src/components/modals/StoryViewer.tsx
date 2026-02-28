@@ -92,7 +92,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
                 {/* Header */}
                 <div className={styles.header}>
                     <div className={styles.userInfo}>
-                        <Image src={currentStory.user.avatar || 'https://i.pravatar.cc/150'} alt={currentStory.user.username} className={styles.avatar} width={32} height={32} unoptimized />
+                        <Image src={currentStory.user.avatar || 'https://i.pravatar.cc/150'} alt={currentStory.user.username} className={styles.avatar} width={32} height={32} />
                         <span className={styles.username}>{currentStory.user.username}</span>
                         <span className={styles.time}>{currentSlide.time}</span>
                     </div>
@@ -117,7 +117,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
                                 alt=""
                                 fill
                                 style={{ objectFit: 'cover' }}
-                                unoptimized
+                               
                             />
                         </motion.div>
                     </AnimatePresence>

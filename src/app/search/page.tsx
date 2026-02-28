@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Search, X, TrendingUp, Compass, Users, Hash, Music, MapPin, Loader2, ArrowRight } from 'lucide-react';
+import { Search, X, TrendingUp, Compass, Users, Hash, Music, MapPin, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './search.module.css';
 import Image from 'next/image';
@@ -150,7 +150,7 @@ const SearchPage = () => {
                                             className={styles.recentAvatar}
                                             width={120}
                                             height={120}
-                                            unoptimized
+
                                         />
                                         <div className={styles.recentInfo}>
                                             <span className={styles.recentUsername}>{user.username}</span>
@@ -167,7 +167,7 @@ const SearchPage = () => {
                                                         className={styles.showcaseImage}
                                                         width={200}
                                                         height={125}
-                                                        unoptimized
+
                                                     />
                                                 </div>
                                             ))}
@@ -212,7 +212,7 @@ const SearchPage = () => {
                                                 alt="Explore"
                                                 fill
                                                 className={styles.gridImage}
-                                                unoptimized
+
                                             />
                                             <div className={styles.itemOverlay}>
                                                 <Compass size={48} color="white" strokeWidth={1.5} />
@@ -242,7 +242,7 @@ const SearchPage = () => {
                                                     className={styles.resultAvatar}
                                                     width={80}
                                                     height={80}
-                                                    unoptimized
+
                                                 />
                                             </Link>
                                             <div className={styles.resultInfo}>

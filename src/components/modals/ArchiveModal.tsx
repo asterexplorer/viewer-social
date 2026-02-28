@@ -34,7 +34,7 @@ const ArchiveModal: React.FC<ArchiveModalProps> = ({ isOpen, onClose, posts }) =
                     {archivedPosts.length > 0 ? (
                         archivedPosts.map(post => (
                             <div key={post.id} className={styles.archiveItem}>
-                                <Image src={post.image || 'https://picsum.photos/seed/archive/200'} alt={post.caption} className={styles.archiveImage} width={120} height={150} unoptimized />
+                                <Image src={post.image || 'https://picsum.photos/seed/archive/200'} alt={post.caption} className={styles.archiveImage} width={120} height={150} />
                                 <div className={styles.archiveDate}>
                                     <Calendar size={12} style={{ marginRight: 4, display: 'inline' }} />
                                     {new Date(post.createdAt).toLocaleDateString()}

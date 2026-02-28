@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 import { MediaService } from '@/services/media-service';
 import { sendNotification } from '@/lib/queue';
+import { sendWebPushNotification } from '@/lib/push';
 import { invalidateCache } from '@/lib/redis';
 import { pusherServer } from '@/lib/pusher';
 import dbConnect from '@/lib/mongodb';
@@ -194,6 +195,13 @@ export async function toggleLike(postId: string) {
                 actorId: user.id,
                 actorName: user.username || 'User'
             });
+
+            // Send Web Push Notification
+            await sendWebPushNotification(post.userId, {
+                title: 'New Like',
+                body: `${user.username || 'Someone'} liked your post!`,
+                url: `/post/${postId}`
+            });
         }
     }
 
@@ -275,6 +283,16 @@ export async function addComment(postId: string, text: string) {
             postId
         }
     });
+
+    const post = await prisma.post.findUnique({ where: { id: postId }, select: { userId: true } });
+    if (post && post.userId !== user.id) {
+        // Send Web Push Notification
+        await sendWebPushNotification(post.userId, {
+            title: 'New Comment',
+            body: `${user.username || 'Someone'} commented: "${cleanText}"`,
+            url: `/post/${postId}`
+        });
+    }
 
     // Log to MongoDB
     try {
@@ -451,6 +469,13 @@ export async function toggleFollow(targetUsername: string) {
             await sendNotification(target.id, 'follow', {
                 actorId: user.id,
                 actorName: user.username || 'User'
+            });
+
+            // Send Web Push Notification
+            await sendWebPushNotification(target.id, {
+                title: 'New Follower',
+                body: `${user.username || 'Someone'} started following you!`,
+                url: `/profile/${user.username}`
             });
         }
     }

@@ -101,7 +101,7 @@ const StoryBar = () => {
                 {/* Your Story */}
                 <motion.div className={styles.storyContainer} variants={itemVariants}>
                     <div className={`${styles.storyCircle} ${styles.yourStory}`}>
-                        <Image src="https://i.pravatar.cc/150?u=me" alt="Your story" className={styles.avatar} width={60} height={60} unoptimized />
+                        <Image src="https://i.pravatar.cc/150?u=me" alt="Your story" className={styles.avatar} width={60} height={60} />
                         <div className={styles.plusBadge}>
                             <Plus size={12} strokeWidth={3} />
                         </div>
@@ -120,7 +120,7 @@ const StoryBar = () => {
                     >
                         {/* Check if any story in group is unseen, for now assume all fresh */}
                         <div className={`${styles.storyCircle} ${styles.hasNew}`}>
-                            <Image src={group.user.avatar || 'https://i.pravatar.cc/150'} alt={group.user.username} className={styles.avatar} width={60} height={60} unoptimized />
+                            <Image src={group.user.avatar || 'https://i.pravatar.cc/150'} alt={group.user.username} className={styles.avatar} width={60} height={60} />
                         </div>
                         <span className={styles.username}>{group.user.username}</span>
                     </motion.div>

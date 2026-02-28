@@ -169,7 +169,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose }
                                             className={styles.avatar}
                                             width={52}
                                             height={52}
-                                            unoptimized
+                                           
                                         />
                                         <div className={styles.iconBadge}>
                                             {getIcon(notif.type)}
@@ -194,7 +194,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose }
                                                 className={styles.postThumb}
                                                 width={52}
                                                 height={52}
-                                                unoptimized
+                                               
                                             />
                                         </Link>
                                     )}

@@ -192,7 +192,7 @@ const MessagesPage = () => {
                                         className={styles.avatar}
                                         width={60}
                                         height={60}
-                                        unoptimized
+                                       
                                     />
                                     {conv.online && <div className={styles.onlineIndicator} />}
                                 </div>
@@ -227,7 +227,7 @@ const MessagesPage = () => {
                                             className={styles.avatar}
                                             width={48}
                                             height={48}
-                                            unoptimized
+                                           
                                         />
                                         {selectedConv?.online && <div className={styles.onlineIndicator} />}
                                     </div>
@@ -261,7 +261,7 @@ const MessagesPage = () => {
                                                     className={styles.messageAvatar}
                                                     width={36}
                                                     height={36}
-                                                    unoptimized
+                                                   
                                                 />
                                             )}
                                             <div className={styles.messageBubble}>

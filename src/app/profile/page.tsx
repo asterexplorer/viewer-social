@@ -209,7 +209,7 @@ const ProfilePage = () => {
                                 className={styles.avatar}
                                 width={160}
                                 height={160}
-                                unoptimized
+                               
                             />
                         </div>
                     </div>
@@ -271,7 +271,7 @@ const ProfilePage = () => {
                             transition={{ delay: 0.4 + idx * 0.1 }}
                         >
                             <div className={styles.highlightCircle}>
-                                <Image src={item.img} alt={item.name} className={styles.highlightImg} width={90} height={90} unoptimized />
+                                <Image src={item.img} alt={item.name} className={styles.highlightImg} width={90} height={90} />
                             </div>
                             <span className={styles.highlightName}>{item.name}</span>
                         </motion.div>
@@ -321,7 +321,7 @@ const ProfilePage = () => {
                                         whileHover={{ y: -5 }}
                                         onClick={() => setSelectedPost(post)}
                                     >
-                                        <Image src={post.image || 'https://picsum.photos/seed/post/800'} alt="" className={styles.gridImage} width={400} height={400} unoptimized />
+                                        <Image src={post.image || 'https://picsum.photos/seed/post/800'} alt="" className={styles.gridImage} width={400} height={400} />
                                         <div className={styles.overlay}>
                                             <div className={styles.overlayStats}>
                                                 <div className={styles.statNumberOverlay}><Heart size={24} fill="white" /> {post.likes}</div>

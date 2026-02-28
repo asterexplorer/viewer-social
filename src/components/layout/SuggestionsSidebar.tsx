@@ -2,16 +2,74 @@
 
 import React from 'react';
 import styles from './SuggestionsSidebar.module.css';
-import { MOCK_USERS } from '@/constants/mockData';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-const SuggestionsSidebar = () => {
-    // Current user (mock)
-    const currentUser = MOCK_USERS[0];
+import { useState, useEffect } from 'react';
 
-    // Suggest some users (excluding current)
-    const suggestions = MOCK_USERS.slice(1, 6);
+const SuggestionsSidebar = () => {
+    const [currentUser, setCurrentUser] = useState<any>(null);
+    const [suggestions, setSuggestions] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Fetch Me
+                const meRes = await fetch('/api/users/me');
+                if (meRes.ok) {
+                    const meData = await meRes.json();
+                    setCurrentUser(meData);
+                }
+
+                // Fetch Suggestions (all users for now, filter out me)
+                const usersRes = await fetch('/api/users');
+                if (usersRes.ok) {
+                    const allUsers = await usersRes.json();
+                    setSuggestions(allUsers.filter((u: any) => u.id !== currentUser?.id).slice(0, 5));
+                }
+            } catch (err) {
+                console.error('SuggestionsSidebar fetch error', err);
+            }
+        };
+        fetchData();
+    }, [currentUser?.id]);
+
+    if (!currentUser) {
+        return (
+            <aside className={styles.sidebar}>
+                {/* Skeleton User Profile Snippet */}
+                <div className={styles.profileSection}>
+                    <div className={styles.userAvatar}>
+                        <div className={`${styles.skeleton} ${styles.skeletonAvatar}`}></div>
+                    </div>
+                    <div className={styles.userInfo}>
+                        <div className={`${styles.skeleton} ${styles.skeletonText}`} style={{ width: '80px' }}></div>
+                        <div className={`${styles.skeleton} ${styles.skeletonText}`} style={{ width: '120px', marginBottom: 0 }}></div>
+                    </div>
+                </div>
+
+                {/* Skeleton Suggestions Header */}
+                <div className={styles.suggestionsHeader}>
+                    <div className={`${styles.skeleton} ${styles.skeletonTitle}`}></div>
+                </div>
+
+                {/* Skeleton Suggestions List */}
+                <div className={styles.suggestionsList}>
+                    {[1, 2, 3, 4, 5].map((i) => (
+                        <div key={i} className={styles.suggestionItem} style={{ marginBottom: '16px' }}>
+                            <div className={styles.suggestionAvatar}>
+                                <div className={`${styles.skeleton} ${styles.skeletonAvatar}`} style={{ width: '32px', height: '32px' }}></div>
+                            </div>
+                            <div className={styles.suggestionInfo}>
+                                <div className={`${styles.skeleton} ${styles.skeletonText}`} style={{ width: '90px' }}></div>
+                                <div className={`${styles.skeleton} ${styles.skeletonText}`} style={{ width: '110px', marginBottom: 0 }}></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </aside>
+        );
+    }
 
     return (
         <motion.aside
@@ -23,11 +81,11 @@ const SuggestionsSidebar = () => {
             {/* User Profile Snippet */}
             <div className={styles.profileSection}>
                 <div className={styles.userAvatar}>
-                    <Image src={currentUser.avatar || 'https://i.pravatar.cc/150'} alt={currentUser.username} width={44} height={44} unoptimized />
+                    <Image src={currentUser.avatar || 'https://i.pravatar.cc/150'} alt={currentUser.username} width={44} height={44} />
                 </div>
                 <div className={styles.userInfo}>
                     <span className={styles.username}>{currentUser.username}</span>
-                    <span className={styles.fullName}>{currentUser.name}</span>
+                    <span className={styles.fullName}>{currentUser.fullName || currentUser.username}</span>
                 </div>
                 <button className={styles.switchBtn}>Switch</button>
             </div>
@@ -49,7 +107,7 @@ const SuggestionsSidebar = () => {
                         transition={{ delay: index * 0.1 }}
                     >
                         <div className={styles.suggestionAvatar}>
-                            <Image src={user.avatar || 'https://i.pravatar.cc/150'} alt={user.username} width={32} height={32} unoptimized />
+                            <Image src={user.avatar || 'https://i.pravatar.cc/150'} alt={user.username} width={32} height={32} />
                         </div>
                         <div className={styles.suggestionInfo}>
                             <span className={styles.suggestionUsername}>{user.username}</span>

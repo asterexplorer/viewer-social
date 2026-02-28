@@ -49,14 +49,14 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({ post, isOpen, onClose
             >
                 {/* Media Section */}
                 <div className={styles.mediaSection} onDoubleClick={handleLike}>
-                    <Image src={post.image || 'https://picsum.photos/seed/post/800'} alt={post.caption} className={styles.mainMedia} width={600} height={600} unoptimized />
+                    <Image src={post.image || 'https://picsum.photos/seed/post/800'} alt={post.caption} className={styles.mainMedia} width={600} height={600} />
                 </div>
 
                 {/* Info Section */}
                 <div className={styles.infoSection}>
                     <div className={styles.header}>
                         <div className={styles.userInfo}>
-                            <Image src={post.user.avatar || 'https://i.pravatar.cc/150'} alt={post.user.username} className={styles.avatar} width={32} height={32} unoptimized />
+                            <Image src={post.user.avatar || 'https://i.pravatar.cc/150'} alt={post.user.username} className={styles.avatar} width={32} height={32} />
                             <span className={styles.username}>{post.user.username}</span>
                         </div>
                         <button className={styles.actionBtn}>
@@ -67,7 +67,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({ post, isOpen, onClose
                     <div className={styles.commentsSection}>
                         {/* Caption as first comment */}
                         <div className={styles.commentItem}>
-                            <Image src={post.user.avatar || 'https://i.pravatar.cc/150'} alt={post.user.username} className={styles.avatar} width={32} height={32} unoptimized />
+                            <Image src={post.user.avatar || 'https://i.pravatar.cc/150'} alt={post.user.username} className={styles.avatar} width={32} height={32} />
                             <div className={styles.commentContent}>
                                 <div className={styles.commentText}>
                                     <span className={styles.username}>{post.user.username}</span> {post.caption}
@@ -80,7 +80,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({ post, isOpen, onClose
 
                         {/* Mock comments */}
                         <div className={styles.commentItem}>
-                            <Image src="https://i.pravatar.cc/150?u=10" className={styles.avatar} alt="User" width={32} height={32} unoptimized />
+                            <Image src="https://i.pravatar.cc/150?u=10" className={styles.avatar} alt="User" width={32} height={32} />
                             <div className={styles.commentContent}>
                                 <div className={styles.commentText}>
                                     <span className={styles.username}>awesome_user</span> This is such a cool shot! Love the colors. 🔥
@@ -94,7 +94,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({ post, isOpen, onClose
                         </div>
 
                         <div className={styles.commentItem}>
-                            <Image src="https://i.pravatar.cc/150?u=11" className={styles.avatar} alt="User" width={32} height={32} unoptimized />
+                            <Image src="https://i.pravatar.cc/150?u=11" className={styles.avatar} alt="User" width={32} height={32} />
                             <div className={styles.commentContent}>
                                 <div className={styles.commentText}>
                                     <span className={styles.username}>photography_fan</span> Which camera did you use for this?
