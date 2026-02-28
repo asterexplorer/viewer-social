@@ -1,3 +1,4 @@
+import React, { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -21,6 +22,15 @@ export const metadata: Metadata = {
   title: "Viewer — Social Media",
   description: "A premium social media experience for visual storytelling",
   keywords: ["social media", "photos", "sharing", "viewer"],
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Viewer",
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 export default function RootLayout({
@@ -33,6 +43,17 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js');
+                });
+              }
+            `,
+          }}
+        />
       </head>
       <body>
         <ThemeProvider>
@@ -41,7 +62,9 @@ export default function RootLayout({
             <SpeedInsights />
           </MainLayout>
         </ThemeProvider>
-        <AnalyticsTags />
+        <Suspense fallback={null}>
+          <AnalyticsTags />
+        </Suspense>
       </body>
     </html>
   );
