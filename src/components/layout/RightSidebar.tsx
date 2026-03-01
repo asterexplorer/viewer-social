@@ -9,6 +9,8 @@ import Image from 'next/image';
 import { usePushNotifications } from '@/hooks/usePushNotifications';
 import { Bell } from 'lucide-react';
 
+import { motion, AnimatePresence } from 'framer-motion';
+
 const RightSidebar = () => {
     const [currentUser, setCurrentUser] = useState<any>(null);
     const [suggestions, setSuggestions] = useState<any[]>([]);
@@ -78,45 +80,84 @@ const RightSidebar = () => {
     return (
         <aside className={styles.rightSidebar}>
             {/* Current User */}
-            <div className={styles.userProfile}>
+            <motion.div
+                className={styles.userProfile}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+            >
                 <Link href="/profile" className={styles.userInfo}>
                     <Image
                         src={currentUser.avatar || "https://i.pravatar.cc/150"}
                         alt={currentUser.username}
                         className={styles.avatar}
-                        width={56}
-                        height={56}
-
+                        width={48}
+                        height={48}
                     />
                     <div className={styles.userDetails}>
                         <div className={styles.username}>{currentUser.username}</div>
                         <div className={styles.fullName}>{currentUser.fullName || currentUser.username}</div>
                     </div>
                 </Link>
-                <button className={styles.switchBtn}>Switch</button>
-            </div>
+                <motion.button
+                    className={styles.switchBtn}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    Switch
+                </motion.button>
+            </motion.div>
 
             {/* Push Notifications Prompt */}
-            {isSupported && !isSubscribed && currentUser && (
-                <div style={{ marginBottom: '24px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '12px', padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{ background: 'rgba(56, 189, 248, 0.15)', padding: '10px', borderRadius: '50%' }}>
-                            <Bell size={20} color="#38bdf8" />
-                        </div>
-                        <div>
-                            <div style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>Stay Updated</div>
-                            <div style={{ fontSize: '12px', color: '#9ca3af', marginTop: '2px' }}>Turn on notifications</div>
-                        </div>
-                    </div>
-                    <button
-                        onClick={subscribe}
-                        disabled={isLoading}
-                        style={{ background: '#fff', color: '#000', padding: '6px 14px', borderRadius: '16px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer', opacity: isLoading ? 0.7 : 1 }}
+            <AnimatePresence>
+                {isSupported && !isSubscribed && currentUser && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        style={{
+                            marginBottom: '24px',
+                            background: 'rgba(99, 102, 241, 0.08)',
+                            borderRadius: '16px',
+                            padding: '16px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            border: '1px solid rgba(99, 102, 241, 0.15)'
+                        }}
                     >
-                        {isLoading ? '...' : 'Enable'}
-                    </button>
-                </div>
-            )}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ background: 'rgba(99, 102, 241, 0.2)', padding: '10px', borderRadius: '12px' }}>
+                                <Bell size={20} color="#6366f1" />
+                            </div>
+                            <div>
+                                <div style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>Stay Updated</div>
+                                <div style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)', marginTop: '2px' }}>Turn on notifications</div>
+                            </div>
+                        </div>
+                        <motion.button
+                            onClick={subscribe}
+                            disabled={isLoading}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            style={{
+                                background: '#6366f1',
+                                color: '#fff',
+                                padding: '8px 16px',
+                                borderRadius: '12px',
+                                fontSize: '13px',
+                                fontWeight: 600,
+                                border: 'none',
+                                cursor: 'pointer',
+                                opacity: isLoading ? 0.7 : 1,
+                                boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)'
+                            }}
+                        >
+                            {isLoading ? '...' : 'Enable'}
+                        </motion.button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Suggestions Header */}
             <div className={styles.suggestionsHeader}>
@@ -126,17 +167,22 @@ const RightSidebar = () => {
 
             {/* Suggestions List */}
             <div className={styles.suggestionsList}>
-                {suggestions.map((user) => (
-                    <div key={user.id} className={styles.suggestionItem}>
+                {suggestions.map((user, index) => (
+                    <motion.div
+                        key={user.id}
+                        className={styles.suggestionItem}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 + 0.3 }}
+                    >
                         <div className={styles.suggestionUserInfo}>
                             <Link href={`/${user.username}`}>
                                 <Image
                                     src={user.avatar || `https://i.pravatar.cc/150?u=${user.username}`}
                                     alt={user.username}
                                     className={styles.suggestionAvatar}
-                                    width={32}
-                                    height={32}
-
+                                    width={36}
+                                    height={36}
                                 />
                             </Link>
                             <div className={styles.suggestionDetails}>
@@ -146,41 +192,57 @@ const RightSidebar = () => {
                                 <div className={styles.suggestionMeta}>Suggested for you</div>
                             </div>
                         </div>
-                        <button className={styles.followBtn}>Follow</button>
-                    </div>
+                        <motion.button
+                            className={styles.followBtn}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                        >
+                            Follow
+                        </motion.button>
+                    </motion.div>
                 ))}
             </div>
 
             {/* App Stores */}
-            <div className={styles.appStoreSection}>
+            <motion.div
+                className={styles.appStoreSection}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+            >
                 <div className={styles.appStoreTitle}>Get the App</div>
                 <div className={styles.storeButtons}>
-                    <Image
-                        src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
-                        alt="Download on the App Store"
-                        className={styles.storeBadge}
-                        width={135}
-                        height={40}
-
-                    />
-                    <Image
-                        src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-                        alt="Get it on Google Play"
-                        className={styles.storeBadge}
-                        width={135}
-                        height={40}
-
-                    />
+                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Image
+                            src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
+                            alt="Download on the App Store"
+                            className={styles.storeBadge}
+                            width={135}
+                            height={40}
+                        />
+                    </motion.div>
+                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Image
+                            src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                            alt="Get it on Google Play"
+                            className={styles.storeBadge}
+                            width={135}
+                            height={40}
+                        />
+                    </motion.div>
                 </div>
-            </div>
-
+            </motion.div>
 
             {/* Tech Stack Info */}
-            <div className={styles.techInfo}>
-                <span className={styles.techLabel}>Databases</span>
-                PostgreSQL is used as the primary relational database for structured data like user profiles and comments, while Cassandra is used for highly distributed data like activity logs and analytics.
-            </div>
-
+            <motion.div
+                className={styles.techInfo}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
+            >
+                <span className={styles.techLabel}>Backend</span>
+                Powered by a high-performance distributed architecture using Next.js 15, PostgreSQL, and Cassandra for planetary scale.
+            </motion.div>
         </aside>
     );
 };

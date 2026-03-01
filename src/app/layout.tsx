@@ -25,11 +25,21 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
     title: "Viewer",
   },
   formatDetection: {
     telephone: false,
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "application-name": "Viewer",
+    "apple-mobile-web-app-title": "Viewer",
+    "theme-color": "#6366f1",
+    "msapplication-navbutton-color": "#6366f1",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
+    "msapplication-starturl": "/",
   },
 };
 

@@ -49,7 +49,71 @@
     background: var(--background);
 }
 
-/* Responsive adjustments */
+/* Clear View Styles */
+.clearView .mainContent {
+    padding-left: 0 !important;
+    transition: padding-left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.clearView .contentWrapper {
+    max-width: 100%;
+    padding-top: 20px;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Floating Clear View Toggle */
+.clearViewToggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 9999;
+    color: white;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.clearViewToggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.clearViewToggle.active {
+    background: var(--primary);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.sidebarWrapper {
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+.clearView .sidebarWrapper {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.headerWrapper {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+.clearView .headerWrapper {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
 /* Responsive adjustments */
 @media (max-width: 1264px) {
     .mainContent {
@@ -66,5 +130,11 @@
 
     .contentWrapper {
         padding: 0;
+    }
+
+    .clearViewToggle {
+        bottom: 80px;
+        /* Above bottom nav on mobile */
+        right: 20px;
     }
 }

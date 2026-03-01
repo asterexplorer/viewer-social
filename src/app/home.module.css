@@ -3,34 +3,46 @@
     justify-content: center;
     width: 100%;
     margin: 0 auto;
-    padding: 32px 16px;
+    padding: 24px 16px;
     min-height: calc(100vh - 64px);
+    position: relative;
 }
 
 .feedSection {
     width: 100%;
-    max-width: 630px;
+    max-width: 580px;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
     position: relative;
     z-index: 10;
 }
 
 .pageHeader {
-    padding: 24px 0 8px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 8px;
+    position: sticky;
+    top: 64px;
+    /* Below the top header */
+    z-index: 40;
+    padding: 16px 24px;
+    margin-bottom: 24px;
+    border-radius: 20px;
+    background: rgba(15, 15, 15, 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
-    justify-content: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .welcomeText h1 {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 800;
-    margin-bottom: 6px;
-    letter-spacing: -0.8px;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
     font-family: 'Syne', 'Inter', sans-serif;
+    color: var(--foreground);
 }
 
 .subtitle {
@@ -42,28 +54,27 @@
 .feedItemsList {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 0px;
+    /* Gap represents spacing between posts, but posts have bottom margin */
 }
 
 .loaderContainer {
     display: flex;
     justify-content: center;
-    padding: 32px;
+    padding: 24px;
     width: 100%;
 }
 
 .endMessage {
     text-align: center;
-    padding: 48px;
-    color: var(--accent);
-    font-size: 14px;
+    padding: 32px;
+    color: var(--foreground-muted);
+    font-size: 13px;
     font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    opacity: 0.8;
-    background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.05));
-    border-radius: var(--radius-lg);
-    border: 1px dashed var(--border);
+    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* Responsive */
@@ -73,18 +84,23 @@
         gap: 0;
     }
 
-    .sidebarSection {
-        display: none;
-    }
-
     .feedSection {
         margin: 0 auto;
     }
 }
 
 @media (max-width: 768px) {
+    .pageHeader {
+        top: 0;
+        border-radius: 0 0 20px 20px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        margin-bottom: 16px;
+    }
+
     .container {
-        padding: 16px 0;
+        padding: 0 0 16px;
     }
 
     .feedSection {
