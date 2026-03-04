@@ -220,7 +220,7 @@ const LandingContent: React.FC<LandingPageProps & {
                                                                 className={styles.input}
                                                                 placeholder="you@example.com"
                                                                 value={email}
-                                                                onChange={(e) => setEmail(e.target.value)}
+                                                                onChange={(e) => { setEmail(e.target.value); if (error) setError(null); }}
                                                                 required
                                                             />
                                                         </div>
@@ -231,7 +231,7 @@ const LandingContent: React.FC<LandingPageProps & {
                                                                 className={styles.input}
                                                                 placeholder="John Doe"
                                                                 value={fullName}
-                                                                onChange={(e) => setFullName(e.target.value)}
+                                                                onChange={(e) => { setFullName(e.target.value); if (error) setError(null); }}
                                                             />
                                                         </div>
                                                     </>
@@ -244,7 +244,7 @@ const LandingContent: React.FC<LandingPageProps & {
                                                         className={styles.input}
                                                         placeholder={mode === 'login' ? "Enter username or email" : "Choose a unique username"}
                                                         value={username}
-                                                        onChange={(e) => setUsername(e.target.value)}
+                                                        onChange={(e) => { setUsername(e.target.value); if (error) setError(null); }}
                                                         required
                                                     />
                                                 </div>
@@ -259,7 +259,7 @@ const LandingContent: React.FC<LandingPageProps & {
                                                         className={styles.input}
                                                         placeholder="Enter your secure password"
                                                         value={password}
-                                                        onChange={(e) => setPassword(e.target.value)}
+                                                        onChange={(e) => { setPassword(e.target.value); if (error) setError(null); }}
                                                         required
                                                         minLength={6}
                                                     />
