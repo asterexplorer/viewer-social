@@ -310,6 +310,7 @@ const ProfilePage = () => {
         };
 
         fetchProfile();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleEditProfile = () => {
@@ -330,10 +331,29 @@ const ProfilePage = () => {
 
     // Non-blocking: error is just logged; page still renders
 
-    if (loading || !user) {
+    if (loading) {
         return (
             <div className="container" style={{ maxWidth: '1000px', padding: '100px 16px', display: 'flex', justifyContent: 'center' }}>
                 <Loader size="large" />
+            </div>
+        );
+    }
+
+    if (!user) {
+        return (
+            <div className="container" style={{ maxWidth: '600px', padding: '120px 16px', textAlign: 'center' }}>
+                <div className={styles.emptyTabState}>
+                    <UserSquare2 size={80} strokeWidth={1} color="var(--foreground-muted)" />
+                    <h3 style={{ marginTop: '24px' }}>Sign in to view your profile</h3>
+                    <p style={{ marginTop: '12px', color: 'var(--foreground-muted)' }}>You need to be logged in to access this page.</p>
+                    <button
+                        className={styles.editButton}
+                        style={{ marginTop: '32px' }}
+                        onClick={() => router.push('/')}
+                    >
+                        Go to Login
+                    </button>
+                </div>
             </div>
         );
     }
