@@ -219,6 +219,7 @@ const ProfilePage = () => {
     const [activeTab, setActiveTab] = useState<'posts' | 'shots' | 'saved' | 'tagged' | 'monetization' | 'settings'>('posts');
     const [loading, setLoading] = useState(true);
     const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+    const [isArchiveOpen, setIsArchiveOpen] = useState(false);
 
     const searchParams = useSearchParams();
 
@@ -568,3 +569,7 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+function setError(arg0: null) {
+    throw new Error('Function not implemented.');
+}
+
