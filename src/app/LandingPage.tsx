@@ -10,8 +10,8 @@ interface LandingPageProps {
 }
 
 const LandingContent: React.FC<LandingPageProps & {
-    mode: 'login' | 'register';
-    setMode: (m: 'login' | 'register') => void;
+    mode: 'login' | 'register' | 'forgot_password';
+    setMode: (m: 'login' | 'register' | 'forgot_password') => void;
     isLoading: boolean;
     setIsLoading: (l: boolean) => void;
     error: string | null;
@@ -156,10 +156,14 @@ const LandingContent: React.FC<LandingPageProps & {
                             <div className={styles.loginCard}>
                                 <div className={styles.cardHeader}>
                                     <h3 className={styles.title}>
-                                        {isSuccess ? 'Login Successful' : (mode === 'login' ? 'Welcome Back' : 'Create Account')}
+                                        {isSuccess
+                                            ? (mode === 'forgot_password' ? 'Check your email' : 'Login Successful')
+                                            : (mode === 'forgot_password' ? 'Reset Password' : (mode === 'login' ? 'Welcome Back' : 'Create Account'))}
                                     </h3>
                                     <p className={styles.subtitle}>
-                                        {isSuccess ? 'Redirecting to your feed...' : (mode === 'login' ? 'Enter your credentials to access your feed.' : 'Join Viewer today.')}
+                                        {isSuccess
+                                            ? (mode === 'forgot_password' ? 'We sent a recovery link if the email exists.' : 'Redirecting to your feed...')
+                                            : (mode === 'forgot_password' ? 'Enter your email to receive a reset link.' : (mode === 'login' ? 'Enter your credentials to access your feed.' : 'Join Viewer today.'))}
                                     </p>
                                 </div>
 
@@ -180,8 +184,12 @@ const LandingContent: React.FC<LandingPageProps & {
                                             >
                                                 <CheckCircle2 size={40} />
                                             </motion.div>
-                                            <h4 className={styles.successTitle}>Welcome, {username}!</h4>
-                                            <p className={styles.successText}>Preparing your personalized experience...</p>
+                                            <h4 className={styles.successTitle}>
+                                                {mode === 'forgot_password' ? 'Link Sent' : `Welcome, ${username}!`}
+                                            </h4>
+                                            <p className={styles.successText}>
+                                                {mode === 'forgot_password' ? 'Please check your inbox to reset your password.' : 'Preparing your personalized experience...'}
+                                            </p>
                                         </motion.div>
                                     ) : (
                                         <motion.div
@@ -238,32 +246,49 @@ const LandingContent: React.FC<LandingPageProps & {
                                                 )}
 
                                                 <div className={styles.inputGroup}>
-                                                    <label className={styles.label}>{mode === 'login' ? 'Username or Email' : 'Username'}</label>
+                                                    <label className={styles.label}>
+                                                        {mode === 'login' ? 'Username or Email' : 'Email Address'}
+                                                    </label>
                                                     <input
-                                                        type="text"
+                                                        type={mode === 'register' ? 'email' : 'text'}
                                                         className={styles.input}
-                                                        placeholder={mode === 'login' ? "Enter username or email" : "Choose a unique username"}
-                                                        value={username}
-                                                        onChange={(e) => { setUsername(e.target.value); if (error) setError(null); }}
+                                                        placeholder={mode === 'login' ? "Enter username or email" : "you@example.com"}
+                                                        value={mode === 'login' ? username : email}
+                                                        onChange={(e) => {
+                                                            if (mode === 'login') setUsername(e.target.value);
+                                                            else setEmail(e.target.value);
+                                                            if (error) setError(null);
+                                                        }}
                                                         required
                                                     />
                                                 </div>
 
-                                                <div className={styles.inputGroup}>
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                        <label className={styles.label}>Password</label>
-                                                        {mode === 'login' && <a href="#" className={styles.forgotLink}>Forgot?</a>}
+                                                {mode !== 'forgot_password' && (
+                                                    <div className={styles.inputGroup}>
+                                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                            <label className={styles.label}>Password</label>
+                                                            {mode === 'login' && (
+                                                                <button
+                                                                    type="button"
+                                                                    className={styles.forgotLink}
+                                                                    onClick={() => { setMode('forgot_password'); setError(null); }}
+                                                                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                                                                >
+                                                                    Forgot?
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                        <input
+                                                            type="password"
+                                                            className={styles.input}
+                                                            placeholder="Enter your secure password"
+                                                            value={password}
+                                                            onChange={(e) => { setPassword(e.target.value); if (error) setError(null); }}
+                                                            required
+                                                            minLength={6}
+                                                        />
                                                     </div>
-                                                    <input
-                                                        type="password"
-                                                        className={styles.input}
-                                                        placeholder="Enter your secure password"
-                                                        value={password}
-                                                        onChange={(e) => { setPassword(e.target.value); if (error) setError(null); }}
-                                                        required
-                                                        minLength={6}
-                                                    />
-                                                </div>
+                                                )}
 
                                                 <button
                                                     type="submit"
@@ -280,8 +305,8 @@ const LandingContent: React.FC<LandingPageProps & {
                                                         </motion.div>
                                                     ) : (
                                                         <>
-                                                            {mode === 'login' ? <LogIn size={20} /> : <UserPlus size={20} />}
-                                                            {mode === 'login' ? 'Secure Login' : 'Create Account'}
+                                                            {mode === 'login' ? <LogIn size={20} /> : (mode === 'forgot_password' ? <Zap size={20} /> : <UserPlus size={20} />)}
+                                                            {mode === 'login' ? 'Secure Login' : (mode === 'forgot_password' ? 'Send Reset Link' : 'Create Account')}
                                                         </>
                                                     )}
                                                 </button>
@@ -290,8 +315,10 @@ const LandingContent: React.FC<LandingPageProps & {
                                             <div className={styles.divider}>OR</div>
 
                                             <p className={styles.signupText} style={{ textAlign: 'center' }}>
-                                                {mode === 'login' ? "Don't have an account? " : "Already have an account? "}
-                                                <button type="button" onClick={toggleMode} className={styles.link} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 'inherit', padding: 0 }}>
+                                                {mode === 'login'
+                                                    ? "Don't have an account? "
+                                                    : (mode === 'register' ? "Already have an account? " : "Remember your password? ")}
+                                                <button type="button" onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(null); }} className={styles.link} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 'inherit', padding: 0 }}>
                                                     {mode === 'login' ? "Sign Up" : "Log In"}
                                                 </button>
                                             </p>
@@ -320,7 +347,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [mode, setMode] = useState<'login' | 'register'>('login');
+    const [mode, setMode] = useState<'login' | 'register' | 'forgot_password'>('login');
 
     // Form states
     const [username, setUsername] = useState('');
@@ -339,6 +366,19 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
         setError(null);
 
         const referralCode = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('ref') : null;
+
+        if (mode === 'forgot_password') {
+            // Fake API call for reset password
+            setTimeout(() => {
+                setIsSuccess(true);
+                setTimeout(() => {
+                    setMode('login');
+                    setIsSuccess(false);
+                    setEmail('');
+                }, 3000);
+            }, 1000);
+            return;
+        }
 
         const endpoint = mode === 'login' ? '/api/auth' : '/api/auth/register';
         const payload = mode === 'login'
