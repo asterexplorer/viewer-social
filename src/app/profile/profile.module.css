@@ -7,21 +7,57 @@
 /* Header Section - Premium Glassmorphism Profile Card */
 .header {
     display: flex;
-    gap: 64px;
+    flex-direction: column;
     margin-bottom: 48px;
-    padding: 48px 64px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 245, 255, 0.85) 100%);
+    background: var(--background-card);
     backdrop-filter: blur(40px) saturate(200%);
     -webkit-backdrop-filter: blur(40px) saturate(200%);
     border-radius: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--border);
     box-shadow:
         0 20px 60px rgba(0, 0, 0, 0.04),
         0 4px 12px rgba(0, 0, 0, 0.02),
-        inset 0 1px 0 rgba(255, 255, 255, 1);
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.coverPhoto {
+    height: 200px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+}
+
+.coverGradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, #6366f1 0%, #0ea5e9 50%, #8b5cf6 100%);
+    opacity: 0.8;
+}
+
+.neuralGridOverlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+}
+
+.headerContent {
+    display: flex;
+    gap: 64px;
+    padding: 0 64px 48px;
+    position: relative;
+    z-index: 2;
+    margin-top: -60px;
+    /* Overlap the cover photo */
 }
 
 .header::before {
@@ -59,6 +95,7 @@
     flex: 0 0 160px;
     display: flex;
     justify-content: center;
+    position: relative;
 }
 
 .avatarRing {
@@ -112,6 +149,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    padding-top: 80px;
 }
 
 .topRow {
@@ -122,10 +160,10 @@
 }
 
 .username {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 800;
     letter-spacing: -0.03em;
-    color: #0f172a;
+    color: var(--foreground);
     font-family: 'Syne', sans-serif;
 }
 
@@ -195,22 +233,22 @@
 }
 
 .statNumber {
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 900;
-    color: #0f172a;
+    color: var(--foreground);
     letter-spacing: -0.05em;
     font-family: 'Syne', sans-serif;
     line-height: 1;
 }
 
 .statLabel {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
-    color: #64748b;
+    color: var(--foreground-muted);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    margin-top: 4px;
-    font-family: 'Outfit', sans-serif;
+    margin-top: 6px;
+    font-family: 'Inter', sans-serif;
 }
 
 /* Bio Section */
@@ -221,7 +259,7 @@
 .fullName {
     font-size: 18px;
     font-weight: 800;
-    color: #0f172a;
+    color: var(--foreground);
     margin-bottom: 6px;
     letter-spacing: -0.03em;
     font-family: 'Syne', sans-serif;
@@ -243,9 +281,9 @@
 .bioText {
     font-size: 15px;
     line-height: 1.7;
-    color: #475569;
+    color: var(--foreground-muted);
     font-weight: 400;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 /* Tabs Redesign */
@@ -276,11 +314,11 @@
 }
 
 .tab:hover {
-    color: #0f172a;
+    color: var(--foreground);
 }
 
 .activeTab {
-    color: #0f172a !important;
+    color: var(--foreground) !important;
 }
 
 .activeTab::after {
@@ -851,20 +889,33 @@
 
 /* Responsive Updates */
 @media (max-width: 1024px) {
-    .header {
-        padding: 50px;
+    .headerContent {
+        padding: 0 50px 50px;
         gap: 60px;
     }
 }
 
 @media (max-width: 768px) {
     .header {
+        border-radius: 0;
+    }
+
+    .coverPhoto {
+        height: 140px;
+        border-radius: 0;
+    }
+
+    .headerContent {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        padding: 40px 24px;
-        border-radius: 0;
-        gap: 40px;
+        padding: 0 24px 40px;
+        margin-top: -50px;
+        gap: 20px;
+    }
+
+    .infoSection {
+        padding-top: 10px;
     }
 
     .topRow {

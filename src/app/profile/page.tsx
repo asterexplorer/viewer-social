@@ -368,63 +368,73 @@ const ProfilePage = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8 }}
             >
-                {/* Profile Header */}
+                {/* Premium Cover Photo / Profile Header */}
                 <motion.div
                     className={styles.header}
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 >
-                    <div className={styles.avatarSection}>
-                        <div className={styles.avatarRing}>
-                            <Image
-                                src={user.avatar || 'https://ui-avatars.com/api/?name=' + user.username}
-                                alt={user.username}
-                                className={styles.avatar}
-                                width={160}
-                                height={160}
-
-                            />
-                        </div>
+                    <div className={styles.coverPhoto}>
+                        <div className={styles.coverGradient} />
+                        <div className={styles.neuralGridOverlay} />
                     </div>
 
-                    <div className={styles.infoSection}>
-                        <div className={styles.topRow}>
-                            <h2 className={styles.username}>{user.username}</h2>
-                            {getVerificationBadge(user.followers)}
-
-                            <div className={styles.actionButtons}>
-                                <button className={styles.editButton} onClick={handleEditProfile}>Edit Profile</button>
-                                <button className={styles.archiveBtn} onClick={() => setIsArchiveOpen(true)}>Archive</button>
-                                <button className={styles.settingsBtn} onClick={() => setActiveTab('settings')}><Settings size={22} /></button>
-                            </div>
+                    <div className={styles.headerContent}>
+                        <div className={styles.avatarSection}>
+                            <motion.div
+                                className={styles.avatarRing}
+                                whileHover={{ scale: 1.05, rotate: 5 }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+                            >
+                                <Image
+                                    src={user.avatar || 'https://ui-avatars.com/api/?name=' + user.username}
+                                    alt={user.username}
+                                    className={styles.avatar}
+                                    width={160}
+                                    height={160}
+                                />
+                            </motion.div>
                         </div>
 
-                        <div className={styles.statsRow}>
-                            <div className={styles.statItem}>
-                                <span className={styles.statNumber}>{user.posts.length}</span>
-                                <span className={styles.statLabel}>Visions</span>
-                            </div>
-                            <div className={styles.statItem}>
-                                <span className={styles.statNumber}>{formatFollowers(user.followers)}</span>
-                                <span className={styles.statLabel}>Connections</span>
-                            </div>
-                            <div className={styles.statItem}>
-                                <span className={styles.statNumber}>{user.following}</span>
-                                <span className={styles.statLabel}>Following</span>
-                            </div>
-                        </div>
+                        <div className={styles.infoSection}>
+                            <div className={styles.topRow}>
+                                <h2 className={styles.username}>{user.username}</h2>
+                                {getVerificationBadge(user.followers)}
 
-                        <div className={styles.bioSection}>
-                            {user.category && user.category !== 'None' && <span className={styles.categoryLabel}>{user.category}</span>}
-                            <div className={styles.bioText}>
-                                {user.bio || "No bio yet. Share your vision with the world."}
-                                {user.website && (
-                                    <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <Globe size={18} color="#0095f6" />
-                                        <a href={`https://${user.website}`} target="_blank" rel="noopener noreferrer" style={{ color: '#0095f6', fontWeight: 700, textDecoration: 'none' }}>{user.website}</a>
-                                    </div>
-                                )}
+                                <div className={styles.actionButtons}>
+                                    <button className={styles.editButton} onClick={handleEditProfile}>Edit Profile</button>
+                                    <button className={styles.archiveBtn} onClick={() => setIsArchiveOpen(true)}>Archive</button>
+                                    <button className={styles.settingsBtn} onClick={() => setActiveTab('settings')}><Settings size={22} /></button>
+                                </div>
+                            </div>
+
+                            <div className={styles.statsRow}>
+                                <div className={styles.statItem}>
+                                    <span className={styles.statNumber}>{user.posts.length}</span>
+                                    <span className={styles.statLabel}>Visions</span>
+                                </div>
+                                <div className={styles.statItem}>
+                                    <span className={styles.statNumber}>{formatFollowers(user.followers)}</span>
+                                    <span className={styles.statLabel}>Connections</span>
+                                </div>
+                                <div className={styles.statItem}>
+                                    <span className={styles.statNumber}>{user.following}</span>
+                                    <span className={styles.statLabel}>Following</span>
+                                </div>
+                            </div>
+
+                            <div className={styles.bioSection}>
+                                {user.category && user.category !== 'None' && <span className={styles.categoryLabel}>{user.category}</span>}
+                                <div className={styles.bioText}>
+                                    {user.bio || "No bio yet. Share your vision with the world."}
+                                    {user.website && (
+                                        <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            <Globe size={18} color="#0095f6" />
+                                            <a href={`https://${user.website}`} target="_blank" rel="noopener noreferrer" style={{ color: '#0095f6', fontWeight: 700, textDecoration: 'none' }}>{user.website}</a>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
