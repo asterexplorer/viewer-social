@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from 'react';
+profile page to not show so error to clear with show with profile pageimport React, { useState, useEffect, Suspense } from 'react';
 import styles from './LandingPage.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Smartphone, ShieldCheck, Zap, Globe, AlertCircle, LogIn, UserPlus, CheckCircle2, Loader2 } from 'lucide-react';
@@ -247,16 +247,15 @@ const LandingContent: React.FC<LandingPageProps & {
 
                                                 <div className={styles.inputGroup}>
                                                     <label className={styles.label}>
-                                                        {mode === 'login' ? 'Username or Email' : 'Email Address'}
+                                                        {mode === 'login' ? 'Username or Email' : 'Username'}
                                                     </label>
                                                     <input
-                                                        type={mode === 'register' ? 'email' : 'text'}
+                                                        type="text"
                                                         className={styles.input}
-                                                        placeholder={mode === 'login' ? "Enter username or email" : "you@example.com"}
-                                                        value={mode === 'login' ? username : email}
+                                                        placeholder={mode === 'login' ? "Enter username or email" : "Choose a username"}
+                                                        value={username}
                                                         onChange={(e) => {
-                                                            if (mode === 'login') setUsername(e.target.value);
-                                                            else setEmail(e.target.value);
+                                                            setUsername(e.target.value);
                                                             if (error) setError(null);
                                                         }}
                                                         required
@@ -368,22 +367,24 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
         const referralCode = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('ref') : null;
 
         if (mode === 'forgot_password') {
-            // Fake API call for reset password
+            // Simulated reset — replace with real API when email service is ready
             setTimeout(() => {
+                setIsLoading(false);
                 setIsSuccess(true);
                 setTimeout(() => {
                     setMode('login');
                     setIsSuccess(false);
                     setEmail('');
+                    setUsername('');
                 }, 3000);
-            }, 1000);
+            }, 1200);
             return;
         }
 
         const endpoint = mode === 'login' ? '/api/auth' : '/api/auth/register';
         const payload = mode === 'login'
-            ? { username, password }
-            : { username, email, password, fullName, referralCode };
+            ? { username: username.trim(), password }
+            : { username: username.trim(), email: email.trim(), password, fullName: fullName.trim(), referralCode };
 
         try {
             const res = await fetch(endpoint, {
