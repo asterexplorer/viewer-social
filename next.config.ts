@@ -14,6 +14,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error"] } : false,
+    styledComponents: true,
+  },
+  reactStrictMode: true,
+  swcMinify: true,
 };
 
 export default nextConfig;

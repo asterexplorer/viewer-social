@@ -104,16 +104,16 @@
 .logoSquare {
     width: 64px;
     height: 64px;
-    background: var(--background-elevated);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-    border: 1px solid var(--border);
+    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     position: relative;
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(20px);
 }
 
 .logoImage {
@@ -179,13 +179,22 @@
     align-items: center;
     gap: 12px;
     color: var(--foreground);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
-    background: var(--background-elevated);
-    padding: 14px 18px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 16px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     letter-spacing: 0.2px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(20px);
+}
+
+.featureItem:hover {
+    transform: translateY(-4px) scale(1.02);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
 }
 
 .featureIcon {
@@ -193,16 +202,22 @@
 }
 
 .loginCard {
-    background: var(--background-card);
-    backdrop-filter: blur(40px);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 48px;
-    border-radius: 32px;
+    border-radius: 36px;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 28px;
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .loginCard {
+    background: rgba(15, 15, 20, 0.5);
+    border-color: rgba(255, 255, 255, 0.05);
 }
 
 .title {
@@ -258,27 +273,30 @@
     font-size: 16px;
     font-family: 'Inter', sans-serif;
     outline: none;
-    transition: all 0.3s;
+    border-color: transparent;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     letter-spacing: 0.2px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .input:focus {
-    border-color: var(--primary);
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 4px rgba(0, 149, 246, 0.1);
+    border-color: #8b5cf6;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
 }
 
 .loginBtn {
-    background: var(--premium-gradient);
-    background-size: 200% 200%;
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+    background-size: 200% auto;
     color: white;
-    font-weight: 700;
+    font-weight: 800;
     padding: 17px;
-    border-radius: 14px;
+    border-radius: 16px;
     font-size: 17px;
     font-family: 'Syne', 'Inter', sans-serif;
-    letter-spacing: 0.3px;
-    transition: all 0.3s;
+    letter-spacing: 0.5px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -287,37 +305,62 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.25);
 }
 
 .successCard {
     text-align: center;
-    padding: 40px 20px;
+    padding: 48px 32px;
+    background: rgba(34, 197, 94, 0.05);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 28px;
+    position: relative;
+    overflow: hidden;
+}
+
+.successCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(34, 197, 94, 0.15) 0%, transparent 70%);
+    pointer-events: none;
 }
 
 .successIcon {
-    width: 64px;
-    height: 64px;
-    background: var(--success);
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
     color: white;
-    border-radius: 50%;
+    border-radius: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 20px;
-    box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+    margin: 0 auto 24px;
+    box-shadow: 0 16px 32px rgba(34, 197, 94, 0.3), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    transform: rotate(-5deg);
 }
 
 .successTitle {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 900;
     color: var(--foreground);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     font-family: 'Syne', sans-serif;
+    letter-spacing: -0.5px;
+    position: relative;
+    z-index: 2;
 }
 
 .successText {
     color: var(--foreground-muted);
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.5;
+    position: relative;
+    z-index: 2;
 }
 
 .spinner {
@@ -336,9 +379,9 @@
 }
 
 .loginBtn:hover:not(:disabled) {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px rgba(0, 149, 246, 0.4);
+    background-position: right center;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(168, 85, 247, 0.4);
 }
 
 .loginBtn:disabled {
@@ -365,28 +408,29 @@
 
 .guestBtn {
     width: 100%;
-    background: transparent;
-    border: 1.5px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     color: var(--foreground);
-    font-weight: 700;
-    padding: 14px 20px;
-    border-radius: 14px;
+    font-weight: 800;
+    padding: 16px 20px;
+    border-radius: 16px;
     font-size: 15px;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    letter-spacing: 0.2px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    letter-spacing: 0.3px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     position: relative;
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .guestBtn:hover {
     background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.35);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
 .guestBtnIcon {

@@ -122,6 +122,7 @@ const LandingContent: React.FC<LandingPageProps & {
                                         width={64}
                                         height={64}
                                         className={styles.logoImage}
+                                        priority
                                     />
                                 </motion.div>
                                 <h1 className={styles.appName}>Viewer</h1>
@@ -173,11 +174,11 @@ const LandingContent: React.FC<LandingPageProps & {
                                         >
                                             <motion.div
                                                 className={styles.successIcon}
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: 1 }}
-                                                transition={{ delay: 0.2, type: "spring", damping: 12, stiffness: 200 }}
+                                                initial={{ scale: 0, rotate: -45 }}
+                                                animate={{ scale: 1, rotate: -5 }}
+                                                transition={{ delay: 0.1, type: "spring", damping: 10, stiffness: 200 }}
                                             >
-                                                <CheckCircle2 size={32} />
+                                                <CheckCircle2 size={40} />
                                             </motion.div>
                                             <h4 className={styles.successTitle}>Welcome, {username}!</h4>
                                             <p className={styles.successText}>Preparing your personalized experience...</p>
