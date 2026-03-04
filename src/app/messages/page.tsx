@@ -116,7 +116,13 @@ const MessagesPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
     const [conversations] = useState<Conversation[]>(CONVERSATIONS);
+    const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const filteredConversations = conversations.filter(c =>
+        c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        c.lastMessage.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -143,6 +149,20 @@ const MessagesPage = () => {
 
         setMessages(prev => [...prev, newMessage]);
         setMessageText('');
+
+        // Simulate reply
+        setIsTyping(true);
+        setTimeout(() => {
+            const replyMessage: Message = {
+                id: Date.now(),
+                text: 'That sounds really interesting! Tell me more.',
+                sender: 'other',
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                status: 'delivered'
+            };
+            setMessages(prev => [...prev, replyMessage]);
+            setIsTyping(false);
+        }, 2000);
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -176,7 +196,7 @@ const MessagesPage = () => {
                     </div>
 
                     <div className={styles.conversationsScroll}>
-                        {conversations.map((conv, idx) => (
+                        {filteredConversations.map((conv, idx) => (
                             <motion.div
                                 key={conv.id}
                                 initial={{ opacity: 0, x: -10 }}
@@ -274,10 +294,38 @@ const MessagesPage = () => {
                                                 )}
                                                 <div className={styles.messageBubble}>
                                                     <p className={styles.messageText}>{message.text}</p>
-                                                    <span className={styles.messageTime}>{message.timestamp}</span>
+                                                    <span className={styles.messageTime}>
+                                                        {message.timestamp}
+                                                        {message.sender === 'user' && message.status === 'seen' && <span className={styles.messageStatus}> ✓✓</span>}
+                                                        {message.sender === 'user' && message.status === 'sent' && <span className={styles.messageStatus}> ✓</span>}
+                                                        {message.sender === 'user' && message.status === 'delivered' && <span className={styles.messageStatus}> ✓✓</span>}
+                                                    </span>
                                                 </div>
                                             </motion.div>
                                         ))}
+
+                                        {isTyping && (
+                                            <motion.div
+                                                key="typing"
+                                                initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                                                className={`${styles.messageWrapper} ${styles.otherMessage}`}
+                                            >
+                                                <Image
+                                                    src={selectedConv?.avatar || ''}
+                                                    alt="Avatar"
+                                                    className={styles.messageAvatar}
+                                                    width={36}
+                                                    height={36}
+                                                />
+                                                <div className={styles.messageBubble}>
+                                                    <div className={styles.typingIndicator}>
+                                                        <span></span><span></span><span></span>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        )}
                                     </AnimatePresence>
                                     <div ref={messagesEndRef} />
                                 </div>
