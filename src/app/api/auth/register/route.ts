@@ -105,7 +105,7 @@ export async function POST(req: Request) {
     } catch (error) {
         console.error('Auth Registration error:', error);
         return NextResponse.json(
-            { error: 'Registration failed due to an unexpected error.' },
+            { error: 'Registration failed: ' + (error instanceof Error ? error.message : String(error)) },
             { status: 500 }
         );
     }

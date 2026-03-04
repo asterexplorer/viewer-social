@@ -52,10 +52,10 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose }
 
     const getIcon = (type: string) => {
         switch (type) {
-            case 'LIKE': return <Heart size={14} fill="#ed4956" color="#ed4956" />;
-            case 'COMMENT': return <MessageCircle size={14} color="#0095f6" />;
-            case 'FOLLOW': return <UserPlus size={14} color="#44b700" />;
-            case 'MENTION': return <AtSign size={14} color="#0095f6" />;
+            case 'LIKE': return <Heart size={14} fill="#ef4444" color="#ef4444" />;
+            case 'COMMENT': return <MessageCircle size={14} fill="#6366f1" color="#6366f1" />;
+            case 'FOLLOW': return <UserPlus size={14} fill="#10b981" color="#10b981" />;
+            case 'MENTION': return <AtSign size={14} color="#8b5cf6" />;
             default: return <Heart size={14} />;
         }
     };
@@ -169,7 +169,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose }
                                             className={styles.avatar}
                                             width={52}
                                             height={52}
-                                           
+
                                         />
                                         <div className={styles.iconBadge}>
                                             {getIcon(notif.type)}
@@ -194,7 +194,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose }
                                                 className={styles.postThumb}
                                                 width={52}
                                                 height={52}
-                                               
+
                                             />
                                         </Link>
                                     )}
