@@ -17,6 +17,17 @@ const TopHeader = () => {
     const [unreadCount, setUnreadCount] = useState(0);
     const { theme, toggleTheme } = useTheme();
 
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 10);
+        };
+        handleScroll();
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     const fetchUnreadCount = async () => {
         if (pathname === '/') return;
         try {
@@ -48,7 +59,7 @@ const TopHeader = () => {
 
     return (
         <>
-            <header className={styles.header}>
+            <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
                 <div className={styles.leftSection}></div>
 
                 <Link href="/" className={styles.logoContainer}>
