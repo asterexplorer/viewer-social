@@ -8,6 +8,8 @@ import { usePathname } from 'next/navigation';
 import NotificationModal from '../modals/NotificationModal';
 import { notificationService } from '@/services/notification-service';
 import { useTheme } from '@/contexts/ThemeContext';
+import { triggerHaptic } from '@/lib/haptics';
+import { ImpactStyle } from '@capacitor/haptics';
 
 const TopHeader = () => {
     const pathname = usePathname();
@@ -16,11 +18,14 @@ const TopHeader = () => {
     const { theme, toggleTheme } = useTheme();
 
     const fetchUnreadCount = async () => {
+        if (pathname === '/') return;
         try {
             const data = await notificationService.getNotifications();
-            setUnreadCount(data.unreadCount);
+            if (data && typeof data.unreadCount === 'number') {
+                setUnreadCount(data.unreadCount);
+            }
         } catch (error) {
-            console.error('Error fetching unread count:', error);
+            // Silently handle auth errors for the header
         }
     };
 
@@ -38,8 +43,8 @@ const TopHeader = () => {
         }
     }, [showNotifications]);
 
-    // Hide header on shots page for a truly immersive experience
-    if (pathname === '/shots') return null;
+    // Hide header on reels page for a truly immersive experience
+    if (pathname === '/reels') return null;
 
     return (
         <>
@@ -56,14 +61,20 @@ const TopHeader = () => {
                 <div className={styles.rightSection}>
                     <button
                         className={styles.themeToggleBtn}
-                        onClick={toggleTheme}
+                        onClick={() => {
+                            toggleTheme();
+                            triggerHaptic(ImpactStyle.Light);
+                        }}
                         aria-label="Toggle theme"
                     >
                         {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
                     </button>
                     <button
                         className={styles.notificationBtn}
-                        onClick={() => setShowNotifications(true)}
+                        onClick={() => {
+                            setShowNotifications(true);
+                            triggerHaptic(ImpactStyle.Light);
+                        }}
                         aria-label="Notifications"
                     >
                         <Heart size={24} className={unreadCount > 0 ? styles.activeHeart : ''} />

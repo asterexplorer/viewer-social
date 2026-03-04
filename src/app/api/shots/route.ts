@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { MOCK_SHOTS } from '@/constants/mockData';
+import { getSession } from '@/lib/auth';
 
 export async function GET(request: Request) {
     try {
@@ -53,7 +54,8 @@ export async function GET(request: Request) {
         }
 
         return NextResponse.json(shots);
-    } catch {
+    } catch (error) {
+        console.error('API Error (GET /api/shots):', error);
         // If Prisma or DB is not available, return mock shots so frontend still works
         try {
             const fallback = MOCK_SHOTS.map(s => ({
@@ -69,7 +71,8 @@ export async function GET(request: Request) {
                 comments: [],
             }));
             return NextResponse.json(fallback);
-        } catch {
+        } catch (fallbackError) {
+            console.error('Critical Fail (GET /api/shots fallback):', fallbackError);
             return NextResponse.json({ error: 'Failed to fetch shots' }, { status: 500 });
         }
     }
@@ -77,25 +80,21 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
     try {
+        const session = await getSession();
+        if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
         const body = await request.json();
-        const { video, caption, userId } = body;
+        const { video, caption } = body;
 
         if (!video) {
             return NextResponse.json({ error: 'Video URL is required' }, { status: 400 });
-        }
-
-        let targetUserId = userId;
-        if (!targetUserId) {
-            const user = await prisma.user.findFirst();
-            if (!user) return NextResponse.json({ error: 'User required' }, { status: 400 });
-            targetUserId = user.id;
         }
 
         const shot = await prisma.shot.create({
             data: {
                 video,
                 caption,
-                userId: targetUserId,
+                userId: session.id,
             }
         });
 

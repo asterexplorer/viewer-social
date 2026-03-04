@@ -117,7 +117,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
                                 alt=""
                                 fill
                                 style={{ objectFit: 'cover' }}
-                               
+                                sizes="(max-width: 768px) 100vw, 480px"
                             />
                         </motion.div>
                     </AnimatePresence>

@@ -68,7 +68,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onProfil
                 <div className={styles.modal} onClick={e => e.stopPropagation()}>
                     <div className={styles.header}>
                         <div className={styles.title}>
-                            <Settings size={20} />
+                            <div className={styles.titleIconWrap}>
+                                <Settings size={20} />
+                            </div>
                             <h2>Settings</h2>
                         </div>
                         <button className={styles.closeBtn} onClick={onClose}>
@@ -83,7 +85,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onProfil
                                 {section.items.map((item, i) => (
                                     <button key={i} className={styles.menuItem} onClick={item.action}>
                                         <div className={styles.menuItemRow}>
-                                            <item.icon size={18} />
+                                            <div className={styles.iconWrap}>
+                                                <item.icon size={18} />
+                                            </div>
                                             <span>{item.label}</span>
                                         </div>
                                         <div className={styles.menuItemRow}>
@@ -100,7 +104,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, onProfil
 
                         <button className={`${styles.menuItem} ${styles.danger}`}>
                             <div className={styles.menuItemRow}>
-                                <LogOut size={18} />
+                                <div className={styles.iconWrap}>
+                                    <LogOut size={18} />
+                                </div>
                                 <span>Log Out</span>
                             </div>
                         </button>

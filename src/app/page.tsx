@@ -4,18 +4,59 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Post from '@/components/feed/Post';
 import styles from './home.module.css';
 import Loader from '@/components/common/Loader';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 import { pusherClient } from '@/lib/pusher';
+import { triggerHapticNotification } from '@/lib/haptics';
+import { NotificationType } from '@capacitor/haptics';
+import { RefreshCw } from 'lucide-react';
 
 export default function Home() {
   const [feedItems, setFeedItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [pullProgress, setPullProgress] = useState(0);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [fetchingMore, setFetchingMore] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useRef<HTMLDivElement>(null);
+  const touchStart = useRef(0);
+
+  const onRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    triggerHapticNotification(NotificationType.Success);
+    const data = await fetchContent(1);
+    setFeedItems(data);
+    setPage(1);
+    setHasMore(true);
+    setIsRefreshing(false);
+    setPullProgress(0);
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (window.scrollY === 0) {
+      touchStart.current = e.touches[0].clientY;
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (window.scrollY === 0 && touchStart.current > 0) {
+      const delta = e.touches[0].clientY - touchStart.current;
+      if (delta > 0) {
+        setPullProgress(Math.min(delta / 100, 1.2));
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (pullProgress > 0.8) {
+      onRefresh();
+    } else {
+      setPullProgress(0);
+    }
+    touchStart.current = 0;
+  };
 
   const fetchContent = useCallback(async (pageNum: number) => {
     try {
@@ -194,8 +235,32 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Animated Background */}
+      <div className={`${styles.bgBlob} ${styles.blob1}`} />
+      <div className={`${styles.bgBlob} ${styles.blob2}`} />
+      <div className={`${styles.bgBlob} ${styles.blob3}`} />
+
       <div className="neural-grid" />
+
+      {/* Pull to Refresh Indicator */}
+      <motion.div
+        className={styles.pullIndicator}
+        style={{
+          opacity: pullProgress,
+          scale: pullProgress,
+          y: pullProgress * 50
+        }}
+      >
+        <div className={`${styles.refreshIcon} ${isRefreshing ? styles.spinning : ''}`}>
+          <RefreshCw size={24} />
+        </div>
+      </motion.div>
 
       <div className={styles.feedSection}>
         <header className={styles.pageHeader}>

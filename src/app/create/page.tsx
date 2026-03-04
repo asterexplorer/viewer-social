@@ -8,6 +8,9 @@ import { useRouter } from 'next/navigation';
 import { createPost } from '@/app/actions';
 import Image from 'next/image';
 import { compressImage, compressVideo } from '@/lib/compression';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Capacitor } from '@capacitor/core';
+import { Camera as CameraIcon } from 'lucide-react';
 
 const FILTERS = [
     { name: 'Original', value: 'none' },
@@ -76,6 +79,26 @@ const CreatePostPage = () => {
         const files = Array.from(e.dataTransfer.files || []);
         processFiles(files);
     }, []);
+
+    const takePhoto = async () => {
+        try {
+            const image = await Camera.getPhoto({
+                quality: 90,
+                allowEditing: true,
+                resultType: CameraResultType.Uri,
+                source: CameraSource.Prompt
+            });
+
+            if (image.webPath) {
+                const res = await fetch(image.webPath);
+                const blob = await res.blob();
+                const file = new File([blob], `photo-${Date.now()}.jpg`, { type: 'image/jpeg' });
+                setMediaItems(prev => [...prev, { url: image.webPath!, file, type: 'image' }]);
+            }
+        } catch (e) {
+            console.warn('Camera failed', e);
+        }
+    };
 
     const handleShare = async () => {
         if (mediaItems.length === 0) return;
@@ -238,7 +261,7 @@ const CreatePostPage = () => {
                                                 style={{ filter: isEnhanced ? 'contrast(1.1) saturate(1.15) brightness(1.02)' : activeFilter.value }}
                                                 width={1000}
                                                 height={1000}
-                                               
+
                                             />
                                         ) : (
                                             <video
@@ -351,10 +374,21 @@ const CreatePostPage = () => {
                                 <Upload size={56} strokeWidth={1} />
                             </div>
                             <h2 className={styles.uploadText}>Experience the future of digital sharing</h2>
-                            <label className={styles.selectButton}>
-                                Start Creation
-                                <input type="file" hidden onChange={handleFileChange} accept="image/*,video/*" multiple />
-                            </label>
+
+                            <div className={styles.uploadButtonsRow}>
+                                <label className={styles.selectButton}>
+                                    Select Media
+                                    <input type="file" hidden onChange={handleFileChange} accept="image/*,video/*" multiple />
+                                </label>
+
+                                {Capacitor.isNativePlatform() && (
+                                    <button className={styles.captureButton} onClick={takePhoto}>
+                                        <CameraIcon size={20} />
+                                        Capture
+                                    </button>
+                                )}
+                            </div>
+
                             <p style={{ color: '#9ca3af', fontSize: '14px', fontWeight: 600 }}>Drag and drop media here</p>
                         </motion.div>
                     )}

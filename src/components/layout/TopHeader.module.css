@@ -29,7 +29,7 @@
 @media (max-width: 768px) {
     .header {
         left: 0;
-        height: 56px;
+        height: 64px;
         background: var(--background-elevated);
         top: 0;
     }

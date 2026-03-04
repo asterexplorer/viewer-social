@@ -1,0 +1,265 @@
+Starting a Gradle Daemon, 2 incompatible and 2 stopped Daemons could not be reused, use --status for details
+
+> Configure project :app
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-cordova-android-plugins
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-android:preBuild UP-TO-DATE
+> Task :capacitor-android:preDebugBuild UP-TO-DATE
+> Task :capacitor-android:writeDebugAarMetadata UP-TO-DATE
+> Task :capacitor-app:preBuild UP-TO-DATE
+> Task :capacitor-app:preDebugBuild UP-TO-DATE
+> Task :capacitor-browser:preBuild UP-TO-DATE
+> Task :capacitor-browser:preDebugBuild UP-TO-DATE
+> Task :capacitor-camera:preBuild UP-TO-DATE
+> Task :capacitor-camera:preDebugBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preDebugBuild UP-TO-DATE
+> Task :capacitor-app:writeDebugAarMetadata
+> Task :capacitor-camera:writeDebugAarMetadata
+> Task :capacitor-filesystem:preBuild UP-TO-DATE
+> Task :capacitor-filesystem:preDebugBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:writeDebugAarMetadata
+> Task :capacitor-haptics:preBuild UP-TO-DATE
+> Task :capacitor-haptics:preDebugBuild UP-TO-DATE
+> Task :capacitor-filesystem:writeDebugAarMetadata
+> Task :capacitor-keyboard:preBuild UP-TO-DATE
+> Task :capacitor-keyboard:preDebugBuild UP-TO-DATE
+> Task :capacitor-haptics:writeDebugAarMetadata
+> Task :capacitor-browser:writeDebugAarMetadata
+> Task :capacitor-network:preBuild UP-TO-DATE
+> Task :capacitor-network:preDebugBuild UP-TO-DATE
+> Task :capacitor-keyboard:writeDebugAarMetadata
+> Task :capacitor-preferences:preBuild UP-TO-DATE
+> Task :capacitor-preferences:preDebugBuild UP-TO-DATE
+> Task :capacitor-network:writeDebugAarMetadata
+> Task :capacitor-share:preBuild UP-TO-DATE
+> Task :capacitor-share:preDebugBuild UP-TO-DATE
+> Task :capacitor-preferences:writeDebugAarMetadata
+> Task :capacitor-splash-screen:preBuild UP-TO-DATE
+> Task :capacitor-splash-screen:preDebugBuild UP-TO-DATE
+> Task :capacitor-status-bar:preBuild UP-TO-DATE
+> Task :capacitor-status-bar:preDebugBuild UP-TO-DATE
+> Task :capacitor-splash-screen:writeDebugAarMetadata
+> Task :capacitor-status-bar:writeDebugAarMetadata
+> Task :capacitor-android:processDebugNavigationResources UP-TO-DATE
+> Task :capacitor-share:writeDebugAarMetadata
+> Task :capacitor-app:processDebugNavigationResources
+> Task :app:checkDebugAarMetadata
+> Task :capacitor-browser:processDebugNavigationResources
+> Task :capacitor-camera:processDebugNavigationResources
+> Task :capacitor-cordova-android-plugins:processDebugNavigationResources
+> Task :capacitor-filesystem:processDebugNavigationResources
+> Task :capacitor-haptics:processDebugNavigationResources
+> Task :capacitor-keyboard:processDebugNavigationResources
+> Task :capacitor-network:processDebugNavigationResources
+> Task :capacitor-preferences:processDebugNavigationResources
+> Task :capacitor-share:processDebugNavigationResources
+> Task :capacitor-splash-screen:processDebugNavigationResources
+> Task :capacitor-status-bar:processDebugNavigationResources
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :capacitor-android:generateDebugResValues UP-TO-DATE
+> Task :capacitor-android:generateDebugResources UP-TO-DATE
+> Task :capacitor-android:packageDebugResources UP-TO-DATE
+> Task :capacitor-app:generateDebugResValues
+> Task :capacitor-app:generateDebugResources
+> Task :capacitor-app:packageDebugResources
+> Task :capacitor-browser:generateDebugResValues
+> Task :capacitor-browser:generateDebugResources
+> Task :capacitor-browser:packageDebugResources
+> Task :capacitor-camera:generateDebugResValues
+> Task :capacitor-camera:generateDebugResources
+> Task :capacitor-camera:packageDebugResources
+> Task :capacitor-cordova-android-plugins:generateDebugResValues
+> Task :capacitor-cordova-android-plugins:generateDebugResources
+> Task :capacitor-cordova-android-plugins:packageDebugResources
+> Task :capacitor-filesystem:generateDebugResValues
+> Task :capacitor-filesystem:generateDebugResources
+> Task :capacitor-filesystem:packageDebugResources
+> Task :capacitor-haptics:generateDebugResValues
+> Task :capacitor-haptics:generateDebugResources
+> Task :capacitor-haptics:packageDebugResources
+> Task :capacitor-keyboard:generateDebugResValues
+> Task :capacitor-keyboard:generateDebugResources
+> Task :capacitor-keyboard:packageDebugResources
+> Task :capacitor-network:generateDebugResValues
+> Task :capacitor-network:generateDebugResources
+> Task :capacitor-network:packageDebugResources
+> Task :capacitor-preferences:generateDebugResValues
+> Task :capacitor-preferences:generateDebugResources
+> Task :capacitor-preferences:packageDebugResources
+> Task :capacitor-share:generateDebugResValues
+> Task :capacitor-share:generateDebugResources
+> Task :capacitor-share:packageDebugResources
+> Task :capacitor-splash-screen:generateDebugResValues
+> Task :capacitor-splash-screen:generateDebugResources
+> Task :capacitor-splash-screen:packageDebugResources
+> Task :capacitor-status-bar:generateDebugResValues
+> Task :capacitor-status-bar:generateDebugResources
+> Task :capacitor-status-bar:packageDebugResources
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-android:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-android:processDebugManifest UP-TO-DATE
+> Task :capacitor-app:extractDeepLinksDebug
+> Task :capacitor-app:processDebugManifest
+> Task :capacitor-browser:extractDeepLinksDebug
+> Task :capacitor-camera:extractDeepLinksDebug
+> Task :capacitor-browser:processDebugManifest
+> Task :capacitor-cordova-android-plugins:extractDeepLinksDebug
+> Task :capacitor-camera:processDebugManifest
+> Task :capacitor-cordova-android-plugins:processDebugManifest
+> Task :capacitor-filesystem:extractDeepLinksDebug
+> Task :capacitor-filesystem:processDebugManifest
+> Task :capacitor-haptics:extractDeepLinksDebug
+> Task :capacitor-keyboard:extractDeepLinksDebug
+> Task :capacitor-haptics:processDebugManifest
+> Task :capacitor-network:extractDeepLinksDebug
+> Task :capacitor-keyboard:processDebugManifest
+> Task :capacitor-network:processDebugManifest
+> Task :capacitor-preferences:extractDeepLinksDebug
+> Task :capacitor-share:extractDeepLinksDebug
+> Task :capacitor-preferences:processDebugManifest
+> Task :capacitor-share:processDebugManifest
+> Task :capacitor-splash-screen:extractDeepLinksDebug
+> Task :capacitor-status-bar:extractDeepLinksDebug
+> Task :capacitor-splash-screen:processDebugManifest
+> Task :capacitor-android:compileDebugLibraryResources UP-TO-DATE
+> Task :capacitor-status-bar:processDebugManifest
+> Task :capacitor-android:parseDebugLocalResources UP-TO-DATE
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :capacitor-android:generateDebugRFile UP-TO-DATE
+> Task :capacitor-app:compileDebugLibraryResources
+> Task :capacitor-browser:compileDebugLibraryResources
+> Task :capacitor-camera:compileDebugLibraryResources
+> Task :app:processDebugManifestForPackage
+> Task :capacitor-cordova-android-plugins:compileDebugLibraryResources
+> Task :capacitor-browser:parseDebugLocalResources
+> Task :capacitor-app:parseDebugLocalResources
+> Task :capacitor-cordova-android-plugins:parseDebugLocalResources
+> Task :capacitor-camera:parseDebugLocalResources
+> Task :capacitor-camera:generateDebugRFile
+> Task :capacitor-app:generateDebugRFile
+> Task :capacitor-cordova-android-plugins:generateDebugRFile
+> Task :capacitor-browser:generateDebugRFile
+> Task :capacitor-filesystem:compileDebugLibraryResources
+> Task :capacitor-filesystem:parseDebugLocalResources
+> Task :capacitor-haptics:compileDebugLibraryResources
+> Task :capacitor-haptics:parseDebugLocalResources
+> Task :capacitor-keyboard:compileDebugLibraryResources
+> Task :capacitor-keyboard:parseDebugLocalResources
+> Task :capacitor-filesystem:generateDebugRFile
+> Task :capacitor-haptics:generateDebugRFile
+> Task :capacitor-keyboard:generateDebugRFile
+> Task :capacitor-network:compileDebugLibraryResources
+> Task :capacitor-network:parseDebugLocalResources
+> Task :capacitor-preferences:compileDebugLibraryResources
+> Task :capacitor-preferences:parseDebugLocalResources
+> Task :capacitor-network:generateDebugRFile
+> Task :capacitor-share:compileDebugLibraryResources
+> Task :capacitor-share:parseDebugLocalResources
+> Task :capacitor-preferences:generateDebugRFile
+> Task :capacitor-splash-screen:compileDebugLibraryResources
+> Task :capacitor-share:generateDebugRFile
+> Task :capacitor-status-bar:compileDebugLibraryResources
+> Task :capacitor-splash-screen:parseDebugLocalResources
+> Task :capacitor-status-bar:parseDebugLocalResources
+> Task :capacitor-splash-screen:generateDebugRFile
+> Task :capacitor-android:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-status-bar:generateDebugRFile
+> Task :capacitor-android:compileDebugJavaWithJavac
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+> Task :capacitor-app:javaPreCompileDebug
+> Task :capacitor-browser:javaPreCompileDebug
+> Task :capacitor-camera:javaPreCompileDebug
+> Task :capacitor-filesystem:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :capacitor-cordova-android-plugins:javaPreCompileDebug
+> Task :capacitor-filesystem:javaPreCompileDebug
+> Task :capacitor-cordova-android-plugins:compileDebugJavaWithJavac NO-SOURCE
+> Task :capacitor-cordova-android-plugins:bundleLibCompileToJarDebug
+> Task :capacitor-haptics:javaPreCompileDebug
+> Task :capacitor-keyboard:javaPreCompileDebug
+> Task :capacitor-network:javaPreCompileDebug
+> Task :capacitor-preferences:javaPreCompileDebug
+> Task :capacitor-share:javaPreCompileDebug
+> Task :capacitor-splash-screen:javaPreCompileDebug
+> Task :capacitor-status-bar:javaPreCompileDebug
+> Task :app:mergeDebugShaders UP-TO-DATE
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :capacitor-android:mergeDebugShaders UP-TO-DATE
+> Task :capacitor-android:compileDebugShaders NO-SOURCE
+> Task :capacitor-android:generateDebugAssets UP-TO-DATE
+> Task :capacitor-android:mergeDebugAssets UP-TO-DATE
+> Task :capacitor-app:mergeDebugShaders
+> Task :capacitor-app:compileDebugShaders NO-SOURCE
+> Task :capacitor-app:generateDebugAssets UP-TO-DATE
+> Task :capacitor-app:mergeDebugAssets
+> Task :capacitor-browser:mergeDebugShaders
+> Task :capacitor-browser:compileDebugShaders NO-SOURCE
+> Task :capacitor-browser:generateDebugAssets UP-TO-DATE
+> Task :capacitor-browser:mergeDebugAssets
+> Task :capacitor-camera:mergeDebugShaders
+> Task :capacitor-android:bundleLibCompileToJarDebug
+> Task :capacitor-camera:compileDebugShaders NO-SOURCE
+> Task :capacitor-app:compileDebugJavaWithJavac
+> Task :capacitor-app:bundleLibCompileToJarDebug
+> Task :capacitor-browser:compileDebugJavaWithJavac
+> Task :capacitor-browser:bundleLibCompileToJarDebug
+> Task :app:processDebugResources
+
+> Task :capacitor-camera:compileDebugJavaWithJavac
+Note: C:\Users\aster\Documents\github\viewer\viewer-social\node_modules\@capacitor\camera\android\src\main\java\com\capacitorjs\plugins\camera\CameraBottomSheetDialogFragment.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+> Task :capacitor-camera:bundleLibCompileToJarDebug
+> Task :capacitor-filesystem:compileDebugKotlin FAILED
+
+[Incubating] Problems report is available at: file:///C:/Users/aster/Documents/github/viewer/viewer-social/android/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':capacitor-filesystem:compileDebugKotlin'.
+> Error while evaluating property 'friendPathsSet$kotlin_gradle_plugin_common' of task ':capacitor-filesystem:compileDebugKotlin'.
+   > Could not resolve all files for configuration ':capacitor-filesystem:debugCompileClasspath'.
+      > Failed to transform kotlinx-coroutines-android-1.10.2.jar (org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2) to match attributes {artifactType=android-classes-jar, org.gradle.category=library, org.gradle.dependency.bundling=external, org.gradle.jvm.environment=standard-jvm, org.gradle.jvm.version=8, org.gradle.libraryelements=jar, org.gradle.status=release, org.gradle.usage=java-api, org.jetbrains.kotlin.platform.type=jvm}.
+         > Could not download kotlinx-coroutines-android-1.10.2.jar (org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2)
+            > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-android/1.10.2/kotlinx-coroutines-android-1.10.2.jar'.
+               > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-android/1.10.2/kotlinx-coroutines-android-1.10.2.jar'.
+                  > repo.maven.apache.org
+      > Failed to transform kotlinx-coroutines-core-jvm-1.10.2.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.10.2) to match attributes {artifactType=android-classes-jar, org.gradle.category=library, org.gradle.jvm.environment=standard-jvm, org.gradle.libraryelements=jar, org.gradle.status=release, org.gradle.usage=java-api, org.jetbrains.kotlin.platform.type=jvm}.
+         > Could not download kotlinx-coroutines-core-jvm-1.10.2.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.10.2)
+            > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.10.2/kotlinx-coroutines-core-jvm-1.10.2.jar'.
+               > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.10.2/kotlinx-coroutines-core-jvm-1.10.2.jar'.
+                  > repo.maven.apache.org
+      > Failed to transform kotlin-stdlib-2.2.20.jar (org.jetbrains.kotlin:kotlin-stdlib:2.2.20) to match attributes {artifactType=android-classes-jar, org.gradle.category=library, org.gradle.jvm.environment=standard-jvm, org.gradle.libraryelements=jar, org.gradle.status=release, org.gradle.usage=java-api, org.jetbrains.kotlin.platform.type=jvm}.
+         > Could not download kotlin-stdlib-2.2.20.jar (org.jetbrains.kotlin:kotlin-stdlib:2.2.20)
+            > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.2.20/kotlin-stdlib-2.2.20.jar'.
+               > Could not GET 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.2.20/kotlin-stdlib-2.2.20.jar'.
+                  > repo.maven.apache.org
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 5m 44s
+177 actionable tasks: 154 executed, 23 up-to-date

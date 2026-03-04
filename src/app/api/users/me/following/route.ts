@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { getSession } from '@/lib/auth';
 
 export async function GET() {
     try {
-        const user = await prisma.user.findFirst();
-        if (!user) return NextResponse.json([], { status: 200 });
+        const session = await getSession();
+        if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
         const following = await prisma.follows.findMany({
-            where: { followerId: user.id },
+            where: { followerId: session.id },
             include: { following: { select: { id: true, username: true, avatar: true, fullName: true } } },
             orderBy: { createdAt: 'desc' }
         });

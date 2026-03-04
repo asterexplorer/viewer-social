@@ -1,13 +1,19 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Settings, Grid, Bookmark, UserSquare2, BadgeCheck, LayoutDashboard, Clapperboard, Play, Heart, MessageCircle, AlertCircle, Plus, Globe, Tag, SquareStack } from 'lucide-react';
+import React, { useState, useEffect, useTransition } from 'react';
+import {
+    Settings, Grid, Bookmark, UserSquare2, BadgeCheck,
+    LayoutDashboard, Clapperboard, Play, Heart, MessageCircle,
+    AlertCircle, Plus, Globe, Tag, SquareStack,
+    Lock, Bell, Shield, Key, LogOut, Check, Camera, HelpCircle, User as UserIcon
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './profile.module.css';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import SavedTab from './SavedTab';
 import MonetizationTab from './MonetizationTab';
 import Image from 'next/image';
+import { updateUserSettings } from '@/app/actions';
 
 import Footer from '@/components/layout/Footer';
 import EditProfileModal from '@/components/modals/EditProfileModal';
@@ -57,14 +63,178 @@ interface User {
     fullName?: string;
 }
 
+const SettingsContent = ({ user, setUser }: { user: User, setUser: (u: User) => void }) => {
+    const [activeTab, setActiveTab] = useState('profile');
+    const [isPending, startTransition] = useTransition();
+    const [status, setStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
+    const router = useRouter();
+
+    const [formData, setFormData] = useState({
+        fullName: user.fullName || '',
+        username: user.username || '',
+        bio: user.bio || '',
+        website: user.website || '',
+        isPrivate: user.isPrivate || false
+    });
+
+    const handleSave = async () => {
+        setStatus(null);
+        startTransition(async () => {
+            const result = await updateUserSettings(formData);
+            if (result.success) {
+                setStatus({ type: 'success', message: 'Settings updated successfully!' });
+                // @ts-ignore - Prisma user to our User interface
+                setUser({ ...user, ...result.user });
+            } else {
+                setStatus({ type: 'error', message: result.error || 'Failed to update settings' });
+            }
+        });
+    };
+
+    const navItems = [
+        { id: 'profile', icon: UserSquare2, label: 'Edit Profile' },
+        { id: 'security', icon: Lock, label: 'Security' },
+        { id: 'notifications', icon: Bell, label: 'Notifications' },
+        { id: 'privacy', icon: Shield, label: 'Privacy' },
+        { id: 'language', icon: Globe, label: 'Language' },
+        { id: 'advanced', icon: Key, label: 'Advanced' }
+    ];
+
+    const renderSettingsContent = () => {
+        switch (activeTab) {
+            case 'profile':
+                return (
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+                        <h2 className={styles.settingsContentTitle}>Edit Profile</h2>
+                        <div className={styles.settingsFormGroup}>
+                            <label className={styles.settingsLabel}>Full Name</label>
+                            <input
+                                className={styles.settingsInput}
+                                value={formData.fullName}
+                                onChange={e => setFormData({ ...formData, fullName: e.target.value })}
+                                placeholder="Enter your full name"
+                            />
+                        </div>
+                        <div className={styles.settingsFormGroup}>
+                            <label className={styles.settingsLabel}>Username</label>
+                            <input
+                                className={styles.settingsInput}
+                                value={formData.username}
+                                onChange={e => setFormData({ ...formData, username: e.target.value })}
+                                placeholder="Enter your username"
+                            />
+                        </div>
+                        <div className={styles.settingsFormGroup}>
+                            <label className={styles.settingsLabel}>Website</label>
+                            <input
+                                className={styles.settingsInput}
+                                value={formData.website}
+                                onChange={e => setFormData({ ...formData, website: e.target.value })}
+                                placeholder="https://example.com"
+                            />
+                        </div>
+                        <div className={styles.settingsFormGroup}>
+                            <label className={styles.settingsLabel}>Bio</label>
+                            <textarea
+                                className={styles.settingsTextarea}
+                                value={formData.bio}
+                                onChange={e => setFormData({ ...formData, bio: e.target.value })}
+                                placeholder="Write something about yourself..."
+                            />
+                        </div>
+                        <button className={styles.settingsSaveBtn} onClick={handleSave} disabled={isPending}>
+                            {isPending ? 'Saving...' : 'Save Changes'}
+                        </button>
+                        {status && (
+                            <div className={`${styles.settingsStatusMessage} ${styles[status.type === 'success' ? 'settingsSuccess' : 'settingsError']}`}>
+                                {status.type === 'success' ? <Check size={18} /> : <AlertCircle size={18} />}
+                                {status.message}
+                            </div>
+                        )}
+                    </motion.div>
+                );
+            case 'privacy':
+                return (
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+                        <h2 className={styles.settingsContentTitle}>Account Privacy</h2>
+                        <div className={styles.settingsToggleRow}>
+                            <div>
+                                <div className={styles.settingsToggleLabel}>Private Account</div>
+                                <div className={styles.settingsToggleDescription}>Only people you approve can see your visions.</div>
+                            </div>
+                            <div
+                                className={`${styles.settingsSwitch} ${formData.isPrivate ? styles.settingsSwitchActive : ''}`}
+                                onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })}
+                            >
+                                <div className={styles.settingsKnob} />
+                            </div>
+                        </div>
+                        <button className={styles.settingsSaveBtn} onClick={handleSave} disabled={isPending}>Save Preferences</button>
+                    </motion.div>
+                );
+            default:
+                return (
+                    <div className={styles.settingsEmptyContent}>
+                        <HelpCircle size={48} color="var(--foreground-muted)" />
+                        <p>This section is coming soon.</p>
+                    </div>
+                );
+        }
+    };
+
+    return (
+        <div className={styles.settingsContainer}>
+            <div className={styles.settingsSidebar}>
+                <h1 className={styles.settingsSidebarTitle}>Settings</h1>
+                {navItems.map((item) => (
+                    <button
+                        key={item.id}
+                        className={`${styles.settingsNavItem} ${activeTab === item.id ? styles.settingsNavItemActive : ''}`}
+                        onClick={() => setActiveTab(item.id)}
+                    >
+                        <item.icon size={20} />
+                        <span>{item.label}</span>
+                    </button>
+                ))}
+                <button
+                    className={`${styles.settingsNavItem}`}
+                    style={{ color: '#ef4444', marginTop: 'auto' }}
+                    onClick={async () => {
+                        await fetch('/api/auth', { method: 'DELETE' });
+                        router.push('/');
+                        window.location.reload();
+                    }}
+                >
+                    <LogOut size={20} />
+                    <span>Log Out</span>
+                </button>
+            </div>
+            <div className={styles.settingsContent}>
+                <AnimatePresence mode="wait" key={activeTab}>
+                    {renderSettingsContent()}
+                </AnimatePresence>
+            </div>
+        </div>
+    );
+};
+
 const ProfilePage = () => {
-    const [activeTab, setActiveTab] = useState<'posts' | 'shots' | 'saved' | 'tagged' | 'monetization'>('posts');
+    const [activeTab, setActiveTab] = useState<'posts' | 'shots' | 'saved' | 'tagged' | 'monetization' | 'settings'>('posts');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
     const [isArchiveOpen, setIsArchiveOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const tab = searchParams.get('tab');
+        if (tab === 'settings') {
+            setActiveTab('settings');
+        }
+    }, [searchParams]);
 
     const [user, setUser] = useState<User | null>(null);
     const [postsState, setPostsState] = useState<Post[]>([]);
@@ -79,6 +249,10 @@ const ProfilePage = () => {
 
                 const meRes = await fetch('/api/users/me');
                 if (!meRes.ok) {
+                    if (meRes.status === 401) {
+                        router.push('/');
+                        return;
+                    }
                     const errorData = await meRes.json().catch(() => ({}));
                     throw new Error(errorData.error || 'Failed to fetch user profile');
                 }
@@ -136,7 +310,7 @@ const ProfilePage = () => {
     }, []);
 
     const handleEditProfile = () => {
-        router.push('/settings');
+        setActiveTab('settings');
     };
 
     const handleSaveProfile = (data: any) => {
@@ -209,7 +383,7 @@ const ProfilePage = () => {
                                 className={styles.avatar}
                                 width={160}
                                 height={160}
-                               
+
                             />
                         </div>
                     </div>
@@ -222,7 +396,7 @@ const ProfilePage = () => {
                             <div className={styles.actionButtons}>
                                 <button className={styles.editButton} onClick={handleEditProfile}>Edit Profile</button>
                                 <button className={styles.archiveBtn} onClick={() => setIsArchiveOpen(true)}>Archive</button>
-                                <button className={styles.settingsBtn} onClick={() => router.push('/settings')}><Settings size={22} /></button>
+                                <button className={styles.settingsBtn} onClick={() => setActiveTab('settings')}><Settings size={22} /></button>
                             </div>
                         </div>
 
@@ -301,6 +475,9 @@ const ProfilePage = () => {
                     <button className={`${styles.tab} ${activeTab === 'monetization' ? styles.activeTab : ''}`} onClick={() => setActiveTab('monetization')}>
                         <LayoutDashboard size={18} /> <span>DASHBOARD</span>
                     </button>
+                    <button className={`${styles.tab} ${activeTab === 'settings' ? styles.activeTab : ''}`} onClick={() => setActiveTab('settings')}>
+                        <Settings size={18} /> <span>SETTINGS</span>
+                    </button>
                 </div>
 
                 {/* Grid Content */}
@@ -358,6 +535,8 @@ const ProfilePage = () => {
                         )}
 
                         {activeTab === 'monetization' && <MonetizationTab />}
+
+                        {activeTab === 'settings' && <SettingsContent user={user} setUser={setUser} />}
                     </motion.div>
                 </AnimatePresence>
 

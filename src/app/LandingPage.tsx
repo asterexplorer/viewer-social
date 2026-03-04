@@ -1,8 +1,9 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import styles from './LandingPage.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Smartphone, ShieldCheck, Zap, Globe, AlertCircle, LogIn, UserPlus } from 'lucide-react';
+import { Smartphone, ShieldCheck, Zap, Globe, AlertCircle, LogIn, UserPlus, CheckCircle2, Loader2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 
 interface LandingPageProps {
     onLogin: () => void;
@@ -26,11 +27,14 @@ const LandingContent: React.FC<LandingPageProps & {
     handleSubmit: (e: React.FormEvent) => void;
     toggleMode: () => void;
     features: any[];
+    isSuccess: boolean;
 }> = ({
-    mode, setMode, isLoading, error, setError, username, setUsername, email, setEmail, fullName, setFullName, password, setPassword, handleSubmit, toggleMode, features
+    mode, setMode, isLoading, error, setError, username, setUsername, email, setEmail, fullName, setFullName, password, setPassword, handleSubmit, toggleMode, features, isSuccess
 }) => {
         const searchParams = useSearchParams();
         const referralCode = searchParams.get('ref');
+
+        const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
         useEffect(() => {
             if (referralCode && mode === 'login') {
@@ -38,35 +42,62 @@ const LandingContent: React.FC<LandingPageProps & {
             }
         }, [referralCode, mode, setMode]);
 
+        useEffect(() => {
+            const handleMouseMove = (e: MouseEvent) => {
+                setMousePos({
+                    x: (e.clientX / window.innerWidth - 0.5) * 40,
+                    y: (e.clientY / window.innerHeight - 0.5) * 40
+                });
+            };
+            window.addEventListener('mousemove', handleMouseMove);
+            return () => window.removeEventListener('mousemove', handleMouseMove);
+        }, []);
+
         return (
             <div className={styles.container}>
                 <div className={styles.background}>
                     <motion.div
                         className={styles.blob}
                         animate={{
-                            scale: [1, 1.2, 1],
-                            x: [0, 50, 0],
-                            y: [0, 30, 0],
+                            scale: [1, 1.1, 1],
+                            rotate: [0, 90, 0],
+                            x: mousePos.x,
+                            y: mousePos.y
                         }}
-                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                        transition={{
+                            scale: { duration: 25, repeat: Infinity, ease: "easeInOut" },
+                            rotate: { duration: 25, repeat: Infinity, ease: "easeInOut" },
+                            x: { type: "spring", damping: 30, stiffness: 100 },
+                            y: { type: "spring", damping: 30, stiffness: 100 }
+                        }}
                     />
                     <motion.div
                         className={`${styles.blob} ${styles.blob2}`}
                         animate={{
-                            scale: [1.2, 1, 1.2],
-                            x: [0, -70, 0],
-                            y: [0, -50, 0],
+                            scale: [1.1, 1, 1.1],
+                            rotate: [0, -60, 0],
+                            x: -mousePos.x * 1.5,
+                            y: -mousePos.y * 1.5
                         }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        transition={{
+                            scale: { duration: 30, repeat: Infinity, ease: "easeInOut" },
+                            rotate: { duration: 30, repeat: Infinity, ease: "easeInOut" },
+                            x: { type: "spring", damping: 30, stiffness: 80 },
+                            y: { type: "spring", damping: 30, stiffness: 80 }
+                        }}
                     />
                     <motion.div
                         className={`${styles.blob} ${styles.blob3}`}
                         animate={{
-                            scale: [1, 1.5, 1],
-                            x: [0, 100, 0],
-                            y: [0, 100, 0],
+                            scale: [1, 1.2, 1],
+                            x: 100 + mousePos.x * 0.5,
+                            y: 50 + mousePos.y * 0.5,
                         }}
-                        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                        transition={{
+                            scale: { duration: 35, repeat: Infinity, ease: "easeInOut" },
+                            x: { type: "spring", damping: 30, stiffness: 120 },
+                            y: { type: "spring", damping: 30, stiffness: 120 }
+                        }}
                     />
                 </div>
 
@@ -85,7 +116,13 @@ const LandingContent: React.FC<LandingPageProps & {
                                     whileHover={{ scale: 1.05, rotate: 5 }}
                                     whileTap={{ scale: 0.95 }}
                                 >
-                                    V
+                                    <Image
+                                        src="/premium_viewer_logo_v_1772361654761.png"
+                                        alt="Viewer Logo"
+                                        width={64}
+                                        height={64}
+                                        className={styles.logoImage}
+                                    />
                                 </motion.div>
                                 <h1 className={styles.appName}>Viewer</h1>
                             </div>
@@ -117,110 +154,149 @@ const LandingContent: React.FC<LandingPageProps & {
                         <div className={styles.loginSection}>
                             <div className={styles.loginCard}>
                                 <div className={styles.cardHeader}>
-                                    <h3 className={styles.title}>{mode === 'login' ? 'Welcome Back' : 'Create Account'}</h3>
-                                    <p className={styles.subtitle}>{mode === 'login' ? 'Enter your credentials to access your feed.' : 'Join Viewer today.'}</p>
+                                    <h3 className={styles.title}>
+                                        {isSuccess ? 'Login Successful' : (mode === 'login' ? 'Welcome Back' : 'Create Account')}
+                                    </h3>
+                                    <p className={styles.subtitle}>
+                                        {isSuccess ? 'Redirecting to your feed...' : (mode === 'login' ? 'Enter your credentials to access your feed.' : 'Join Viewer today.')}
+                                    </p>
                                 </div>
 
-                                <AnimatePresence>
-                                    {error && (
+                                <AnimatePresence mode="wait">
+                                    {isSuccess ? (
                                         <motion.div
-                                            className={styles.errorBanner}
-                                            initial={{ opacity: 0, y: -8, scale: 0.97 }}
-                                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                                            exit={{ opacity: 0, y: -8, scale: 0.97 }}
-                                            transition={{ duration: 0.25, ease: 'easeOut' }}
+                                            key="success"
+                                            className={styles.successCard}
+                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ type: "spring", damping: 20, stiffness: 100 }}
                                         >
-                                            <div className={styles.errorIconWrap}>
-                                                <AlertCircle size={16} />
-                                            </div>
-                                            <div className={styles.errorContent}>
-                                                <span className={styles.errorTitle}>Error</span>
-                                                <span className={styles.errorMsg}>{error}</span>
-                                            </div>
+                                            <motion.div
+                                                className={styles.successIcon}
+                                                initial={{ scale: 0 }}
+                                                animate={{ scale: 1 }}
+                                                transition={{ delay: 0.2, type: "spring", damping: 12, stiffness: 200 }}
+                                            >
+                                                <CheckCircle2 size={32} />
+                                            </motion.div>
+                                            <h4 className={styles.successTitle}>Welcome, {username}!</h4>
+                                            <p className={styles.successText}>Preparing your personalized experience...</p>
+                                        </motion.div>
+                                    ) : (
+                                        <motion.div
+                                            key="form"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                        >
+                                            <AnimatePresence>
+                                                {error && (
+                                                    <motion.div
+                                                        className={styles.errorBanner}
+                                                        initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                        exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                                                        transition={{ duration: 0.25, ease: 'easeOut' }}
+                                                    >
+                                                        <div className={styles.errorIconWrap}>
+                                                            <AlertCircle size={16} />
+                                                        </div>
+                                                        <div className={styles.errorContent}>
+                                                            <span className={styles.errorTitle}>Error</span>
+                                                            <span className={styles.errorMsg}>{error}</span>
+                                                        </div>
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+
+                                            <form onSubmit={handleSubmit} className={styles.loginForm}>
+                                                {mode === 'register' && (
+                                                    <>
+                                                        <div className={styles.inputGroup}>
+                                                            <label className={styles.label}>Email Address</label>
+                                                            <input
+                                                                type="email"
+                                                                className={styles.input}
+                                                                placeholder="you@example.com"
+                                                                value={email}
+                                                                onChange={(e) => setEmail(e.target.value)}
+                                                                required
+                                                            />
+                                                        </div>
+                                                        <div className={styles.inputGroup}>
+                                                            <label className={styles.label}>Full Name (Optional)</label>
+                                                            <input
+                                                                type="text"
+                                                                className={styles.input}
+                                                                placeholder="John Doe"
+                                                                value={fullName}
+                                                                onChange={(e) => setFullName(e.target.value)}
+                                                            />
+                                                        </div>
+                                                    </>
+                                                )}
+
+                                                <div className={styles.inputGroup}>
+                                                    <label className={styles.label}>{mode === 'login' ? 'Username or Email' : 'Username'}</label>
+                                                    <input
+                                                        type="text"
+                                                        className={styles.input}
+                                                        placeholder={mode === 'login' ? "Enter username or email" : "Choose a unique username"}
+                                                        value={username}
+                                                        onChange={(e) => setUsername(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+
+                                                <div className={styles.inputGroup}>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                        <label className={styles.label}>Password</label>
+                                                        {mode === 'login' && <a href="#" className={styles.forgotLink}>Forgot?</a>}
+                                                    </div>
+                                                    <input
+                                                        type="password"
+                                                        className={styles.input}
+                                                        placeholder="Enter your secure password"
+                                                        value={password}
+                                                        onChange={(e) => setPassword(e.target.value)}
+                                                        required
+                                                        minLength={6}
+                                                    />
+                                                </div>
+
+                                                <button
+                                                    type="submit"
+                                                    className={`${styles.loginBtn} ${isLoading ? styles.loading : ''}`}
+                                                    disabled={isLoading}
+                                                    style={{ marginTop: '10px', height: '56px', fontSize: '16px' }}
+                                                >
+                                                    {isLoading ? (
+                                                        <motion.div
+                                                            animate={{ rotate: 360 }}
+                                                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                                        >
+                                                            <Loader2 size={24} />
+                                                        </motion.div>
+                                                    ) : (
+                                                        <>
+                                                            {mode === 'login' ? <LogIn size={20} /> : <UserPlus size={20} />}
+                                                            {mode === 'login' ? 'Secure Login' : 'Create Account'}
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </form>
+
+                                            <div className={styles.divider}>OR</div>
+
+                                            <p className={styles.signupText} style={{ textAlign: 'center' }}>
+                                                {mode === 'login' ? "Don't have an account? " : "Already have an account? "}
+                                                <button type="button" onClick={toggleMode} className={styles.link} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 'inherit', padding: 0 }}>
+                                                    {mode === 'login' ? "Sign Up" : "Log In"}
+                                                </button>
+                                            </p>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
-
-                                <form onSubmit={handleSubmit} className={styles.loginForm}>
-                                    {mode === 'register' && (
-                                        <>
-                                            <div className={styles.inputGroup}>
-                                                <label className={styles.label}>Email Address</label>
-                                                <input
-                                                    type="email"
-                                                    className={styles.input}
-                                                    placeholder="you@example.com"
-                                                    value={email}
-                                                    onChange={(e) => setEmail(e.target.value)}
-                                                    required
-                                                />
-                                            </div>
-                                            <div className={styles.inputGroup}>
-                                                <label className={styles.label}>Full Name (Optional)</label>
-                                                <input
-                                                    type="text"
-                                                    className={styles.input}
-                                                    placeholder="John Doe"
-                                                    value={fullName}
-                                                    onChange={(e) => setFullName(e.target.value)}
-                                                />
-                                            </div>
-                                        </>
-                                    )}
-
-                                    <div className={styles.inputGroup}>
-                                        <label className={styles.label}>{mode === 'login' ? 'Username or Email' : 'Username'}</label>
-                                        <input
-                                            type="text"
-                                            className={styles.input}
-                                            placeholder={mode === 'login' ? "Enter username or email" : "Choose a unique username"}
-                                            value={username}
-                                            onChange={(e) => setUsername(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-
-                                    <div className={styles.inputGroup}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            <label className={styles.label}>Password</label>
-                                            {mode === 'login' && <a href="#" className={styles.forgotLink}>Forgot?</a>}
-                                        </div>
-                                        <input
-                                            type="password"
-                                            className={styles.input}
-                                            placeholder="Enter your secure password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            required
-                                            minLength={6}
-                                        />
-                                    </div>
-
-                                    <button
-                                        type="submit"
-                                        className={`${styles.loginBtn} ${isLoading ? styles.loading : ''}`}
-                                        disabled={isLoading}
-                                        style={{ marginTop: '10px', height: '56px', fontSize: '16px' }}
-                                    >
-                                        {isLoading ? (
-                                            <div className={styles.spinner}></div>
-                                        ) : (
-                                            <>
-                                                {mode === 'login' ? <LogIn size={20} /> : <UserPlus size={20} />}
-                                                {mode === 'login' ? 'Secure Login' : 'Create Account'}
-                                            </>
-                                        )}
-                                    </button>
-                                </form>
-
-                                <div className={styles.divider}>OR</div>
-
-                                <p className={styles.signupText} style={{ textAlign: 'center' }}>
-                                    {mode === 'login' ? "Don't have an account? " : "Already have an account? "}
-                                    <button type="button" onClick={toggleMode} className={styles.link} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 'inherit', padding: 0 }}>
-                                        {mode === 'login' ? "Sign Up" : "Log In"}
-                                    </button>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -241,6 +317,7 @@ const LandingContent: React.FC<LandingPageProps & {
 
 const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
     const [isLoading, setIsLoading] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [mode, setMode] = useState<'login' | 'register'>('login');
 
@@ -277,7 +354,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
             const data = await res.json();
 
             if (res.ok && data.success) {
-                onLogin();
+                setIsSuccess(true);
+                // Artificial delay for premium feel and animation
+                setTimeout(() => {
+                    onLogin();
+                }, 1800);
             } else {
                 setError(data.error || `${mode === 'login' ? 'Login' : 'Registration'} failed.`);
             }
@@ -316,6 +397,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                 handleSubmit={handleSubmit}
                 toggleMode={toggleMode}
                 features={features}
+                isSuccess={isSuccess}
             />
         </Suspense>
     );

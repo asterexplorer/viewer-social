@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { getSession } from '@/lib/auth';
 
 export async function GET() {
     try {
-        const user = await prisma.user.findFirst();
-        if (!user) return NextResponse.json([], { status: 200 });
+        const session = await getSession();
+        if (!session) return NextResponse.json([], { status: 200 }); // Return empty for guest
 
         const saved = await prisma.savedPost.findMany({
-            where: { userId: user.id },
+            where: { userId: session.id },
             include: { post: { include: { user: true, likes: true, comments: true, media: { orderBy: { order: 'asc' } } } } },
             orderBy: { createdAt: 'desc' }
         });

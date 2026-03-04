@@ -87,8 +87,8 @@
 }
 
 .yourStory {
-    background: linear-gradient(135deg, rgba(112, 0, 255, 0.1) 0%, rgba(112, 0, 255, 0.05) 100%) !important;
-    border: 2px dashed var(--border-hover);
+    background: rgba(99, 102, 241, 0.05) !important;
+    border: 2px dashed var(--primary-glow);
     animation: none !important;
     transition: all var(--transition-smooth);
 }

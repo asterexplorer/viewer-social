@@ -3,10 +3,10 @@
     flex-direction: column;
     margin-bottom: 40px;
     border-radius: 24px;
-    background: rgba(15, 15, 15, 0.6);
+    background: var(--background-card);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border);
     padding: 0;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -59,7 +59,7 @@
     height: 100%;
     border-radius: 14px;
     object-fit: cover;
-    border: 2px solid rgba(15, 15, 15, 0.8);
+    border: 2px solid var(--background);
 }
 
 .userMeta {
@@ -68,10 +68,11 @@
 }
 
 .username {
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 800;
     color: var(--foreground);
-    letter-spacing: -0.2px;
+    letter-spacing: -0.03em;
+    font-family: 'Syne', 'Inter', sans-serif;
 }
 
 .time {
@@ -97,13 +98,13 @@
 .followBtn {
     display: flex;
     align-items: center;
-    padding: 6px 12px;
+    padding: 6px 14px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--foreground);
+    background: var(--background-elevated);
+    border: 1px solid var(--border);
+    color: var(--primary);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 800;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -116,7 +117,7 @@
 /* Image/Media Container */
 .imageContainer {
     width: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--background-elevated);
     position: relative;
     cursor: pointer;
 }
@@ -126,7 +127,7 @@
     max-height: 600px;
     object-fit: contain;
     display: block;
-    background: rgba(0, 0, 0, 0.8);
+    background: var(--background-elevated);
 }
 
 .largeHeart {
@@ -204,9 +205,10 @@
 }
 
 .caption {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.6;
     color: var(--foreground);
+    font-weight: 450;
 }
 
 .captionUser {
@@ -233,8 +235,8 @@
 
 /* Comment Section */
 .commentSection {
-    background: rgba(0, 0, 0, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--background-elevated);
+    border-top: 1px solid var(--border);
 }
 
 .commentList {
@@ -278,8 +280,9 @@
 
 .commentTime {
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--foreground-muted);
     margin-top: 4px;
+    opacity: 0.6;
 }
 
 .commentInput {
@@ -291,8 +294,8 @@
 
 .input {
     flex: 1;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--background);
+    border: 1px solid var(--border);
     border-radius: 20px;
     padding: 10px 16px;
     font-size: 14px;

@@ -192,7 +192,7 @@ const MessagesPage = () => {
                                         className={styles.avatar}
                                         width={60}
                                         height={60}
-                                       
+
                                     />
                                     {conv.online && <div className={styles.onlineIndicator} />}
                                 </div>
@@ -213,88 +213,99 @@ const MessagesPage = () => {
 
                 {/* Main Chat Area */}
                 <div className={`${styles.chatArea} ${selectedConversation ? styles.visibleOnMobile : styles.hiddenOnMobile}`}>
-                    {selectedConversation ? (
-                        <>
-                            <div className={styles.chatHeader}>
-                                <div className={styles.chatHeaderLeft}>
-                                    <button className={styles.backBtn} onClick={() => setSelectedConversation(null)}>
-                                        <ChevronLeft size={28} />
-                                    </button>
-                                    <div className={styles.avatarContainer}>
-                                        <Image
-                                            src={selectedConv?.avatar || ''}
-                                            alt={selectedConv?.name || ''}
-                                            className={styles.avatar}
-                                            width={48}
-                                            height={48}
-                                           
-                                        />
-                                        {selectedConv?.online && <div className={styles.onlineIndicator} />}
-                                    </div>
-                                    <div className={styles.chatHeaderInfo}>
-                                        <h2 className={styles.chatName}>{selectedConv?.name}</h2>
-                                        <span className={styles.chatStatus}>
-                                            {selectedConv?.online ? 'Online now' : 'Active 2h ago'}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className={styles.chatHeaderActions}>
-                                    <button className={styles.headerActionBtn}><Phone size={20} /></button>
-                                    <button className={styles.headerActionBtn}><Video size={20} /></button>
-                                    <button className={styles.headerActionBtn}><Info size={20} /></button>
-                                </div>
-                            </div>
-
-                            <div className={styles.messagesArea}>
-                                <AnimatePresence mode="popLayout">
-                                    {messages.map((message) => (
-                                        <motion.div
-                                            key={message.id}
-                                            initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                                            className={`${styles.messageWrapper} ${message.sender === 'user' ? styles.userMessage : styles.otherMessage}`}
-                                        >
-                                            {message.sender === 'other' && (
-                                                <Image
-                                                    src={selectedConv?.avatar || ''}
-                                                    alt="Avatar"
-                                                    className={styles.messageAvatar}
-                                                    width={36}
-                                                    height={36}
-                                                   
-                                                />
-                                            )}
-                                            <div className={styles.messageBubble}>
-                                                <p className={styles.messageText}>{message.text}</p>
-                                                <span className={styles.messageTime}>{message.timestamp}</span>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </AnimatePresence>
-                                <div ref={messagesEndRef} />
-                            </div>
-
-                            <div className={styles.messageInput}>
-                                <button className={styles.headerActionBtn}><LucideImage size={22} /></button>
-                                <button className={styles.headerActionBtn}><Smile size={22} /></button>
-                                <input
-                                    type="text"
-                                    placeholder="Type your message..."
-                                    className={styles.textInput}
-                                    value={messageText}
-                                    onChange={(e) => setMessageText(e.target.value)}
-                                    onKeyDown={handleKeyPress}
-                                />
-                                <button className={styles.sendBtn} onClick={handleSendMessage}>
-                                    <Send size={24} />
-                                </button>
-                            </div>
-                        </>
-                    ) : (
-                        <div className={styles.emptyState}>
+                    <AnimatePresence mode="wait">
+                        {selectedConversation ? (
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
+                                key="chat"
+                                className={styles.chatWrapper}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                            >
+                                <div className={styles.chatHeader}>
+                                    <div className={styles.chatHeaderLeft}>
+                                        <button className={styles.backBtn} onClick={() => setSelectedConversation(null)}>
+                                            <ChevronLeft size={28} />
+                                        </button>
+                                        <div className={styles.avatarContainer}>
+                                            <Image
+                                                src={selectedConv?.avatar || ''}
+                                                alt={selectedConv?.name || ''}
+                                                className={styles.avatar}
+                                                width={48}
+                                                height={48}
+
+                                            />
+                                            {selectedConv?.online && <div className={styles.onlineIndicator} />}
+                                        </div>
+                                        <div className={styles.chatHeaderInfo}>
+                                            <h2 className={styles.chatName}>{selectedConv?.name}</h2>
+                                            <span className={styles.chatStatus}>
+                                                {selectedConv?.online ? 'Online now' : 'Active 2h ago'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className={styles.chatHeaderActions}>
+                                        <button className={styles.headerActionBtn}><Phone size={20} /></button>
+                                        <button className={styles.headerActionBtn}><Video size={20} /></button>
+                                        <button className={styles.headerActionBtn}><Info size={20} /></button>
+                                    </div>
+                                </div>
+
+                                <div className={styles.messagesArea}>
+                                    <AnimatePresence mode="popLayout">
+                                        {messages.map((message) => (
+                                            <motion.div
+                                                key={message.id}
+                                                initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                className={`${styles.messageWrapper} ${message.sender === 'user' ? styles.userMessage : styles.otherMessage}`}
+                                            >
+                                                {message.sender === 'other' && (
+                                                    <Image
+                                                        src={selectedConv?.avatar || ''}
+                                                        alt="Avatar"
+                                                        className={styles.messageAvatar}
+                                                        width={36}
+                                                        height={36}
+
+                                                    />
+                                                )}
+                                                <div className={styles.messageBubble}>
+                                                    <p className={styles.messageText}>{message.text}</p>
+                                                    <span className={styles.messageTime}>{message.timestamp}</span>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </AnimatePresence>
+                                    <div ref={messagesEndRef} />
+                                </div>
+
+                                <div className={styles.messageInput}>
+                                    <button className={styles.headerActionBtn}><LucideImage size={22} /></button>
+                                    <button className={styles.headerActionBtn}><Smile size={22} /></button>
+                                    <input
+                                        type="text"
+                                        placeholder="Type your message..."
+                                        className={styles.textInput}
+                                        value={messageText}
+                                        onChange={(e) => setMessageText(e.target.value)}
+                                        onKeyDown={handleKeyPress}
+                                    />
+                                    <button className={styles.sendBtn} onClick={handleSendMessage}>
+                                        <Send size={24} />
+                                    </button>
+                                </div>
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="empty"
+                                className={styles.emptyState}
+                                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                             >
                                 <div className={styles.emptyIconWrapper}>
                                     <Send size={48} />
@@ -305,8 +316,8 @@ const MessagesPage = () => {
                                 </p>
                                 <button className={styles.sendMessageBtn}>Start Messaging</button>
                             </motion.div>
-                        </div>
-                    )}
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
         </div>

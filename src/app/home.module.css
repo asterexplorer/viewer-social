@@ -6,6 +6,59 @@
     padding: 24px 16px;
     min-height: calc(100vh - 64px);
     position: relative;
+    overflow: hidden;
+    background: #fdfdfe;
+}
+
+/* Premium Animated Background Blobs */
+.bgBlob {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+    filter: blur(80px);
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+    animation: blobMove 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+.blob1 {
+    top: -300px;
+    left: -300px;
+    animation-delay: 0s;
+}
+
+.blob2 {
+    bottom: -200px;
+    right: -200px;
+    animation-delay: -5s;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%);
+}
+
+.blob3 {
+    top: 40%;
+    left: 20%;
+    animation-delay: -10s;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
+}
+
+@keyframes blobMove {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(100px, 150px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-50px, 200px) scale(0.9);
+    }
+
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
 }
 
 .feedSection {
@@ -19,36 +72,43 @@
 }
 
 .pageHeader {
-    position: sticky;
-    top: 64px;
-    /* Below the top header */
+    position: relative;
     z-index: 40;
-    padding: 16px 24px;
-    margin-bottom: 24px;
-    border-radius: 20px;
-    background: rgba(15, 15, 15, 0.6);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 32px 40px;
+    margin-bottom: 40px;
+    border-radius: 36px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    align-items: center;
+    text-align: center;
+    box-shadow:
+        0 10px 40px -10px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .welcomeText h1 {
-    font-size: 28px;
-    font-weight: 800;
-    margin-bottom: 4px;
-    letter-spacing: -0.5px;
-    font-family: 'Syne', 'Inter', sans-serif;
-    color: var(--foreground);
+    font-size: 48px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    letter-spacing: -0.04em;
+    font-family: 'Syne', sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
 }
 
 .subtitle {
-    color: var(--foreground-muted);
-    font-size: 14px;
+    color: #64748b;
+    font-size: 16px;
     font-weight: 500;
+    font-family: 'Outfit', sans-serif;
 }
 
 .feedItemsList {
@@ -91,7 +151,6 @@
 
 @media (max-width: 768px) {
     .pageHeader {
-        top: 0;
         border-radius: 0 0 20px 20px;
         border-top: none;
         border-left: none;
@@ -106,5 +165,39 @@
     .feedSection {
         max-width: 100%;
         gap: 0;
+    }
+}
+
+.pullIndicator {
+    position: absolute;
+    left: 48%;
+    z-index: 1000;
+    pointer-events: none;
+    transform: translateX(-50%);
+}
+
+.refreshIcon {
+    background: #6366f1;
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
+}
+
+.spinning {
+    animation: refresh-spin 1s linear infinite;
+}
+
+@keyframes refresh-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import {
     Home,
     Search,
@@ -8,7 +8,6 @@ import {
     MessageCircle,
     PlusSquare,
     User,
-    Settings,
     MoreHorizontal,
     Layout
 } from 'lucide-react';
@@ -18,6 +17,7 @@ import { motion } from 'framer-motion';
 
 const Sidebar = () => {
     const pathname = usePathname();
+    const searchParams = useSearchParams();
 
     const navItems = [
         { icon: Home, label: 'Home', href: '/' },
@@ -26,8 +26,10 @@ const Sidebar = () => {
         { icon: MessageCircle, label: 'Chat', href: '/messages' },
         { icon: PlusSquare, label: 'Create', href: '/create' },
         { icon: User, label: 'Profile', href: '/profile' },
-        { icon: Settings, label: 'Settings', href: '/settings' },
     ];
+
+
+
 
     return (
         <nav className={styles.sidebar}>
@@ -43,7 +45,11 @@ const Sidebar = () => {
 
             <div className={styles.navItems}>
                 {navItems.map((item, index) => {
-                    const isActive = pathname === item.href;
+                    const baseHref = item.href.split('?')[0];
+                    const hasQuery = item.href.includes('?');
+                    const tabParam = item.href.split('tab=')[1];
+
+                    const isActive = pathname === baseHref && (!hasQuery || searchParams.get('tab') === tabParam);
                     const Icon = item.icon;
 
                     return (

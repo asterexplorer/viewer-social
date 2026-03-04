@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { Heart, Play, Music } from 'lucide-react';
 import styles from '@/app/reels/reels.module.css';
 import ReelSidebar from './ReelSidebar';
+import { triggerHaptic } from '@/lib/haptics';
+import { ImpactStyle } from '@capacitor/haptics';
 
 interface ReelCardProps {
     reel: any;
@@ -67,6 +69,7 @@ const ReelCard: React.FC<ReelCardProps> = ({
 
     const handleDoubleClick = (e: React.MouseEvent) => {
         onLike(reel.id, true);
+        triggerHaptic(ImpactStyle.Heavy);
 
         // Spawn multiple hearts at click position
         const newHearts = Array.from({ length: 3 }).map((_, i) => ({
@@ -107,9 +110,12 @@ const ReelCard: React.FC<ReelCardProps> = ({
                     </div>
                 ))}
 
-                {!isPlaying && isActive && (
+                {/* Centered Play/Pause Indicator */}
+                {!isPlaying && (
                     <div className={styles.playOverlay}>
-                        <Play size={64} fill="white" color="white" opacity={0.8} />
+                        <div className={styles.playBtn}>
+                            <Play size={36} fill="white" color="white" />
+                        </div>
                     </div>
                 )}
             </div>
@@ -145,6 +151,7 @@ const ReelCard: React.FC<ReelCardProps> = ({
             </div>
 
             <ReelSidebar
+                reelId={reel.id}
                 likes={reel.likesCount}
                 comments={reel.commentsCount}
                 isLiked={reel.isLiked}

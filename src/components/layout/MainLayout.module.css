@@ -8,14 +8,14 @@
 
 .mainContent {
     flex: 1;
-    /* margin-left removed, layout handled by flex/grid or fixed positioning in parent */
-    transition: margin-left var(--transition-smooth);
+    transition: padding-bottom var(--transition-smooth);
     display: flex;
     flex-direction: column;
     min-width: 0;
     position: relative;
-    padding-left: var(--sidebar-width);
-    /* Push content instead of margin */
+    padding-left: 0;
+    padding-bottom: 72px;
+    /* Space for bottom nav */
 }
 
 .contentWrapper {
@@ -52,13 +52,13 @@
 /* Clear View Styles */
 .clearView .mainContent {
     padding-left: 0 !important;
-    transition: padding-left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: padding-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .clearView .contentWrapper {
     max-width: 100%;
     padding-top: 20px;
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Floating Clear View Toggle */
@@ -79,7 +79,7 @@
     cursor: pointer;
     z-index: 9999;
     color: white;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
@@ -95,7 +95,7 @@
 }
 
 .sidebarWrapper {
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
 }
 
 .clearView .sidebarWrapper {
@@ -105,7 +105,7 @@
 }
 
 .headerWrapper {
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
 }
 
 .clearView .headerWrapper {
@@ -117,15 +117,16 @@
 /* Responsive adjustments */
 @media (max-width: 1264px) {
     .mainContent {
-        padding-left: var(--sidebar-width-md);
+        padding-left: 0;
     }
 }
+
 
 @media (max-width: 768px) {
     .mainContent {
         padding-left: 0;
-        padding-bottom: 64px;
-        /* Space for bottom tab bar */
+        padding-bottom: 88px;
+        /* Space for bottom tab bar + margin */
     }
 
     .contentWrapper {
@@ -133,7 +134,7 @@
     }
 
     .clearViewToggle {
-        bottom: 80px;
+        bottom: 100px;
         /* Above bottom nav on mobile */
         right: 20px;
     }

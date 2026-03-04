@@ -16,6 +16,8 @@ import { formatDistanceToNow } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { pusherClient } from '@/lib/pusher';
+import { triggerHaptic, triggerHapticNotification } from '@/lib/haptics';
+import { ImpactStyle, NotificationType } from '@capacitor/haptics';
 
 interface PostProps {
     id: string;
@@ -110,7 +112,10 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
 
         if (newIsLiked) {
             setShowHeart(true);
+            triggerHaptic(ImpactStyle.Medium);
             setTimeout(() => setShowHeart(false), 1000);
+        } else {
+            triggerHaptic(ImpactStyle.Light);
         }
 
         startTransition(async () => {
@@ -142,6 +147,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
             };
             setLocalComments([...localComments, newComment]);
             setComment('');
+            triggerHaptic(ImpactStyle.Light);
 
             startTransition(async () => {
                 try {
@@ -162,6 +168,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
     const handleSave = () => {
         const newIsSaved = !isSaved;
         setIsSaved(newIsSaved);
+        triggerHapticNotification(NotificationType.Success);
 
         startTransition(async () => {
             try {
@@ -204,6 +211,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
             });
         } else {
             navigator.clipboard.writeText(window.location.href);
+            triggerHaptic(ImpactStyle.Light);
             alert('Link copied to clipboard!');
         }
     };
@@ -284,7 +292,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
                                         width={600}
                                         height={600}
                                         onLoad={() => setImageLoaded(true)}
-                                       
+
                                     />
                                 ) : (
                                     <div className={styles.imagePlaceholder}>

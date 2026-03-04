@@ -4,8 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { Search, X, TrendingUp, Compass, Users, Hash, Music, MapPin, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './search.module.css';
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
+import { triggerHaptic } from '@/lib/haptics';
+import { ImpactStyle } from '@capacitor/haptics';
+import Loader from '@/components/common/Loader';
 
 const SearchPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -15,6 +18,16 @@ const SearchPage = () => {
     const [results, setResults] = useState<any[]>([]);
     const [recentUsers, setRecentUsers] = useState<any[]>([]);
     const [discoveryPosts, setDiscoveryPosts] = useState<any[]>([]);
+
+    const handleTabChange = (tabId: string) => {
+        setActiveTab(tabId);
+        triggerHaptic(ImpactStyle.Light);
+    };
+
+    const handleFocus = () => {
+        setIsFocused(true);
+        triggerHaptic(ImpactStyle.Light);
+    };
 
     const tabs = [
         { id: 'Top', icon: <TrendingUp size={16} /> },
@@ -84,10 +97,30 @@ const SearchPage = () => {
     }, [searchTerm]);
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${styles.lightMode}`}>
+            <div className={`${styles.bgBlob} ${styles.blob1}`} />
+            <div className={`${styles.bgBlob} ${styles.blob2}`} />
+
             <div className={styles.searchPage}>
                 {/* Header with Search Bar */}
                 <div className={styles.stickyHeader}>
+                    <motion.div
+                        className={styles.headerTop}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <h1 className={styles.pageTitle}>Explore</h1>
+                        <div className={styles.userAction}>
+                            <button className={styles.actionCircle}>
+                                <Compass size={20} />
+                            </button>
+                            <button className={styles.actionCircle}>
+                                <Users size={20} />
+                            </button>
+                        </div>
+                    </motion.div>
+
                     <div className={`${styles.searchBarWrapper} ${isFocused ? styles.focused : ''}`}>
                         <Search size={22} className={styles.searchIcon} />
                         <input
@@ -96,11 +129,11 @@ const SearchPage = () => {
                             className={styles.searchInput}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            onFocus={() => setIsFocused(true)}
+                            onFocus={handleFocus}
                             onBlur={() => setIsFocused(false)}
                         />
                         {searchTerm && (
-                            <button className={styles.clearBtn} onClick={() => setSearchTerm('')}>
+                            <button className={styles.clearBtn} onClick={() => { setSearchTerm(''); triggerHaptic(ImpactStyle.Light); }}>
                                 <X size={16} />
                             </button>
                         )}
@@ -118,7 +151,7 @@ const SearchPage = () => {
                             <button
                                 key={tab.id}
                                 className={`${styles.tab} ${activeTab === tab.id ? styles.activeTab : ''}`}
-                                onClick={() => setActiveTab(tab.id)}
+                                onClick={() => handleTabChange(tab.id)}
                             >
                                 <span className={styles.tabIcon}>{tab.icon}</span>
                                 {tab.id}
@@ -129,98 +162,131 @@ const SearchPage = () => {
 
                 <div className={styles.contentArea}>
                     {isLoading ? (
-                        <div className={styles.loadingArea} style={{ textAlign: 'center', padding: '100px 0' }}>
-                            <Loader2 className="animate-spin" size={60} color="#0095f6" />
-                            <p style={{ marginTop: '20px', fontWeight: 800, color: '#6b7280' }}>Curating the best visions...</p>
+                        <div className={styles.loadingArea}>
+                            <Loader size="large" />
+                            <p className={styles.loadingText}>Curating the best visions...</p>
                         </div>
                     ) : !searchTerm ? (
                         /* Discovery View */
                         <div className="fade-in">
                             {/* Suggested Creators - Premium Profile Cards */}
-                            <div className={styles.sectionHeader}>
-                                <h2>Suggested Connections</h2>
-                                <button className={styles.seeAllBtn}>Discover More</button>
-                            </div>
-                            <div className={styles.recentList}>
-                                {recentUsers.map(user => (
-                                    <Link href={`/${user.username}`} key={user.id} className={styles.recentItem}>
-                                        <Image
-                                            src={user.avatar || `https://ui-avatars.com/api/?name=${user.username}&background=random`}
-                                            alt={user.username}
-                                            className={styles.recentAvatar}
-                                            width={120}
-                                            height={120}
-
-                                        />
-                                        <div className={styles.recentInfo}>
-                                            <span className={styles.recentUsername}>{user.username}</span>
-                                            <span className={styles.recentSub}>{user.fullName || 'Digital Visionary'}</span>
-                                        </div>
-
-                                        {/* Immersive Showcase (4 Images) */}
-                                        <div className={styles.showcaseGrid}>
-                                            {[1, 2, 3, 4].map(i => (
-                                                <div key={i} className={styles.showcaseItem}>
-                                                    <Image
-                                                        src={`https://picsum.photos/seed/${user.username}${i}/400/250`}
-                                                        alt="Showcase"
-                                                        className={styles.showcaseImage}
-                                                        width={200}
-                                                        height={125}
-
-                                                    />
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6 }}
+                            >
+                                <div className={styles.sectionHeader}>
+                                    <h2>Suggested Connections</h2>
+                                    <button className={styles.seeAllBtn}>Discover More</button>
+                                </div>
+                                <div className={styles.recentList}>
+                                    {recentUsers.map((user, idx) => (
+                                        <motion.div
+                                            key={user.id}
+                                            initial={{ opacity: 0, scale: 0.95 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: idx * 0.1, duration: 0.5 }}
+                                        >
+                                            <Link href={`/${user.username}`} className={styles.recentItem}>
+                                                <Image
+                                                    src={user.avatar || `https://ui-avatars.com/api/?name=${user.username}&background=random`}
+                                                    alt={user.username}
+                                                    className={styles.recentAvatar}
+                                                    width={140}
+                                                    height={140}
+                                                />
+                                                <div className={styles.recentInfo}>
+                                                    <span className={styles.recentUsername}>{user.username}</span>
+                                                    <span className={styles.recentSub}>{user.fullName || 'Digital Visionary'}</span>
                                                 </div>
-                                            ))}
-                                        </div>
 
-                                        <button className={styles.viewProfileBtn}>Explore Vision</button>
-                                    </Link>
-                                ))}
-                            </div>
+                                                {/* Immersive Showcase (4 Images) */}
+                                                <div className={styles.showcaseGrid}>
+                                                    {[1, 2, 3, 4].map(i => (
+                                                        <div key={i} className={styles.showcaseItem}>
+                                                            <Image
+                                                                src={`https://picsum.photos/seed/${user.username}${i + 10}/400/250`}
+                                                                alt="Showcase"
+                                                                className={styles.showcaseImage}
+                                                                width={200}
+                                                                height={125}
+                                                            />
+                                                        </div>
+                                                    ))}
+                                                </div>
+
+                                                <button className={styles.viewProfileBtn}>Explore Vision</button>
+                                            </Link>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </motion.div>
 
                             {/* Trending Labels */}
-                            <div className={styles.sectionHeader}>
-                                <h2>Popular Tags</h2>
-                                <TrendingUp size={24} color="#0095f6" />
-                            </div>
-                            <div className={styles.trendingGrid}>
-                                {trendingTags.map((tag, i) => (
-                                    <div key={i} className={styles.trendingTag}>
-                                        <span className={styles.tagName}>{tag.name}</span>
-                                        <span className={styles.tagCount}>{tag.posts} interactions</span>
-                                    </div>
-                                ))}
-                            </div>
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.4, duration: 0.8 }}
+                            >
+                                <div className={styles.sectionHeader}>
+                                    <h2>Popular Tags</h2>
+                                    <TrendingUp size={24} color="#0095f6" />
+                                </div>
+                                <div className={styles.trendingGrid}>
+                                    {trendingTags.map((tag, i) => (
+                                        <motion.div
+                                            key={i}
+                                            className={styles.trendingTag}
+                                            whileHover={{ y: -8, scale: 1.02 }}
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: 0.5 + i * 0.05 }}
+                                        >
+                                            <span className={styles.tagName}>{tag.name}</span>
+                                            <span className={styles.tagCount}>{tag.posts} interactions</span>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </motion.div>
 
                             {/* Explore Grid */}
-                            <div className={styles.sectionHeader} style={{ marginTop: '32px' }}>
-                                <h2>World Explore</h2>
-                            </div>
-                            <div className={styles.masonryGrid}>
-                                {discoveryPosts.map((post, i) => (
-                                    <motion.div
-                                        key={post.id}
-                                        className={styles.gridItem}
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: i * 0.05 }}
-                                        whileHover={{ y: -10 }}
-                                    >
-                                        <Link href={`/p/${post.id}`}>
-                                            <Image
-                                                src={post.image || 'https://picsum.photos/seed/explore/600/800'}
-                                                alt="Explore"
-                                                fill
-                                                className={styles.gridImage}
-
-                                            />
-                                            <div className={styles.itemOverlay}>
-                                                <Compass size={48} color="white" strokeWidth={1.5} />
-                                            </div>
-                                        </Link>
-                                    </motion.div>
-                                ))}
-                            </div>
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.6, duration: 0.8 }}
+                            >
+                                <div className={styles.sectionHeader} style={{ marginTop: '32px' }}>
+                                    <h2>World Explore</h2>
+                                </div>
+                                <div className={styles.masonryGrid}>
+                                    {discoveryPosts.map((post, i) => (
+                                        <motion.div
+                                            key={post.id}
+                                            className={`${styles.gridItem} ${i % 7 === 0 ? styles.large : i % 5 === 0 ? styles.tall : ''}`}
+                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: 0.2 + i * 0.05 }}
+                                            whileHover={{ y: -10 }}
+                                            style={{
+                                                gridRow: (i % 7 === 0 || i % 4 === 0) ? 'span 2' : 'span 1',
+                                                gridColumn: (i % 7 === 0) ? 'span 2' : 'span 1'
+                                            }}
+                                        >
+                                            <Link href={`/p/${post.id}`} style={{ display: 'block', height: '100%', width: '100%' }}>
+                                                <Image
+                                                    src={post.image || `https://picsum.photos/seed/explore${i}/600/800`}
+                                                    alt="Explore"
+                                                    fill
+                                                    className={styles.gridImage}
+                                                />
+                                                <div className={styles.itemOverlay}>
+                                                    <Compass size={48} color="white" strokeWidth={1.5} />
+                                                </div>
+                                            </Link>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </motion.div>
                         </div>
                     ) : (
                         /* Search Results View */
@@ -250,9 +316,12 @@ const SearchPage = () => {
                                                     <span className={styles.resultUsername}>{user.username}</span>
                                                     {user.isVerified && <div className={styles.verifiedBadge}>Verified</div>}
                                                 </Link>
-                                                <span className={styles.resultSub}>
-                                                    {user.fullName || user.username} • {Math.floor(Math.random() * 500) + 10} visions shared
-                                                </span>
+                                                <div className={styles.resultDetails}>
+                                                    <span className={styles.resultFullName}>{user.fullName || 'Digital Creator'}</span>
+                                                    <span className={styles.resultStats}>
+                                                        • {Math.floor(Math.random() * 500) + 10} visions shared
+                                                    </span>
+                                                </div>
                                             </div>
                                             <button className={styles.followBtn}>Connect</button>
                                         </motion.div>

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
+import MobileNav from './MobileNav';
 import styles from './MainLayout.module.css';
 import { usePathname } from 'next/navigation';
 import LandingPage from '@/app/LandingPage';
@@ -11,6 +12,9 @@ import TopHeader from './TopHeader';
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, Minimize2 } from 'lucide-react';
+import { Capacitor } from '@capacitor/core';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 interface MainLayoutProps {
     children: React.ReactNode;
@@ -26,10 +30,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         const initAuth = async () => {
             // Instantly check if we've logged in before to skip the loading screen
             const hasFastAuth = localStorage.getItem('viewer_demo_auth') === 'true';
-
-            // Check clear view preference
-            const savedClearView = localStorage.getItem('viewer_clear_view') === 'true';
-            if (savedClearView) setIsClearView(true);
 
             if (hasFastAuth) {
                 // Show the app IMMEDIATELY for returning users!
@@ -53,8 +53,36 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             }
         };
 
+        const initCapacitor = async () => {
+            if (Capacitor.isNativePlatform()) {
+                try {
+                    await SplashScreen.hide();
+                } catch (e) {
+                    console.warn('Splash hide failed', e);
+                }
+            }
+        };
+
         initAuth();
+        initCapacitor();
     }, []);
+
+    useEffect(() => {
+        if (Capacitor.isNativePlatform() && isInitialized) {
+            const updateBar = async () => {
+                try {
+                    if (pathname === '/search') {
+                        await StatusBar.setStyle({ style: Style.Default });
+                        await StatusBar.setBackgroundColor({ color: '#FFFFFF' });
+                    } else {
+                        await StatusBar.setStyle({ style: Style.Dark });
+                        await StatusBar.setBackgroundColor({ color: '#000000' });
+                    }
+                } catch (e) { }
+            };
+            updateBar();
+        }
+    }, [pathname, isInitialized]);
 
     const toggleClearView = () => {
         const newState = !isClearView;
@@ -88,17 +116,20 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
             <main className={styles.mainContent}>
                 <div className={styles.headerWrapper}>
-                    {pathname !== '/shots' && <TopHeader />}
+                    {pathname !== '/reels' && <TopHeader />}
                 </div>
 
                 <div
-                    className={pathname === '/shots' ? styles.fullWidthWrapper : styles.contentWrapper}
-                    style={{ paddingTop: pathname === '/shots' ? 0 : undefined }}
+                    className={pathname === '/reels' ? styles.fullWidthWrapper : styles.contentWrapper}
+                    style={{ paddingTop: pathname === '/reels' ? 0 : undefined }}
                 >
                     <PageTransition>
                         {children}
                     </PageTransition>
                 </div>
+
+                {/* Mobile Bottom Navigation */}
+                <MobileNav />
             </main>
 
             {/* Clear View Toggle Button */}
