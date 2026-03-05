@@ -37,14 +37,22 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             }
 
             try {
-                // If we don't have fast auth, we check the backend session
+                // Background check with the real API to verify the cookie
                 const res = await fetch('/api/auth');
                 if (res.ok) {
                     const data = await res.json();
                     if (data.authenticated) {
                         setIsLoggedIn(true);
                         localStorage.setItem('viewer_demo_auth', 'true');
+                    } else {
+                        // Crucial: The cookie expired or their DB record was deleted! Log them out locally.
+                        setIsLoggedIn(false);
+                        localStorage.removeItem('viewer_demo_auth');
                     }
+                } else {
+                    // 401 Unauthorized or 500
+                    setIsLoggedIn(false);
+                    localStorage.removeItem('viewer_demo_auth');
                 }
             } catch (err) {
                 console.error('Session check failed', err);
