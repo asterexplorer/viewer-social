@@ -200,20 +200,7 @@ const SearchPage = () => {
                                                     <span className={styles.recentSub}>{user.fullName || 'Digital Visionary'}</span>
                                                 </div>
 
-                                                {/* Immersive Showcase (4 Images) */}
-                                                <div className={styles.showcaseGrid}>
-                                                    {[1, 2, 3, 4].map(i => (
-                                                        <div key={i} className={styles.showcaseItem}>
-                                                            <Image
-                                                                src={`https://picsum.photos/seed/${user.username}${i + 10}/400/250`}
-                                                                alt="Showcase"
-                                                                className={styles.showcaseImage}
-                                                                width={200}
-                                                                height={125}
-                                                            />
-                                                        </div>
-                                                    ))}
-                                                </div>
+
 
                                                 <button className={styles.viewProfileBtn}>Explore Vision</button>
                                             </Link>
@@ -249,44 +236,7 @@ const SearchPage = () => {
                                 </div>
                             </motion.div>
 
-                            {/* Explore Grid */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.6, duration: 0.8 }}
-                            >
-                                <div className={styles.sectionHeader} style={{ marginTop: '32px' }}>
-                                    <h2>World Explore</h2>
-                                </div>
-                                <div className={styles.masonryGrid}>
-                                    {discoveryPosts.map((post, i) => (
-                                        <motion.div
-                                            key={post.id}
-                                            className={`${styles.gridItem} ${i % 7 === 0 ? styles.large : i % 5 === 0 ? styles.tall : ''}`}
-                                            initial={{ opacity: 0, scale: 0.9 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ delay: 0.2 + i * 0.05 }}
-                                            whileHover={{ y: -10 }}
-                                            style={{
-                                                gridRow: (i % 7 === 0 || i % 4 === 0) ? 'span 2' : 'span 1',
-                                                gridColumn: (i % 7 === 0) ? 'span 2' : 'span 1'
-                                            }}
-                                        >
-                                            <Link href={`/p/${post.id}`} prefetch={false} style={{ display: 'block', height: '100%', width: '100%' }}>
-                                                <Image
-                                                    src={post.image || `https://picsum.photos/seed/explore${i}/600/800`}
-                                                    alt="Explore"
-                                                    fill
-                                                    className={styles.gridImage}
-                                                />
-                                                <div className={styles.itemOverlay}>
-                                                    <Compass size={48} color="white" strokeWidth={1.5} />
-                                                </div>
-                                            </Link>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </motion.div>
+
                         </div>
                     ) : (
                         /* Search Results View */
