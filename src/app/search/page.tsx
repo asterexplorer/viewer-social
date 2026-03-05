@@ -168,75 +168,49 @@ const SearchPage = () => {
                         </div>
                     ) : !searchTerm ? (
                         /* Discovery View */
-                        <div className="fade-in">
-                            {/* Suggested Creators - Premium Profile Cards */}
+                        <div className={styles.resultsContainer}>
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6 }}
+                                className={styles.sectionHeader}
                             >
-                                <div className={styles.sectionHeader}>
-                                    <h2>Suggested Connections</h2>
-                                    <button className={styles.seeAllBtn}>Discover More</button>
-                                </div>
-                                <div className={styles.recentList}>
-                                    {recentUsers.map((user, idx) => (
-                                        <motion.div
-                                            key={user.id}
-                                            initial={{ opacity: 0, scale: 0.95 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ delay: idx * 0.1, duration: 0.5 }}
-                                        >
-                                            <Link href={`/${user.username}`} prefetch={false} className={styles.recentItem}>
-                                                <Image
-                                                    src={user.avatar || `https://ui-avatars.com/api/?name=${user.username}&background=random`}
-                                                    alt={user.username}
-                                                    className={styles.recentAvatar}
-                                                    width={140}
-                                                    height={140}
-                                                />
-                                                <div className={styles.recentInfo}>
-                                                    <span className={styles.recentUsername}>{user.username}</span>
-                                                    <span className={styles.recentSub}>{user.fullName || 'Digital Visionary'}</span>
-                                                </div>
+                                <h2>Suggested Connections</h2>
+                            </motion.div>
 
-
-
-                                                <button className={styles.viewProfileBtn}>Explore Vision</button>
+                            <AnimatePresence mode="popLayout">
+                                {recentUsers.map((user, i) => (
+                                    <motion.div
+                                        key={user.id}
+                                        className={styles.resultUserItem}
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ delay: i * 0.05 }}
+                                    >
+                                        <Link href={`/${user.username}`} prefetch={false} className={styles.avatarWrapper}>
+                                            <Image
+                                                src={user.avatar || `https://ui-avatars.com/api/?name=${user.username}&background=random`}
+                                                alt={user.username}
+                                                className={styles.resultAvatar}
+                                                width={80}
+                                                height={80}
+                                            />
+                                        </Link>
+                                        <div className={styles.resultInfo}>
+                                            <Link href={`/${user.username}`} prefetch={false} className={styles.nameRow}>
+                                                <span className={styles.resultUsername}>{user.username}</span>
+                                                {user.isVerified && <div className={styles.verifiedBadge}>Verified</div>}
                                             </Link>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </motion.div>
-
-                            {/* Trending Labels */}
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.4, duration: 0.8 }}
-                            >
-                                <div className={styles.sectionHeader}>
-                                    <h2>Popular Tags</h2>
-                                    <TrendingUp size={24} color="#0095f6" />
-                                </div>
-                                <div className={styles.trendingGrid}>
-                                    {trendingTags.map((tag, i) => (
-                                        <motion.div
-                                            key={i}
-                                            className={styles.trendingTag}
-                                            whileHover={{ y: -8, scale: 1.02 }}
-                                            initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: 0.5 + i * 0.05 }}
-                                        >
-                                            <span className={styles.tagName}>{tag.name}</span>
-                                            <span className={styles.tagCount}>{tag.posts} interactions</span>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </motion.div>
-
-
+                                            <div className={styles.resultDetails}>
+                                                <span className={styles.resultFullName}>{user.fullName || 'Digital Creator'}</span>
+                                            </div>
+                                        </div>
+                                        <Link href={`/${user.username}`} prefetch={false}>
+                                            <button className={styles.followBtn}>View</button>
+                                        </Link>
+                                    </motion.div>
+                                ))}
+                            </AnimatePresence>
                         </div>
                     ) : (
                         /* Search Results View */
