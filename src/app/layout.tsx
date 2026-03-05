@@ -1,6 +1,11 @@
 import React, { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
+import { Inter, Syne, Outfit } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
+const syne = Syne({ subsets: ["latin"], display: "swap", variable: "--font-syne" });
+const outfit = Outfit({ subsets: ["latin"], display: "swap", variable: "--font-outfit" });
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import MainLayout from "@/components/layout/MainLayout";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -51,9 +56,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@100..900&display=swap" rel="stylesheet" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -66,7 +68,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body suppressHydrationWarning>
+      <body className={`${inter.variable} ${syne.variable} ${outfit.variable}`} suppressHydrationWarning>
         <ThemeProvider>
           <MainLayout>
             {children}
