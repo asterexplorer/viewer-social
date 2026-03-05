@@ -187,7 +187,7 @@ const SearchPage = () => {
                                             animate={{ opacity: 1, scale: 1 }}
                                             transition={{ delay: idx * 0.1, duration: 0.5 }}
                                         >
-                                            <Link href={`/${user.username}`} className={styles.recentItem}>
+                                            <Link href={`/${user.username}`} prefetch={false} className={styles.recentItem}>
                                                 <Image
                                                     src={user.avatar || `https://ui-avatars.com/api/?name=${user.username}&background=random`}
                                                     alt={user.username}
@@ -272,7 +272,7 @@ const SearchPage = () => {
                                                 gridColumn: (i % 7 === 0) ? 'span 2' : 'span 1'
                                             }}
                                         >
-                                            <Link href={`/p/${post.id}`} style={{ display: 'block', height: '100%', width: '100%' }}>
+                                            <Link href={`/p/${post.id}`} prefetch={false} style={{ display: 'block', height: '100%', width: '100%' }}>
                                                 <Image
                                                     src={post.image || `https://picsum.photos/seed/explore${i}/600/800`}
                                                     alt="Explore"
@@ -301,7 +301,7 @@ const SearchPage = () => {
                                             animate={{ opacity: 1, scale: 1 }}
                                             transition={{ delay: i * 0.03 }}
                                         >
-                                            <Link href={`/${user.username}`} className={styles.avatarWrapper}>
+                                            <Link href={`/${user.username}`} prefetch={false} className={styles.avatarWrapper}>
                                                 <Image
                                                     src={user.avatar || `https://ui-avatars.com/api/?name=${user.username}&background=random`}
                                                     alt={user.username}
@@ -312,7 +312,7 @@ const SearchPage = () => {
                                                 />
                                             </Link>
                                             <div className={styles.resultInfo}>
-                                                <Link href={`/${user.username}`} className={styles.nameRow}>
+                                                <Link href={`/${user.username}`} prefetch={false} className={styles.nameRow}>
                                                     <span className={styles.resultUsername}>{user.username}</span>
                                                     {user.isVerified && <div className={styles.verifiedBadge}>Verified</div>}
                                                 </Link>
