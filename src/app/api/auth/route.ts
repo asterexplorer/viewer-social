@@ -4,9 +4,31 @@ import { cookies } from 'next/headers';
 import { verifyPassword, getSession } from '@/lib/auth';
 
 /**
+ * Handle GET — Check authentication status
+ */
+export async function get(): Promise<NextResponse<{ authenticated: boolean; }> | NextResponse<{ error: string; }> | NextResponse<{ authenticated: boolean; }>> {
+    try {
+        const user = await getSession();
+
+        if (!user) {
+            return NextResponse.json({ authenticated: false }, { status: 401 });
+        }
+
+        return NextResponse.json({ authenticated: true, user });
+    } catch (error) {
+        console.error('Auth GET error:', error);
+        return NextResponse.json(
+            { error: 'Failed to check authentication status' },
+            { status: 500 }
+        );
+    }
+}
+
+/**
  * Handle Login — Validates username or email against hashed password
  */
 export async function POST(req: Request) {
+    
     try {
         const { username, password } = await req.json();
 

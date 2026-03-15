@@ -18,7 +18,7 @@ export const pusherServer = isServerConfigured
     })
     : {
         trigger: async () => {
-            console.warn('Pusher Server not configured. Skipping trigger.');
+            // console.warn('Pusher Server not configured. Skipping trigger.');
             return {};
         }
     } as any;

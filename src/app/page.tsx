@@ -66,10 +66,23 @@ export default function Home() {
         fetch(`/api/shots?page=${pageNum}&limit=2`)
       ]);
 
-      const postsData = await postsRes.json();
-      const shotsData = await shotsRes.json();
+      // Check if responses are ok before parsing JSON
+      if (!postsRes.ok || !shotsRes.ok) {
+        console.error('API request failed:', { postsRes, shotsRes });
+        return [];
+      }
+
+      let postsData, shotsData;
+      try {
+        postsData = await postsRes.json();
+        shotsData = await shotsRes.json();
+      } catch (parseError) {
+        console.error('JSON parsing failed:', parseError);
+        return [];
+      }
 
       if (!Array.isArray(postsData) || !Array.isArray(shotsData)) {
+        console.error('API returned invalid data format:', { postsData, shotsData });
         return [];
       }
 

@@ -2,7 +2,7 @@
 
 ## 🎉 Application Status: FULLY FUNCTIONAL
 
-Your Viewer app is now a complete, smooth, and fully functional social media application with premium UI/UX!
+Your Viewer app is now a complete and fully functional social media application with premium UI/UX!
 
 ## ✨ Key Features Implemented
 
@@ -98,11 +98,11 @@ Your Viewer app is now a complete, smooth, and fully functional social media app
 - **Post**: Complete post component with interactions
 - **NotificationModal**: Notification dropdown
 
-### Smooth Functionality
+### Enhanced Functionality
 1. **Intersection Observer** for video auto-play
 2. **Debounced scroll** handling
 3. **Optimistic UI** updates
-4. **Smooth transitions** between states
+4. **Fast transitions** between states
 5. **Loading states** with skeletons
 
 ## 📱 Responsive Design
@@ -178,7 +178,7 @@ Edit `/src/app/globals.css` `:root` variables:
 }
 ```
 
-## 🌟 Smooth Features
+## 🌟 Key Features
 
 ### Video Controls (Reels)
 - ✅ Auto-play when 75% visible
@@ -249,4 +249,4 @@ viewer/
 
 ---
 
-**Enjoy your beautiful, smooth, and fully functional Viewer app! 🎉**
+**Enjoy your beautiful and fully functional Viewer app! 🎉**
