@@ -32,11 +32,18 @@ export default function Home() {
       let shotsData = [];
 
       if (postsRes.ok && shotsRes.ok) {
-        postsData = await postsRes.json();
-        shotsData = await shotsRes.json();
+        const postsContent = postsRes.headers.get('content-type');
+        if (postsContent && postsContent.includes('application/json')) {
+            postsData = await postsRes.json();
+        }
+        
+        const shotsContent = shotsRes.headers.get('content-type');
+        if (shotsContent && shotsContent.includes('application/json')) {
+            shotsData = await shotsRes.json();
+        }
       }
 
-      if (pageNum === 1 && postsData.length === 0 && shotsData.length === 0) {
+      if (pageNum === 1 && (!postsData || postsData.length === 0) && (!shotsData || shotsData.length === 0)) {
         const { MOCK_POSTS, MOCK_SHOTS } = await import('@/constants/mockData');
         postsData = MOCK_POSTS.slice(0, 8);
         shotsData = MOCK_SHOTS.slice(0, 2);

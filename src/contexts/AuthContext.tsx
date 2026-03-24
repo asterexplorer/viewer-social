@@ -31,7 +31,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const fetchSession = async () => {
         try {
             const res = await fetch('/api/auth');
-            if (res.ok) {
+            const contentType = res.headers.get('content-type');
+            
+            if (res.ok && contentType && contentType.includes('application/json')) {
                 const data = await res.json();
                 if (data.authenticated) {
                     setUser(data.user);

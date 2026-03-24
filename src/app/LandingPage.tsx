@@ -434,7 +434,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                 body: JSON.stringify(payload)
             });
 
-            const data = await res.json();
+            let data;
+            const contentType = res.headers.get('content-type');
+            
+            if (contentType && contentType.includes('application/json')) {
+                data = await res.json();
+            } else {
+                throw new Error('Server returned an invalid response (not JSON). Please try again later.');
+            }
 
             if (res.ok && data.success) {
                 setIsSuccess(true);
@@ -443,10 +450,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                     login(data.user);
                 }, 1800);
             } else {
-                setError(data.error || `${mode === 'login' ? 'Login' : 'Registration'} failed.`);
+                setError(data?.error || `${mode === 'login' ? 'Login' : 'Registration'} failed.`);
             }
-        } catch (err) {
-            setError('Connection error. Please make sure the server is running.');
+        } catch (err: any) {
+            setError(err.message || 'Connection error. Please make sure the server is running.');
         } finally {
             setIsLoading(false);
         }
