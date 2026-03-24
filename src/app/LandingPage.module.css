@@ -622,15 +622,6 @@
 }
 
 
-@media (max-width: 1200px) {
-    .gridContainer {
-        gap: 40px;
-    }
-    .content {
-        padding: 30px;
-    }
-}
-
 @media (max-width: 1024px) {
     .gridContainer {
         grid-template-columns: 1fr;
@@ -643,13 +634,12 @@
     .infoSection {
         text-align: center;
         align-items: center;
-        gap: 20px;
-        max-width: 600px;
+        gap: 16px;
     }
 
     .heroTitle {
-        font-size: clamp(2rem, 5vw, 2.5rem);
-        letter-spacing: -1px;
+        font-size: 32px;
+        letter-spacing: -1.5px;
     }
 
     .heroSubtitle {
@@ -658,31 +648,8 @@
     }
 
     .featureGrid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        width: 100%;
-        margin-top: 0;
-    }
-    
-    .featureItem {
-        padding: 12px 16px;
-        font-size: 13px;
-    }
-    
-    .loginSection {
-        width: 100%;
-        max-width: 500px;
-    }
-}
-
-@media (max-width: 768px) {
-    .featureGrid {
         display: none;
-    }
-    
-    .infoSection {
-        gap: 12px;
+        /* Hide features on mobile login to focus on the form */
     }
 }
 
@@ -697,28 +664,23 @@
     }
 
     .content {
-        padding: 24px 16px;
+        padding: 32px 20px;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: center;
         min-height: 100vh;
     }
 
-    .loginSection {
-        width: 100%;
-        max-width: 100%;
-    }
-
     .loginCard {
-        padding: 32px 24px;
+        padding: 32px 20px;
         border-radius: 24px;
         background: var(--background-card);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: none;
+        border: none;
     }
 
     .title {
-        font-size: 24px;
+        font-size: 26px;
         text-align: center;
     }
 
@@ -728,27 +690,22 @@
     }
 
     .appName {
-        font-size: 28px;
+        font-size: 32px;
     }
 
     .logoSquare {
         width: 48px;
         height: 48px;
+        font-size: 24px;
     }
 
     .footer {
         margin-top: 40px;
-        padding-bottom: 24px;
     }
 
     .footerLinks {
-        gap: 12px;
+        gap: 16px;
         flex-wrap: wrap;
         justify-content: center;
-    }
-    
-    .socialBtn {
-        font-size: 14px;
-        padding: 12px;
     }
 }
