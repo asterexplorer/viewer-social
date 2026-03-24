@@ -12,12 +12,14 @@ import {
 } from 'lucide-react';
 import styles from './Post.module.css';
 import { toggleLike, toggleShotLike, toggleSavedPost, toggleSavedShot, addComment, addShotComment, trackView } from '@/app/actions';
+import PostDetailModal from '../modals/PostDetailModal';
 import { formatDistanceToNow } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { pusherClient } from '@/lib/pusher';
 import { triggerHaptic, triggerHapticNotification } from '@/lib/haptics';
 import { ImpactStyle, NotificationType } from '@capacitor/haptics';
+import RichText from '../common/RichText';
 
 interface PostProps {
     id: string;
@@ -58,9 +60,17 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
     const [localComments, setLocalComments] = useState(comments);
     const [captionExpanded, setCaptionExpanded] = useState(false);
     const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
     const videoRef = React.useRef<HTMLVideoElement>(null);
     const postRef = React.useRef<HTMLElement>(null);
     const viewTracked = React.useRef(false);
+
+    const handleImageClick = () => {
+        if (type === 'post') {
+            setIsDetailOpen(true);
+            triggerHaptic(ImpactStyle.Light);
+        }
+    };
 
     // Real-time Listeners
     React.useEffect(() => {
@@ -258,7 +268,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
             </div>
 
             {/* Content (Image or Video) */}
-            <div className={styles.imageContainer} onDoubleClick={handleLike}>
+            <div className={styles.imageContainer} onDoubleClick={handleLike} onClick={handleImageClick}>
                 {!imageLoaded && !video && (
                     <div className={`${styles.imageSkeleton} skeleton`}></div>
                 )}
@@ -384,7 +394,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
                     <span className={styles.captionUser}>{user.username}</span>
                     {caption.length > 100 && !captionExpanded ? (
                         <>
-                            {caption.substring(0, 100)}...{' '}
+                            <RichText text={caption.substring(0, 100) + '... '} />
                             <button
                                 className={styles.moreBtn}
                                 onClick={() => setCaptionExpanded(true)}
@@ -393,7 +403,7 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
                             </button>
                         </>
                     ) : (
-                        caption
+                        <RichText text={caption} />
                     )}
                 </div>
                 <button
@@ -454,6 +464,25 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
                     </motion.div>
                 )}
             </AnimatePresence>
+            {isDetailOpen && (
+                <PostDetailModal
+                    isOpen={isDetailOpen}
+                    onClose={() => setIsDetailOpen(false)}
+                    post={{
+                        id,
+                        userId: '', // Placeholder
+                        user: user as any,
+                        image: image || (media.length > 0 ? media[0].url : ''),
+                        caption,
+                        likes: localLikes,
+                        comments: localComments.length,
+                        isLiked,
+                        isSaved,
+                        createdAt: new Date(), // Placeholder
+                        media
+                    }}
+                />
+            )}
         </motion.article>
     );
 };

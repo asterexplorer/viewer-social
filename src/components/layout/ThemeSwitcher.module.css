@@ -1,0 +1,132 @@
+.container {
+  position: relative;
+  z-index: 1001;
+}
+
+.toggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--foreground-muted);
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+}
+
+.toggleBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+.menu {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  right: 0;
+  width: 280px;
+  background: var(--background-elevated);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--card-shadow-hover);
+  z-index: 1001;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h3 {
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.header p {
+  font-size: 0.85rem;
+  color: var(--foreground-muted);
+}
+
+.themeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.themeOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+}
+
+.themeOption:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.themeOption.active {
+  background: rgba(var(--primary-glow), 0.1);
+  border-color: var(--primary);
+}
+
+.themePreview {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.checkIcon {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--success);
+  color: white;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--background-elevated);
+}
+
+.themeOption span {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+@media (max-width: 768px) {
+  .menu {
+    position: fixed;
+    bottom: 100px;
+    left: 16px;
+    right: 16px;
+    width: auto;
+    margin: 0 auto;
+    max-width: 400px;
+  }
+}

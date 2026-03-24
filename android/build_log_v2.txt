@@ -1,0 +1,56 @@
+Initialized native services in: C:\Users\aster\.gradle\native
+Initialized jansi services in: C:\Users\aster\.gradle\native
+Received JVM installation metadata from 'C:\Program Files\Android\Android Studio\jbr': {JAVA_HOME=C:\Program Files\Android\Android Studio\jbr, JAVA_VERSION=21.0.9, JAVA_VENDOR=JetBrains s.r.o., RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.9+-14787801-b1163.94, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.9+-14787801-b1163.94, VM_VENDOR=JetBrains s.r.o., OS_ARCH=amd64}
+Removing 0 daemon stop events from registry
+Previous Daemon (16968) stopped at Tue Mar 17 11:58:23 IST 2026 stop command received
+Previous Daemon (16312) stopped at Tue Mar 17 11:58:24 IST 2026 stop command received
+Starting a Gradle Daemon, 2 stopped Daemons could not be reused, use --status for details
+Starting process 'Gradle build daemon'. Working directory: C:\Users\aster\.gradle\daemon\8.2 Command: C:\Program Files\Android\Android Studio\jbr\bin\java.exe --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED -Xmx1536m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp C:\Users\aster\.gradle\wrapper\dists\gradle-8.2-bin\bbg7u40eoinfdyxsxr3z4i7ta\gradle-8.2\lib\gradle-launcher-8.2.jar -javaagent:C:\Users\aster\.gradle\wrapper\dists\gradle-8.2-bin\bbg7u40eoinfdyxsxr3z4i7ta\gradle-8.2\lib\agents\gradle-instrumentation-agent-8.2.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 8.2
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 4.296 secs.
+The client will now receive all logging from the daemon (pid: 13204). The daemon log file: C:\Users\aster\.gradle\daemon\8.2\daemon-13204.out.log
+Starting build in new daemon [memory: 1.5 GiB]
+Using 4 worker leases.
+Received JVM installation metadata from 'C:\Program Files\Android\Android Studio\jbr': {JAVA_HOME=C:\Program Files\Android\Android Studio\jbr, JAVA_VERSION=21.0.9, JAVA_VENDOR=JetBrains s.r.o., RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.9+-14787801-b1163.94, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.9+-14787801-b1163.94, VM_VENDOR=JetBrains s.r.o., OS_ARCH=amd64}
+Watching the file system is configured to be enabled if available
+Now considering [C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android] as hierarchies to watch
+File system watching is active
+Starting Build
+Settings evaluated using settings file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\settings.gradle'.
+Projects loaded. Root project using build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\build.gradle'.
+Included projects: [root project 'android', project ':app', project ':capacitor-android', project ':capacitor-app', project ':capacitor-browser', project ':capacitor-camera', project ':capacitor-cordova-android-plugins', project ':capacitor-filesystem', project ':capacitor-haptics', project ':capacitor-keyboard', project ':capacitor-network', project ':capacitor-preferences', project ':capacitor-share', project ':capacitor-splash-screen', project ':capacitor-status-bar']
+
+> Configure project :
+Evaluating root project 'android' using build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\build.gradle'.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+
+> Configure project :app
+Evaluating project ':app' using build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\app\build.gradle'.
+Using default execution profile
+google-services.json not found, google-services plugin not applied. Push Notifications won't work
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-android
+Evaluating project ':capacitor-android' using build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\node_modules\@capacitor\android\capacitor\build.gradle'.
+The configuration :capacitor-android:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :capacitor-android:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :capacitor-android:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :capacitor-android:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+A problem occurred configuring project ':capacitor-android'.
+> java.util.concurrent.ExecutionException: org.gradle.api.GradleException: Failed to create Jar file C:\Users\aster\.gradle\caches\jars-9\18366b31678c0171857be093a3b8ec22\bcprov-jdk18on-1.79.jar.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 23s
+Watched directory hierarchies: []

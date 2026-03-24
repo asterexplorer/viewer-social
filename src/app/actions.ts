@@ -435,3 +435,163 @@ export async function trackView(targetId: string, targetType: 'POST' | 'SHOT') {
         return { success: false };
     }
 }
+
+export async function getConversations() {
+    const user = await requireAuth();
+
+    const conversations = await prisma.conversation.findMany({
+        where: {
+            participants: {
+                some: { id: user.id }
+            }
+        },
+        include: {
+            participants: {
+                where: { id: { not: user.id } },
+                select: {
+                    id: true,
+                    username: true,
+                    avatar: true,
+                    fullName: true
+                }
+            },
+            messages: {
+                orderBy: { createdAt: 'desc' },
+                take: 1
+            }
+        },
+        orderBy: { updatedAt: 'desc' }
+    });
+
+    return conversations;
+}
+
+export async function getMessages(conversationId: string) {
+    const user = await requireAuth();
+
+    // Verify user is participant
+    const conversation = await prisma.conversation.findFirst({
+        where: {
+            id: conversationId,
+            participants: { some: { id: user.id } }
+        }
+    });
+
+    if (!conversation) throw new Error('Conversation not found');
+
+    const messages = await prisma.message.findMany({
+        where: { conversationId },
+        include: {
+            sender: {
+                select: {
+                    id: true,
+                    username: true,
+                    avatar: true
+                }
+            }
+        },
+        orderBy: { createdAt: 'asc' }
+    });
+
+    return messages;
+}
+
+export async function sendMessage(conversationId: string, content: string) {
+    const user = await requireAuth();
+    const cleanContent = sanitize(content);
+
+    if (!cleanContent) throw new Error('Message cannot be empty');
+
+    // Verify participant
+    const conv = await prisma.conversation.findFirst({
+        where: {
+            id: conversationId,
+            participants: { some: { id: user.id } }
+        }
+    });
+
+    if (!conv) throw new Error('Unauthorized or invalid conversation');
+
+    const message = await prisma.message.create({
+        data: {
+            content: cleanContent,
+            conversationId,
+            senderId: user.id
+        },
+        include: {
+            sender: {
+                select: {
+                    id: true,
+                    username: true,
+                    avatar: true
+                }
+            }
+        }
+    });
+
+    // Update conversation timestamp
+    await prisma.conversation.update({
+        where: { id: conversationId },
+        data: { updatedAt: new Date() }
+    });
+
+    // Trigger Pusher for real-time delivery
+    await pusherServer.trigger(`chat-${conversationId}`, 'new-message', message);
+
+    // Trigger update for conversation list (for other participant)
+    const otherParticipant = await prisma.user.findFirst({
+        where: {
+            conversations: { some: { id: conversationId } },
+            id: { not: user.id }
+        }
+    });
+
+    if (otherParticipant) {
+        await pusherServer.trigger(`user-conv-${otherParticipant.id}`, 'conversation-update', {
+            conversationId,
+            lastMessage: message
+        });
+
+        // Push Notification
+        await sendWebPushNotification(otherParticipant.id, {
+            title: `Message from ${user.username}`,
+            body: cleanContent,
+            url: `/messages?conv=${conversationId}`
+        });
+    }
+
+    return message;
+}
+
+export async function startConversation(participantUsername: string) {
+    const user = await requireAuth();
+    
+    const otherUser = await prisma.user.findUnique({
+        where: { username: participantUsername }
+    });
+
+    if (!otherUser) throw new Error('User not found');
+    if (otherUser.id === user.id) throw new Error('Cannot start conversation with yourself');
+
+    // Check for existing 1:1 conversation
+    const existing = await prisma.conversation.findFirst({
+        where: {
+            AND: [
+                { participants: { some: { id: user.id } } },
+                { participants: { some: { id: otherUser.id } } }
+            ]
+        }
+    });
+
+    if (existing) return existing;
+
+    const conversation = await prisma.conversation.create({
+        data: {
+            participants: {
+                connect: [{ id: user.id }, { id: otherUser.id }]
+            }
+        }
+    });
+
+    return conversation;
+}

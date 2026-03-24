@@ -1,9 +1,11 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import styles from './LandingPage.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Smartphone, ShieldCheck, Zap, Globe, AlertCircle, LogIn, UserPlus, CheckCircle2, Loader2 } from 'lucide-react';
+import { Smartphone, ShieldCheck, Zap, Globe, AlertCircle, LogIn, UserPlus, CheckCircle2, Loader2, Eye, EyeOff, Github } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface LandingPageProps {
     onLogin: () => void;
@@ -33,14 +35,29 @@ const LandingContent: React.FC<LandingPageProps & {
 }) => {
         const searchParams = useSearchParams();
         const referralCode = searchParams.get('ref');
+        const oauthError = searchParams.get('error');
 
         const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+        const [showPassword, setShowPassword] = useState(false);
 
         useEffect(() => {
             if (referralCode && mode === 'login') {
                 setMode('register');
             }
         }, [referralCode, mode, setMode]);
+
+        useEffect(() => {
+            if (oauthError && !error) {
+                // Map OAuth error codes to friendly messages
+                const friendlyErrors: Record<string, string> = {
+                    'OAuthFailed': 'Social login failed. Please try again.',
+                    'UserInfoFailed': 'Failed to retrieve user information from provider.',
+                    'TokenExchangeFailed': 'Failed to complete social login.',
+                    'MissingClientId': 'Social login is not configured properly.'
+                };
+                setError(friendlyErrors[oauthError] || 'An error occurred during social login.');
+            }
+        }, [oauthError, error, setError]);
 
         useEffect(() => {
             const handleMouseMove = (e: MouseEvent) => {
@@ -277,15 +294,24 @@ const LandingContent: React.FC<LandingPageProps & {
                                                                 </button>
                                                             )}
                                                         </div>
-                                                        <input
-                                                            type="password"
-                                                            className={styles.input}
-                                                            placeholder="Enter your secure password"
-                                                            value={password}
-                                                            onChange={(e) => { setPassword(e.target.value); if (error) setError(null); }}
-                                                            required
-                                                            minLength={6}
-                                                        />
+                                                        <div className={styles.passwordWrapper}>
+                                                            <input
+                                                                type={showPassword ? "text" : "password"}
+                                                                className={styles.input}
+                                                                placeholder="Enter your secure password"
+                                                                value={password}
+                                                                onChange={(e) => { setPassword(e.target.value); if (error) setError(null); }}
+                                                                required
+                                                                minLength={6}
+                                                            />
+                                                            <button 
+                                                                type="button" 
+                                                                className={styles.eyeBtn} 
+                                                                onClick={() => setShowPassword(!showPassword)}
+                                                            >
+                                                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 )}
 
@@ -313,7 +339,21 @@ const LandingContent: React.FC<LandingPageProps & {
 
                                             <div className={styles.divider}>OR</div>
 
-                                            <p className={styles.signupText} style={{ textAlign: 'center' }}>
+                                            {mode !== 'forgot_password' && (
+                                                <div className={styles.socialLogins}>
+                                                    <button type="button" className={styles.socialBtn} onClick={() => window.location.href = '/api/auth/oauth/google'}>
+                                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20" height="20" /> 
+                                                        Continue with Google
+                                                    </button>
+                                                    <button type="button" className={styles.socialBtn} onClick={() => window.location.href = '/api/auth/oauth/github'}>
+                                                        <Github size={20} /> 
+                                                        Continue with GitHub
+                                                    </button>
+                                                </div>
+                                            )}
+
+                                            <p className={styles.signupText} style={{ textAlign: 'center', marginTop: '10px' }}>
                                                 {mode === 'login'
                                                     ? "Don't have an account? "
                                                     : (mode === 'register' ? "Already have an account? " : "Remember your password? ")}
@@ -335,7 +375,7 @@ const LandingContent: React.FC<LandingPageProps & {
                             <a href="#">Terms</a>
                             <a href="#">Help</a>
                         </div>
-                        <p className={styles.copyright}>&copy; 2026 Viewer by ASTER. <a href="/LICENSE" className={styles.licenseLink}>MIT Licensed</a>. Designed for the future.</p>
+                        <p className={styles.copyright}>&copy; 2026 Viewer by ASTER. <Link href="/LICENSE" className={styles.licenseLink}>MIT Licensed</Link>. Designed for the future.</p>
                     </div>
                 </motion.div>
             </div>
@@ -343,6 +383,7 @@ const LandingContent: React.FC<LandingPageProps & {
     };
 
 const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
+    const { login } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -367,7 +408,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
         const referralCode = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('ref') : null;
 
         if (mode === 'forgot_password') {
-            // Simulated reset — replace with real API when email service is ready
+            // Simulated reset
             setTimeout(() => {
                 setIsLoading(false);
                 setIsSuccess(true);
@@ -399,7 +440,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                 setIsSuccess(true);
                 // Artificial delay for premium feel and animation
                 setTimeout(() => {
-                    onLogin();
+                    login(data.user);
                 }, 1800);
             } else {
                 setError(data.error || `${mode === 'login' ? 'Login' : 'Registration'} failed.`);

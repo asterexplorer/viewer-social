@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, Phone, Video, Info, Smile, Image as LucideImage, Mic, Send, Edit, ChevronLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { formatDistanceToNow } from 'date-fns';
 import styles from './messages.module.css';
 import Image from 'next/image';
 
@@ -110,59 +111,172 @@ const INITIAL_MESSAGES: Message[] = [
     }
 ];
 
+import { getConversations, getMessages, sendMessage, startConversation } from '@/app/actions';
+import { pusherClient } from '@/lib/pusher';
+
 const MessagesPage = () => {
-    const [selectedConversation, setSelectedConversation] = useState<number | null>(null);
+    const [currentUser, setCurrentUser] = useState<any>(null);
+    const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
     const [messageText, setMessageText] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-    const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
-    const [conversations] = useState<Conversation[]>(CONVERSATIONS);
+    const [messages, setMessages] = useState<any[]>([]);
+    const [conversations, setConversations] = useState<any[]>([]);
     const [isTyping, setIsTyping] = useState(false);
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchResults, setSearchResults] = useState<any[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const filteredConversations = conversations.filter(c =>
-        c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.lastMessage.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // Initial Load
+    useEffect(() => {
+        const init = async () => {
+            try {
+                const [userRes, convs] = await Promise.all([
+                    fetch('/api/users/me').then(r => r.json()),
+                    getConversations()
+                ]);
+                setCurrentUser(userRes);
+                setConversations(convs);
+            } catch (err) {
+                console.error('Initialization failed', err);
+            }
+        };
+        init();
+    }, []);
+
+    // Fetch Messages when conversation changes
+    useEffect(() => {
+        if (!selectedConversation) return;
+        const fetchMsgs = async () => {
+            try {
+                const msgs = await getMessages(selectedConversation);
+                setMessages(msgs);
+            } catch (err) {
+                console.error('Failed to fetch messages', err);
+            }
+        };
+        fetchMsgs();
+
+        // Subscribe to private channel for this chat
+        const channel = pusherClient.subscribe(`chat-${selectedConversation}`);
+        channel.bind('new-message', (message: any) => {
+            setMessages(prev => {
+                const exists = prev.some(m => m.id === message.id);
+                if (exists) return prev;
+                return [...prev, message];
+            });
+        });
+
+        return () => {
+            pusherClient.unsubscribe(`chat-${selectedConversation}`);
+        };
+    }, [selectedConversation]);
+
+    // Global listeners for conversation updates
+    useEffect(() => {
+        if (!currentUser?.id) return;
+
+        const convChannel = pusherClient.subscribe(`user-conv-${currentUser.id}`);
+        convChannel.bind('conversation-update', (data: any) => {
+            setConversations(prev => {
+                const existsIdx = prev.findIndex(c => c.id === data.conversationId);
+                if (existsIdx >= 0) {
+                    const newConvs = [...prev];
+                    newConvs[existsIdx] = {
+                        ...newConvs[existsIdx],
+                        messages: [data.lastMessage],
+                        updatedAt: data.lastMessage.createdAt
+                    };
+                    return newConvs.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+                } else {
+                    // Refetch all if new conversation
+                    getConversations().then(setConversations);
+                    return prev;
+                }
+            });
+        });
+
+        return () => {
+            pusherClient.unsubscribe(`user-conv-${currentUser.id}`);
+        };
+    }, [currentUser?.id]);
+
+    // User Search handle
+    useEffect(() => {
+        if (!isSearching || !searchQuery) {
+            setSearchResults([]);
+            return;
+        }
+
+        const timer = setTimeout(async () => {
+            const res = await fetch('/api/users');
+            if (res.ok) {
+                const all = await res.json();
+                setSearchResults(all.filter((u: any) => 
+                    u.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    (u.fullName || '').toLowerCase().includes(searchQuery.toLowerCase())
+                ));
+            }
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [searchQuery, isSearching]);
+
+    const filteredConversations = conversations.filter(c => {
+        const otherParticipant = c.participants[0];
+        return otherParticipant.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+               (otherParticipant.fullName || '').toLowerCase().includes(searchQuery.toLowerCase());
+    });
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages, selectedConversation]);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined' && window.innerWidth > 768 && !selectedConversation && conversations.length > 0) {
-            setSelectedConversation(conversations[0].id);
-        }
-    }, [conversations, selectedConversation]);
+    }, [messages]);
 
     const selectedConv = conversations.find(c => c.id === selectedConversation);
 
-    const handleSendMessage = () => {
-        if (!messageText.trim()) return;
+    const handleSendMessage = async () => {
+        if (!messageText.trim() || !selectedConversation) return;
 
-        const newMessage: Message = {
-            id: Date.now(),
-            text: messageText,
-            sender: 'user',
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            status: 'sent'
-        };
-
-        setMessages(prev => [...prev, newMessage]);
+        const text = messageText;
         setMessageText('');
 
-        // Simulate reply
-        setIsTyping(true);
-        setTimeout(() => {
-            const replyMessage: Message = {
-                id: Date.now(),
-                text: 'That sounds really interesting! Tell me more.',
-                sender: 'other',
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                status: 'delivered'
+        try {
+            await sendMessage(selectedConversation, text);
+        } catch (err) {
+            console.error('Failed to send message', err);
+        }
+    };
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file || !selectedConversation) return;
+
+        try {
+            const reader = new FileReader();
+            reader.onloadend = async () => {
+                const base64String = reader.result as string;
+                // Add [IMAGE]: prefix to bypass basic text rendering and render as an image
+                await sendMessage(selectedConversation, `[IMAGE]:${base64String}`);
             };
-            setMessages(prev => [...prev, replyMessage]);
-            setIsTyping(false);
-        }, 2000);
+            reader.readAsDataURL(file);
+        } catch (err) {
+            console.error('Failed to upload image', err);
+        }
+    };
+
+    const handleStartConversation = async (username: string) => {
+        try {
+            const conv = await startConversation(username);
+            setConversations(prev => {
+                const existing = prev.find(c => c.id === conv.id);
+                if (existing) return prev;
+                return [conv, ...prev];
+            });
+            setSelectedConversation(conv.id);
+            setIsSearching(false);
+            setSearchQuery('');
+        } catch (err) {
+            console.error('Failed to start conversation', err);
+        }
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -179,7 +293,7 @@ const MessagesPage = () => {
                 <div className={`${styles.conversationsList} ${selectedConversation ? styles.hiddenOnMobile : ''}`}>
                     <div className={styles.conversationsHeader}>
                         <h1 className={styles.headerTitle}>Messages</h1>
-                        <button className={styles.newMessageBtn}>
+                        <button className={styles.newMessageBtn} onClick={() => setIsSearching(!isSearching)}>
                             <Edit size={22} />
                         </button>
                     </div>
@@ -188,46 +302,77 @@ const MessagesPage = () => {
                         <Search size={18} className={styles.searchIcon} />
                         <input
                             type="text"
-                            placeholder="Find a contact..."
+                            placeholder={isSearching ? "Find creators..." : "Find a contact..."}
                             className={styles.searchInput}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
 
-                    <div className={styles.conversationsScroll}>
-                        {filteredConversations.map((conv, idx) => (
-                            <motion.div
-                                key={conv.id}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: idx * 0.05 }}
-                                className={`${styles.conversationItem} ${selectedConversation === conv.id ? styles.active : ''}`}
-                                onClick={() => setSelectedConversation(conv.id)}
-                            >
-                                <div className={styles.avatarContainer}>
-                                    <Image
-                                        src={conv.avatar}
-                                        alt={conv.name}
-                                        className={styles.avatar}
-                                        width={60}
-                                        height={60}
-
+                    {isSearching && searchResults.length > 0 && (
+                        <div className={styles.searchResults}>
+                            {searchResults.map((user: any) => (
+                                <div 
+                                    key={user.id} 
+                                    className={styles.searchResultItem}
+                                    onClick={() => handleStartConversation(user.username)}
+                                >
+                                    <Image 
+                                        src={user.avatar || 'https://i.pravatar.cc/150'} 
+                                        alt={user.username} 
+                                        width={40} 
+                                        height={40} 
+                                        className={styles.resultAvatar} 
                                     />
-                                    {conv.online && <div className={styles.onlineIndicator} />}
-                                </div>
-                                <div className={styles.conversationInfo}>
-                                    <div className={styles.conversationTop}>
-                                        <span className={styles.conversationName}>{conv.name}</span>
-                                        <span className={styles.timestamp}>{conv.timestamp}</span>
-                                    </div>
-                                    <div className={styles.conversationBottom}>
-                                        <span className={styles.lastMessage}>{conv.lastMessage}</span>
-                                        {conv.unread > 0 && <span className={styles.unreadBadge}>{conv.unread}</span>}
+                                    <div className={styles.resultInfo}>
+                                        <span className={styles.resultName}>{user.fullName || user.username}</span>
+                                        <span className={styles.resultUsername}>@{user.username}</span>
                                     </div>
                                 </div>
-                            </motion.div>
-                        ))}
+                            ))}
+                        </div>
+                    )}
+
+                    <div className={styles.conversationsScroll}>
+                        {filteredConversations.map((conv, idx) => {
+                            const otherUser = conv.participants[0];
+                            const lastMsg = conv.messages[0];
+                            
+                            return (
+                                <motion.div
+                                    key={conv.id}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: idx * 0.05 }}
+                                    className={`${styles.conversationItem} ${selectedConversation === conv.id ? styles.active : ''}`}
+                                    onClick={() => setSelectedConversation(conv.id)}
+                                >
+                                    <div className={styles.avatarContainer}>
+                                        <Image
+                                            src={otherUser.avatar || 'https://i.pravatar.cc/150'}
+                                            alt={otherUser.username}
+                                            className={styles.avatar}
+                                            width={60}
+                                            height={60}
+                                        />
+                                        {/* Mock online status for now */}
+                                        <div className={styles.onlineIndicator} />
+                                    </div>
+                                    <div className={styles.conversationInfo}>
+                                        <div className={styles.conversationTop}>
+                                            <span className={styles.conversationName}>{otherUser.fullName || otherUser.username}</span>
+                                            <span className={styles.timestamp}>
+                                                {formatDistanceToNow(new Date(conv.updatedAt), { addSuffix: false })}
+                                            </span>
+                                        </div>
+                                        <div className={styles.conversationBottom}>
+                                            <span className={styles.lastMessage}>{lastMsg?.content || 'Started a conversation'}</span>
+                                            {/* conv.unread placeholder */}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 </div>
 
@@ -250,20 +395,17 @@ const MessagesPage = () => {
                                         </button>
                                         <div className={styles.avatarContainer}>
                                             <Image
-                                                src={selectedConv?.avatar || ''}
-                                                alt={selectedConv?.name || ''}
+                                                src={selectedConv?.participants[0]?.avatar || 'https://i.pravatar.cc/150'}
+                                                alt={selectedConv?.participants[0]?.username || ''}
                                                 className={styles.avatar}
                                                 width={48}
                                                 height={48}
-
                                             />
-                                            {selectedConv?.online && <div className={styles.onlineIndicator} />}
+                                            <div className={styles.onlineIndicator} />
                                         </div>
                                         <div className={styles.chatHeaderInfo}>
-                                            <h2 className={styles.chatName}>{selectedConv?.name}</h2>
-                                            <span className={styles.chatStatus}>
-                                                {selectedConv?.online ? 'Online now' : 'Active 2h ago'}
-                                            </span>
+                                            <h2 className={styles.chatName}>{selectedConv?.participants[0]?.fullName || selectedConv?.participants[0]?.username}</h2>
+                                            <span className={styles.chatStatus}>Online now</span>
                                         </div>
                                     </div>
                                     <div className={styles.chatHeaderActions}>
@@ -275,34 +417,40 @@ const MessagesPage = () => {
 
                                 <div className={styles.messagesArea}>
                                     <AnimatePresence mode="popLayout">
-                                        {messages.map((message) => (
-                                            <motion.div
-                                                key={message.id}
-                                                initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                className={`${styles.messageWrapper} ${message.sender === 'user' ? styles.userMessage : styles.otherMessage}`}
-                                            >
-                                                {message.sender === 'other' && (
-                                                    <Image
-                                                        src={selectedConv?.avatar || ''}
-                                                        alt="Avatar"
-                                                        className={styles.messageAvatar}
-                                                        width={36}
-                                                        height={36}
-
-                                                    />
-                                                )}
-                                                <div className={styles.messageBubble}>
-                                                    <p className={styles.messageText}>{message.text}</p>
-                                                    <span className={styles.messageTime}>
-                                                        {message.timestamp}
-                                                        {message.sender === 'user' && message.status === 'seen' && <span className={styles.messageStatus}> ✓✓</span>}
-                                                        {message.sender === 'user' && message.status === 'sent' && <span className={styles.messageStatus}> ✓</span>}
-                                                        {message.sender === 'user' && message.status === 'delivered' && <span className={styles.messageStatus}> ✓✓</span>}
-                                                    </span>
-                                                </div>
-                                            </motion.div>
-                                        ))}
+                                        {messages.map((message) => {
+                                            const isMe = message.senderId === currentUser?.id;
+                                            return (
+                                                <motion.div
+                                                    key={message.id}
+                                                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    className={`${styles.messageWrapper} ${isMe ? styles.userMessage : styles.otherMessage}`}
+                                                >
+                                                    {!isMe && (
+                                                        <Image
+                                                            src={selectedConv?.participants[0]?.avatar || 'https://i.pravatar.cc/150'}
+                                                            alt="Avatar"
+                                                            className={styles.messageAvatar}
+                                                            width={36}
+                                                            height={36}
+                                                        />
+                                                    )}
+                                                    <div className={styles.messageBubble}>
+                                                        {message.content.startsWith('[IMAGE]:') ? (
+                                                            <div style={{ borderRadius: '12px', overflow: 'hidden', marginTop: '4px' }}>
+                                                                <Image src={message.content.replace('[IMAGE]:', '')} alt="Shared Image" width={240} height={240} style={{ objectFit: 'cover' }} />
+                                                            </div>
+                                                        ) : (
+                                                            <p className={styles.messageText}>{message.content}</p>
+                                                        )}
+                                                        <span className={styles.messageTime}>
+                                                            {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                            {isMe && <span className={styles.messageStatus}> ✓✓</span>}
+                                                        </span>
+                                                    </div>
+                                                </motion.div>
+                                            );
+                                        })}
 
                                         {isTyping && (
                                             <motion.div
@@ -313,7 +461,7 @@ const MessagesPage = () => {
                                                 className={`${styles.messageWrapper} ${styles.otherMessage}`}
                                             >
                                                 <Image
-                                                    src={selectedConv?.avatar || ''}
+                                                    src={selectedConv?.participants[0]?.avatar || 'https://i.pravatar.cc/150'}
                                                     alt="Avatar"
                                                     className={styles.messageAvatar}
                                                     width={36}
@@ -331,7 +479,19 @@ const MessagesPage = () => {
                                 </div>
 
                                 <div className={styles.messageInput}>
-                                    <button className={styles.headerActionBtn}><LucideImage size={22} /></button>
+                                    <input 
+                                        type="file" 
+                                        accept="image/*" 
+                                        id="chat-image-upload" 
+                                        style={{ display: 'none' }} 
+                                        onChange={handleImageUpload} 
+                                    />
+                                    <button 
+                                        className={styles.headerActionBtn} 
+                                        onClick={() => document.getElementById('chat-image-upload')?.click()}
+                                    >
+                                        <LucideImage size={22} />
+                                    </button>
                                     <button className={styles.headerActionBtn}><Smile size={22} /></button>
                                     <input
                                         type="text"

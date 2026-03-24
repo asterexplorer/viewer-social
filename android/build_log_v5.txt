@@ -1,0 +1,636 @@
+Initialized native services in: C:\Users\aster\.gradle\native
+Initialized jansi services in: C:\Users\aster\.gradle\native
+Received JVM installation metadata from 'C:\Program Files\Java\jdk-25.0.2': {JAVA_HOME=C:\Program Files\Java\jdk-25.0.2, JAVA_VERSION=25.0.2, JAVA_VENDOR=Oracle Corporation, RUNTIME_NAME=Java(TM) SE Runtime Environment, RUNTIME_VERSION=25.0.2+10-LTS-69, VM_NAME=Java HotSpot(TM) 64-Bit Server VM, VM_VERSION=25.0.2+10-LTS-69, VM_VENDOR=Oracle Corporation, OS_ARCH=amd64}
+Starting process 'command 'C:\Program Files\Android\Android Studio\jbr\bin\java.exe''. Working directory: C:\Users\aster\.gradle\.tmp\tmp-jvm10335524165741013801probe Command: C:\Program Files\Android\Android Studio\jbr\bin\java.exe -cp . JavaProbe
+Successfully started process 'command 'C:\Program Files\Android\Android Studio\jbr\bin\java.exe''
+Received JVM installation metadata from 'C:\Program Files\Android\Android Studio\jbr': {JAVA_HOME=C:\Program Files\Android\Android Studio\jbr, JAVA_VERSION=21.0.9, JAVA_VENDOR=JetBrains s.r.o., RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.9+-14787801-b1163.94, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.9+-14787801-b1163.94, VM_VENDOR=JetBrains s.r.o., OS_ARCH=amd64}
+Removing daemon from the registry due to communication failure. Daemon information: DaemonInfo{pid=13204, address=[7d9a610a-3470-4f12-8be5-eebe151855f2 port:53343, addresses:[/127.0.0.1]], state=Idle, lastBusy=1773729043271, context=DefaultDaemonContext[uid=77c1789d-cddc-4dd1-92f9-fae4b9a8e67e,javaHome=C:\Program Files\Android\Android Studio\jbr,daemonRegistryDir=C:\Users\aster\.gradle\daemon,pid=13204,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,daemonOpts=--add-opens=java.base/java.util=ALL-UNNAMED,--add-opens=java.base/java.lang=ALL-UNNAMED,--add-opens=java.base/java.lang.invoke=ALL-UNNAMED,--add-opens=java.prefs/java.util.prefs=ALL-UNNAMED,--add-opens=java.base/java.nio.charset=ALL-UNNAMED,--add-opens=java.base/java.net=ALL-UNNAMED,--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED,-Xmx1536m,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]}
+Removing 0 daemon stop events from registry
+Previous Daemon (16968) stopped at Tue Mar 17 11:58:23 IST 2026 stop command received
+Previous Daemon (16312) stopped at Tue Mar 17 11:58:24 IST 2026 stop command received
+Previous Daemon (13204) stopped at Tue Mar 17 12:08:47 IST 2026 by user or operating system
+Starting a Gradle Daemon, 1 incompatible and 3 stopped Daemons could not be reused, use --status for details
+Starting process 'Gradle build daemon'. Working directory: C:\Users\aster\.gradle\daemon\8.2 Command: C:\Program Files\Android\Android Studio\jbr\bin\java.exe --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED -Xmx1536m -Dfile.encoding=UTF-8 -Duser.country=US -Duser.language=en -Duser.variant -cp C:\Users\aster\.gradle\wrapper\dists\gradle-8.2-bin\bbg7u40eoinfdyxsxr3z4i7ta\gradle-8.2\lib\gradle-launcher-8.2.jar -javaagent:C:\Users\aster\.gradle\wrapper\dists\gradle-8.2-bin\bbg7u40eoinfdyxsxr3z4i7ta\gradle-8.2\lib\agents\gradle-instrumentation-agent-8.2.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 8.2
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 16.346 secs.
+The client will now receive all logging from the daemon (pid: 16624). The daemon log file: C:\Users\aster\.gradle\daemon\8.2\daemon-16624.out.log
+Starting build in new daemon [memory: 1.5 GiB]
+Using 4 worker leases.
+Received JVM installation metadata from 'C:\Program Files\Android\Android Studio\jbr': {JAVA_HOME=C:\Program Files\Android\Android Studio\jbr, JAVA_VERSION=21.0.9, JAVA_VENDOR=JetBrains s.r.o., RUNTIME_NAME=Java(TM) SE Runtime Environment, RUNTIME_VERSION=21.0.9+-14787801-b1163.94, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.9+-14787801-b1163.94, VM_VENDOR=JetBrains s.r.o., OS_ARCH=amd64}
+Watching the file system is configured to be enabled if available
+Now considering [C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android] as hierarchies to watch
+File system watching is active
+Starting Build
+Compiling settings file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\settings.gradle' using SubsetScriptTransformer.
+Compiling settings file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\settings.gradle' using BuildScriptTransformer.
+Compiling script 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\capacitor.settings.gradle' using SubsetScriptTransformer.
+Compiling script 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\capacitor.settings.gradle' using BuildScriptTransformer.
+Settings evaluated using settings file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\settings.gradle'.
+Projects loaded. Root project using build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\build.gradle'.
+Included projects: [root project 'android', project ':app', project ':capacitor-android', project ':capacitor-app', project ':capacitor-browser', project ':capacitor-camera', project ':capacitor-cordova-android-plugins', project ':capacitor-filesystem', project ':capacitor-haptics', project ':capacitor-keyboard', project ':capacitor-network', project ':capacitor-preferences', project ':capacitor-share', project ':capacitor-splash-screen', project ':capacitor-status-bar']
+
+> Configure project :
+Evaluating root project 'android' using build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\build.gradle'.
+Compiling build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\build.gradle' using SubsetScriptTransformer.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/8.2.2/gradle-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download9860719655579480455bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/8.2.2/gradle-8.2.2.module to C:\Users\aster\.gradle\.tmp\gradle_download3457861020684348916bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/sdklib/31.2.2/sdklib-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download5812785958095469417bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/repository/31.2.2/repository-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download903230005522004688bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-settings-api/8.2.2/gradle-settings-api-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download15134575385889377772bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/sdk-common/31.2.2/sdk-common-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download16454006978001723678bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2-proto/8.2.2-10154469/aapt2-proto-8.2.2-10154469.pom to C:\Users\aster\.gradle\.tmp\gradle_download7130086974354789666bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-settings-api/8.2.2/gradle-settings-api-8.2.2.module to C:\Users\aster\.gradle\.tmp\gradle_download10866920590386130745bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/ddms/ddmlib/31.2.2/ddmlib-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download15078729080566869203bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aaptcompiler/8.2.2/aaptcompiler-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download2542477725441867036bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/shared/31.2.2/shared-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download4557640513234707779bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/crash/31.2.2/crash-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download1883450727978234424bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2-proto/8.2.2-10154469/aapt2-proto-8.2.2-10154469.module to C:\Users\aster\.gradle\.tmp\gradle_download9866232123609736122bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aaptcompiler/8.2.2/aaptcompiler-8.2.2.module to C:\Users\aster\.gradle\.tmp\gradle_download8788426538708418451bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/lint/lint-typedef-remover/31.2.2/lint-typedef-remover-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download4473908122415483203bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/databinding/databinding-compiler-common/8.2.2/databinding-compiler-common-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download140440696615737569bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/databinding/databinding-common/8.2.2/databinding-common-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download12006800820612820806bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/lint/lint-model/31.2.2/lint-model-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download3441416564659496705bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-test-api/8.2.2/builder-test-api-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download2737101546461898074bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/layoutlib/layoutlib-api/31.2.2/layoutlib-api-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download6951280922697305029bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/databinding/baseLibrary/8.2.2/baseLibrary-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download9996750219657895416bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-device-provider-ddmlib-proto/31.2.2/android-device-provider-ddmlib-proto-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download1369610745117778717bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-device-provider-gradle-proto/31.2.2/android-device-provider-gradle-proto-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download222597886394857016bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-test-api/8.2.2/builder-test-api-8.2.2.module to C:\Users\aster\.gradle\.tmp\gradle_download13459361293417701580bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-coverage-proto/31.2.2/android-test-plugin-host-coverage-proto-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download13795570669899516286bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-additional-test-output-proto/31.2.2/android-test-plugin-host-additional-test-output-proto-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download14347287752111102750bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-retention-proto/31.2.2/android-test-plugin-host-retention-proto-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download15742178120497315864bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-logcat-proto/31.2.2/android-test-plugin-host-logcat-proto-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download11504245310015066007bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-apk-installer-proto/31.2.2/android-test-plugin-host-apk-installer-proto-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download2045317600122559641bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-emulator-control-proto/31.2.2/android-test-plugin-host-emulator-control-proto-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download878705721308858117bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-result-listener-gradle-proto/31.2.2/android-test-plugin-result-listener-gradle-proto-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download16120167714982716112bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/transform-api/2.0.0-deprecated-use-gradle-api/transform-api-2.0.0-deprecated-use-gradle-api.pom to C:\Users\aster\.gradle\.tmp\gradle_download7512905203875729287bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.9.0/kotlin-stdlib-jdk8-1.9.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download10469314045625864950bin
+Downloading https://repo.maven.apache.org/maven2/commons-io/commons-io/2.4/commons-io-2.4.pom to C:\Users\aster\.gradle\.tmp\gradle_download6301337065517739015bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpmime/4.5.6/httpmime-4.5.6.pom to C:\Users\aster\.gradle\.tmp\gradle_download4519884343837624503bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.2/asm-9.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download15720968300022339114bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcomponents-client/4.5.6/httpcomponents-client-4.5.6.pom to C:\Users\aster\.gradle\.tmp\gradle_download10170298383614411762bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/25/commons-parent-25.pom to C:\Users\aster\.gradle\.tmp\gradle_download13282221303135894383bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-analysis/9.2/asm-analysis-9.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download18025375008201974788bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/ow2/1.5/ow2-1.5.pom to C:\Users\aster\.gradle\.tmp\gradle_download15029628681745941539bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcomponents-parent/10/httpcomponents-parent-10.pom to C:\Users\aster\.gradle\.tmp\gradle_download13888251448720217848bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/18/apache-18.pom to C:\Users\aster\.gradle\.tmp\gradle_download2789949835366707750bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/9/apache-9.pom to C:\Users\aster\.gradle\.tmp\gradle_download11584007605997204662bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-commons/9.2/asm-commons-9.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download12332853649797584453bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-util/9.2/asm-util-9.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download6929860740989212748bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.67/bcpkix-jdk15on-1.67.pom to C:\Users\aster\.gradle\.tmp\gradle_download1183414498953071859bin
+Downloading https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-runtime/2.3.2/jaxb-runtime-2.3.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download2909859626202220118bin
+Downloading https://repo.maven.apache.org/maven2/net/sf/jopt-simple/jopt-simple/4.9/jopt-simple-4.9.pom to C:\Users\aster\.gradle\.tmp\gradle_download17377036180452405483bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/xml/bind/mvn/jaxb-runtime-parent/2.3.2/jaxb-runtime-parent-2.3.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download12276573968605543879bin
+Downloading https://repo.maven.apache.org/maven2/org/sonatype/oss/oss-parent/7/oss-parent-7.pom to C:\Users\aster\.gradle\.tmp\gradle_download3238602457755190695bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/bundletool/1.15.2/bundletool-1.15.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download16903352415460705137bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/xml/bind/mvn/jaxb-parent/2.3.2/jaxb-parent-2.3.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download5667105251794694221bin
+Downloading https://repo.maven.apache.org/maven2/com/squareup/javapoet/1.10.0/javapoet-1.10.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download12391989044903517613bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/xml/bind/jaxb-bom-ext/2.3.2/jaxb-bom-ext-2.3.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download18010948962919220091bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/jetifier/jetifier-core/1.0.0-beta10/jetifier-core-1.0.0-beta10.pom to C:\Users\aster\.gradle\.tmp\gradle_download5507566168319146572bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/jetifier/jetifier-processor/1.0.0-beta10/jetifier-processor-1.0.0-beta10.pom to C:\Users\aster\.gradle\.tmp\gradle_download976456690805096925bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-java/3.19.3/protobuf-java-3.19.3.pom to C:\Users\aster\.gradle\.tmp\gradle_download5950507930349924814bin
+Downloading https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-bom/2.3.2/jaxb-bom-2.3.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download8747263714362350346bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-parent/3.19.3/protobuf-parent-3.19.3.pom to C:\Users\aster\.gradle\.tmp\gradle_download14235179621304892358bin
+Downloading https://repo.maven.apache.org/maven2/org/eclipse/ee4j/project/1.0.5/project-1.0.5.pom to C:\Users\aster\.gradle\.tmp\gradle_download10218260277131491380bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-bom/3.19.3/protobuf-bom-3.19.3.pom to C:\Users\aster\.gradle\.tmp\gradle_download2016401803729421771bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/jetifier/jetifier-processor/1.0.0-beta10/jetifier-processor-1.0.0-beta10.module to C:\Users\aster\.gradle\.tmp\gradle_download14899211537542024388bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/jetifier/jetifier-core/1.0.0-beta10/jetifier-core-1.0.0-beta10.module to C:\Users\aster\.gradle\.tmp\gradle_download478614079726093080bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-java-util/3.19.3/protobuf-java-util-3.19.3.pom to C:\Users\aster\.gradle\.tmp\gradle_download16965219370989789752bin
+Downloading https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.8.6/gson-2.8.6.pom to C:\Users\aster\.gradle\.tmp\gradle_download4590167797683260303bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-core/1.45.1/grpc-core-1.45.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download15130661692508666626bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-netty/1.45.1/grpc-netty-1.45.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download16702139739985822933bin
+Downloading https://repo.maven.apache.org/maven2/com/google/code/gson/gson-parent/2.8.6/gson-parent-2.8.6.pom to C:\Users\aster\.gradle\.tmp\gradle_download11841764410376821288bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-protobuf/1.45.1/grpc-protobuf-1.45.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download10346472535362430706bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-stub/1.45.1/grpc-stub-1.45.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download17965972817431145032bin
+Downloading https://repo.maven.apache.org/maven2/com/google/crypto/tink/tink/1.7.0/tink-1.7.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download16022121419756358598bin
+Downloading https://repo.maven.apache.org/maven2/com/google/flatbuffers/flatbuffers-java/1.12.0/flatbuffers-java-1.12.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download10950791101136010328bin
+Downloading https://repo.maven.apache.org/maven2/org/tensorflow/tensorflow-lite-metadata/0.1.0-rc2/tensorflow-lite-metadata-0.1.0-rc2.pom to C:\Users\aster\.gradle\.tmp\gradle_download4958280484235942407bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/testing/platform/core-proto/0.0.8-alpha08/core-proto-0.0.8-alpha08.pom to C:\Users\aster\.gradle\.tmp\gradle_download3121421566725730984bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-model/8.2.2/builder-model-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download10510517969854500641bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-api/8.2.2/gradle-api-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download15108055707280885622bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder/8.2.2/builder-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download16180882485740206293bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-model/8.2.2/builder-model-8.2.2.module to C:\Users\aster\.gradle\.tmp\gradle_download4120783775983681336bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-api/8.2.2/gradle-api-8.2.2.module to C:\Users\aster\.gradle\.tmp\gradle_download17421427192295957097bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder/8.2.2/builder-8.2.2.module to C:\Users\aster\.gradle\.tmp\gradle_download1246818642805192400bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/android/gms/strict-version-matcher-plugin/1.2.4/strict-version-matcher-plugin-1.2.4.pom to C:\Users\aster\.gradle\.tmp\gradle_download17416867499307140216bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/android/gms/strict-version-matcher-plugin/1.2.4/strict-version-matcher-plugin-1.2.4.module to C:\Users\aster\.gradle\.tmp\gradle_download6924060965737597561bin
+Downloading https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.10/gson-2.10.pom to C:\Users\aster\.gradle\.tmp\gradle_download8840764528129650106bin
+Downloading https://repo.maven.apache.org/maven2/com/google/code/gson/gson-parent/2.10/gson-parent-2.10.pom to C:\Users\aster\.gradle\.tmp\gradle_download8586697302018451340bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava/31.1-jre/guava-31.1-jre.pom to C:\Users\aster\.gradle\.tmp\gradle_download4736432217787150474bin
+Downloading https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1.pom to C:\Users\aster\.gradle\.tmp\gradle_download6941210766130143009bin
+Downloading https://repo.maven.apache.org/maven2/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download9411691796312985277bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava-parent/31.1-jre/guava-parent-31.1-jre.pom to C:\Users\aster\.gradle\.tmp\gradle_download10265430542727405137bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk15on/1.67/bcprov-jdk15on-1.67.pom to C:\Users\aster\.gradle\.tmp\gradle_download2596715542125910848bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/common/31.2.2/common-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download9599527023998560613bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/intellij/deps/trove4j/1.0.20200330/trove4j-1.0.20200330.pom to C:\Users\aster\.gradle\.tmp\gradle_download260961614627666852bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-reflect/1.9.0/kotlin-reflect-1.9.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download1115005261781156439bin
+Downloading https://repo.maven.apache.org/maven2/xerces/xercesImpl/2.12.0/xercesImpl-2.12.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download5492866379443653330bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.pom to C:\Users\aster\.gradle\.tmp\gradle_download8342973691969730594bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.21/commons-compress-1.21.pom to C:\Users\aster\.gradle\.tmp\gradle_download8419362840187162309bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcomponents-core/4.4.16/httpcomponents-core-4.4.16.pom to C:\Users\aster\.gradle\.tmp\gradle_download10446994086178869332bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/52/commons-parent-52.pom to C:\Users\aster\.gradle\.tmp\gradle_download16721684357373526600bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcomponents-parent/11/httpcomponents-parent-11.pom to C:\Users\aster\.gradle\.tmp\gradle_download7778152076856831975bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/23/apache-23.pom to C:\Users\aster\.gradle\.tmp\gradle_download1394340929549498176bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/21/apache-21.pom to C:\Users\aster\.gradle\.tmp\gradle_download1389070553666718951bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/dvlib/31.2.2/dvlib-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download12130166599543033418bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/activation/javax.activation/1.2.0/javax.activation-1.2.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download1168627765377047869bin
+Downloading https://repo.maven.apache.org/maven2/com/google/jimfs/jimfs/1.1/jimfs-1.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download12798018611328651050bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/activation/all/1.2.0/all-1.2.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download18406015828069926632bin
+Downloading https://repo.maven.apache.org/maven2/com/google/jimfs/jimfs-parent/1.1/jimfs-parent-1.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download9504967503611967864bin
+Downloading https://repo.maven.apache.org/maven2/net/java/jvnet-parent/1/jvnet-parent-1.pom to C:\Users\aster\.gradle\.tmp\gradle_download12358648792697096178bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/annotations/13.0/annotations-13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download15721082858719053794bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpclient/4.5.14/httpclient-4.5.14.pom to C:\Users\aster\.gradle\.tmp\gradle_download5632654990403093286bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/annotations/31.2.2/annotations-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download13057364841837568300bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcomponents-client/4.5.14/httpcomponents-client-4.5.14.pom to C:\Users\aster\.gradle\.tmp\gradle_download10833122635982274709bin
+Downloading https://repo.maven.apache.org/maven2/net/java/dev/jna/jna-platform/5.6.0/jna-platform-5.6.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download9575419706983817081bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/protos/31.2.2/protos-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download13368514927174268018bin
+Downloading https://repo.maven.apache.org/maven2/com/googlecode/juniversalchardet/juniversalchardet/1.0.3/juniversalchardet-1.0.3.pom to C:\Users\aster\.gradle\.tmp\gradle_download6559409910678464145bin
+Downloading https://repo.maven.apache.org/maven2/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download7912092331118688819bin
+Downloading https://repo.maven.apache.org/maven2/net/java/jvnet-parent/3/jvnet-parent-3.pom to C:\Users\aster\.gradle\.tmp\gradle_download15562735235685898073bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/1.9.0/kotlin-stdlib-1.9.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download10586586781611175414bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.9.0/kotlin-stdlib-jdk7-1.9.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download8271724594643389109bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-tree/9.2/asm-tree-9.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download12365893917286215501bin
+Downloading https://repo.maven.apache.org/maven2/jakarta/xml/bind/jakarta.xml.bind-api/2.3.2/jakarta.xml.bind-api-2.3.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download11845521672580671956bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/istack/istack-commons-runtime/3.0.8/istack-commons-runtime-3.0.8.pom to C:\Users\aster\.gradle\.tmp\gradle_download11733913546567358029bin
+Downloading https://repo.maven.apache.org/maven2/jakarta/xml/bind/jakarta.xml.bind-api-parent/2.3.2/jakarta.xml.bind-api-parent-2.3.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download4398725660184669677bin
+Downloading https://repo.maven.apache.org/maven2/org/jvnet/staxex/stax-ex/1.8.1/stax-ex-1.8.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download1075442308814114040bin
+Downloading https://repo.maven.apache.org/maven2/org/glassfish/jaxb/txw2/2.3.2/txw2-2.3.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download2198611079019240353bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/istack/istack-commons/3.0.8/istack-commons-3.0.8.pom to C:\Users\aster\.gradle\.tmp\gradle_download12386041655129294279bin
+Downloading https://repo.maven.apache.org/maven2/jakarta/activation/jakarta.activation-api/1.2.1/jakarta.activation-api-1.2.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download6766174064965582629bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/xml/fastinfoset/FastInfoset/1.2.16/FastInfoset-1.2.16.pom to C:\Users\aster\.gradle\.tmp\gradle_download5748274331092607406bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/xml/bind/mvn/jaxb-txw-parent/2.3.2/jaxb-txw-parent-2.3.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download16763863282549173664bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/xml/fastinfoset/fastinfoset-project/1.2.16/fastinfoset-project-1.2.16.pom to C:\Users\aster\.gradle\.tmp\gradle_download11136927779442579362bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/activation/all/1.2.1/all-1.2.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download9756526475824198787bin
+Downloading https://repo.maven.apache.org/maven2/org/eclipse/ee4j/project/1.0.2/project-1.0.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download1959885434279651318bin
+Downloading https://repo.maven.apache.org/maven2/com/google/auto/value/auto-value-annotations/1.6.2/auto-value-annotations-1.6.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download4335585912570300971bin
+Downloading https://repo.maven.apache.org/maven2/com/google/auto/value/auto-value-parent/1.6.2/auto-value-parent-1.6.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download11341125904648283421bin
+Downloading https://repo.maven.apache.org/maven2/org/bitbucket/b_c/jose4j/0.7.0/jose4j-0.7.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download1168827518425139523bin
+Downloading https://repo.maven.apache.org/maven2/com/google/auto/auto-parent/6/auto-parent-6.pom to C:\Users\aster\.gradle\.tmp\gradle_download2421015528536681972bin
+Downloading https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.pom to C:\Users\aster\.gradle\.tmp\gradle_download9916365520258179287bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.3.1/error_prone_annotations-2.3.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download5133981931570906652bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_parent/2.3.1/error_prone_parent-2.3.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download377922329940577519bin
+Downloading https://repo.maven.apache.org/maven2/org/slf4j/slf4j-parent/1.7.30/slf4j-parent-1.7.30.pom to C:\Users\aster\.gradle\.tmp\gradle_download6302080662569800384bin
+Downloading https://repo.maven.apache.org/maven2/com/google/dagger/dagger/2.28.3/dagger-2.28.3.pom to C:\Users\aster\.gradle\.tmp\gradle_download16548564967133659570bin
+Downloading https://repo.maven.apache.org/maven2/org/jdom/jdom2/2.0.6/jdom2-2.0.6.pom to C:\Users\aster\.gradle\.tmp\gradle_download444244628303513685bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.5.1/error_prone_annotations-2.5.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download11300907884118069737bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_parent/2.5.1/error_prone_parent-2.5.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download2854596163315462363bin
+Downloading https://repo.maven.apache.org/maven2/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3.pom to C:\Users\aster\.gradle\.tmp\gradle_download17443853209073422606bin
+Downloading https://repo.maven.apache.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download5930703300020394909bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.10.0/error_prone_annotations-2.10.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download7412009605203455454bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_parent/2.10.0/error_prone_parent-2.10.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download5159494449344514192bin
+Downloading https://repo.maven.apache.org/maven2/io/perfmark/perfmark-api/0.23.0/perfmark-api-0.23.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download12387581665288736514bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-api/1.45.1/grpc-api-1.45.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download1091389500123671465bin
+Downloading https://repo.maven.apache.org/maven2/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4.pom to C:\Users\aster\.gradle\.tmp\gradle_download11475057663443890786bin
+Downloading https://repo.maven.apache.org/maven2/org/codehaus/mojo/animal-sniffer-annotations/1.19/animal-sniffer-annotations-1.19.pom to C:\Users\aster\.gradle\.tmp\gradle_download13194619490277764418bin
+Downloading https://repo.maven.apache.org/maven2/io/perfmark/perfmark-api/0.23.0/perfmark-api-0.23.0.module to C:\Users\aster\.gradle\.tmp\gradle_download12364978622729329661bin
+Downloading https://repo.maven.apache.org/maven2/org/codehaus/mojo/animal-sniffer-parent/1.19/animal-sniffer-parent-1.19.pom to C:\Users\aster\.gradle\.tmp\gradle_download9253814956478389205bin
+Downloading https://repo.maven.apache.org/maven2/org/codehaus/mojo/mojo-parent/50/mojo-parent-50.pom to C:\Users\aster\.gradle\.tmp\gradle_download17507045616003196530bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-http2/4.1.72.Final/netty-codec-http2-4.1.72.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download4432756839525981834bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-handler-proxy/4.1.72.Final/netty-handler-proxy-4.1.72.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download12573899324169876130bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-parent/4.1.72.Final/netty-parent-4.1.72.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download8882609303284131043bin
+Downloading https://repo.maven.apache.org/maven2/org/sonatype/oss/oss-parent/9/oss-parent-9.pom to C:\Users\aster\.gradle\.tmp\gradle_download2097673273674968943bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-protobuf-lite/1.45.1/grpc-protobuf-lite-1.45.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download16928177180347169515bin
+Downloading https://repo.maven.apache.org/maven2/com/google/api/grpc/proto-google-common-protos/2.0.1/proto-google-common-protos-2.0.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download5012433395294932073bin
+Downloading https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/2.5.8/checker-qual-2.5.8.pom to C:\Users\aster\.gradle\.tmp\gradle_download8340303042038729640bin
+Downloading https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.10/commons-codec-1.10.pom to C:\Users\aster\.gradle\.tmp\gradle_download6241429050324244753bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/35/commons-parent-35.pom to C:\Users\aster\.gradle\.tmp\gradle_download16776700372838508907bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/signflinger/8.2.2/signflinger-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download3682849205915290486bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/tracker/31.2.2/tracker-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download2693791110119956301bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/manifest-merger/31.2.2/manifest-merger-31.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download5260314116100501793bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/15/apache-15.pom to C:\Users\aster\.gradle\.tmp\gradle_download11761071529361744567bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/manifest-merger/31.2.2/manifest-merger-31.2.2.module to C:\Users\aster\.gradle\.tmp\gradle_download5138855908597316212bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/zipflinger/8.2.2/zipflinger-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download827253839444512960bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/apksig/8.2.2/apksig-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download14064879345233379579bin
+Downloading https://repo.maven.apache.org/maven2/com/squareup/javawriter/2.5.0/javawriter-2.5.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download3497487758598654496bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/apkzlib/8.2.2/apkzlib-8.2.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download8668601782339814289bin
+Downloading https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.12.0/checker-qual-3.12.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download7614841802109752792bin
+Downloading https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.12.0/checker-qual-3.12.0.module to C:\Users\aster\.gradle\.tmp\gradle_download10566577748529674212bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.11.0/error_prone_annotations-2.11.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download14703311427322457727bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_parent/2.11.0/error_prone_parent-2.11.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download14809541663821409109bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download1724837465567211132bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.pom to C:\Users\aster\.gradle\.tmp\gradle_download17783825128331345097bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava-parent/26.0-android/guava-parent-26.0-android.pom to C:\Users\aster\.gradle\.tmp\gradle_download871742303548154401bin
+Downloading https://repo.maven.apache.org/maven2/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.pom to C:\Users\aster\.gradle\.tmp\gradle_download14877654764337750780bin
+Downloading https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.11/commons-codec-1.11.pom to C:\Users\aster\.gradle\.tmp\gradle_download12574967057968674147bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/42/commons-parent-42.pom to C:\Users\aster\.gradle\.tmp\gradle_download15329317476984976013bin
+Downloading https://repo.maven.apache.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download56916516947793201bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/34/commons-parent-34.pom to C:\Users\aster\.gradle\.tmp\gradle_download17864605015019262980bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/13/apache-13.pom to C:\Users\aster\.gradle\.tmp\gradle_download10693530940919204860bin
+Downloading https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.6.0/jna-5.6.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download1418526551807259231bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/1.9.0/kotlin-stdlib-common-1.9.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download10828786031853890286bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-context/1.45.1/grpc-context-1.45.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download417143007969187810bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-common/4.1.72.Final/netty-common-4.1.72.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download17019920952860348514bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-transport/4.1.72.Final/netty-transport-4.1.72.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download10995232609240963998bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec/4.1.72.Final/netty-codec-4.1.72.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download15160649667724733503bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-buffer/4.1.72.Final/netty-buffer-4.1.72.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download15995337898312439783bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-handler/4.1.72.Final/netty-handler-4.1.72.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download18360050651027809442bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-http/4.1.72.Final/netty-codec-http-4.1.72.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download3693037685886944927bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-socks/4.1.72.Final/netty-codec-socks-4.1.72.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download16985379294855636007bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-resolver/4.1.72.Final/netty-resolver-4.1.72.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download3591760981523845721bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-tcnative-classes/2.0.46.Final/netty-tcnative-classes-2.0.46.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download10287908162544352658bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-tcnative-parent/2.0.46.Final/netty-tcnative-parent-2.0.46.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download8647544892731928833bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/gms/google-services/4.4.4/google-services-4.4.4.jar to C:\Users\aster\.gradle\.tmp\gradle_download10469779617349491568bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-settings-api/8.2.2/gradle-settings-api-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download5123614239247135414bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/lint/lint-model/31.2.2/lint-model-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download17895132531914130090bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/8.2.2/gradle-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download5373404103731460180bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/manifest-merger/31.2.2/manifest-merger-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download4944208843365246295bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder/8.2.2/builder-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download4249198471771854398bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/sdk-common/31.2.2/sdk-common-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download9041631184479804288bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/sdklib/31.2.2/sdklib-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download8608240638234647377bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/repository/31.2.2/repository-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download964590169764980476bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-api/8.2.2/gradle-api-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download2343656172157510076bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-test-api/8.2.2/builder-test-api-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download3268468341635412931bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/ddms/ddmlib/31.2.2/ddmlib-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download8628944118146166938bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aaptcompiler/8.2.2/aaptcompiler-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download5522134710736744604bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/bundletool/1.15.2/bundletool-1.15.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download12815979408405352521bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2-proto/8.2.2-10154469/aapt2-proto-8.2.2-10154469.jar to C:\Users\aster\.gradle\.tmp\gradle_download3856451721080757016bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/crash/31.2.2/crash-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download6657109179616281116bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/tracker/31.2.2/tracker-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download1291603048428555555bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/shared/31.2.2/shared-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download8180357392088186597bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/lint/lint-typedef-remover/31.2.2/lint-typedef-remover-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download14687055499212871102bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/databinding/databinding-compiler-common/8.2.2/databinding-compiler-common-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download17828933434213165998bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/databinding/databinding-common/8.2.2/databinding-common-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download17889756201751688550bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/databinding/baseLibrary/8.2.2/baseLibrary-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download11958563097783919597bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/layoutlib/layoutlib-api/31.2.2/layoutlib-api-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download7477360294465535597bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-device-provider-ddmlib-proto/31.2.2/android-device-provider-ddmlib-proto-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download3905662069538804395bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-device-provider-gradle-proto/31.2.2/android-device-provider-gradle-proto-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download1109580052855553179bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-additional-test-output-proto/31.2.2/android-test-plugin-host-additional-test-output-proto-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download6110008436354070503bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-coverage-proto/31.2.2/android-test-plugin-host-coverage-proto-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download4765798767921146705bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-emulator-control-proto/31.2.2/android-test-plugin-host-emulator-control-proto-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download14887066180106015171bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-logcat-proto/31.2.2/android-test-plugin-host-logcat-proto-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download15767772474933126367bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-apk-installer-proto/31.2.2/android-test-plugin-host-apk-installer-proto-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download13659047118326839021bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-retention-proto/31.2.2/android-test-plugin-host-retention-proto-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download14089701036220024673bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-result-listener-gradle-proto/31.2.2/android-test-plugin-result-listener-gradle-proto-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download11532272631810076574bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-model/8.2.2/builder-model-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download16600128834640644372bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/android/gms/strict-version-matcher-plugin/1.2.4/strict-version-matcher-plugin-1.2.4.jar to C:\Users\aster\.gradle\.tmp\gradle_download5739082716885034242bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/dvlib/31.2.2/dvlib-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download14956746264569001943bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/common/31.2.2/common-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download15778194225099212015bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.9.0/kotlin-stdlib-jdk8-1.9.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download1227978215756191810bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/transform-api/2.0.0-deprecated-use-gradle-api/transform-api-2.0.0-deprecated-use-gradle-api.jar to C:\Users\aster\.gradle\.tmp\gradle_download16002444982590172784bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpmime/4.5.6/httpmime-4.5.6.jar to C:\Users\aster\.gradle\.tmp\gradle_download2618076943569705577bin
+Downloading https://repo.maven.apache.org/maven2/commons-io/commons-io/2.4/commons-io-2.4.jar to C:\Users\aster\.gradle\.tmp\gradle_download10401331906844568605bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-commons/9.2/asm-commons-9.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download16600242477006654761bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-util/9.2/asm-util-9.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download1523504115554695461bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/jetifier/jetifier-processor/1.0.0-beta10/jetifier-processor-1.0.0-beta10.jar to C:\Users\aster\.gradle\.tmp\gradle_download231849745130179248bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-analysis/9.2/asm-analysis-9.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download5613899083771428972bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-tree/9.2/asm-tree-9.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download13985088913327755855bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.2/asm-9.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download16990254484532423693bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcpkix-jdk15on/1.67/bcpkix-jdk15on-1.67.jar to C:\Users\aster\.gradle\.tmp\gradle_download14513506317667447415bin
+Downloading https://repo.maven.apache.org/maven2/net/sf/jopt-simple/jopt-simple/4.9/jopt-simple-4.9.jar to C:\Users\aster\.gradle\.tmp\gradle_download9078159532876345157bin
+Downloading https://repo.maven.apache.org/maven2/com/squareup/javapoet/1.10.0/javapoet-1.10.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download6158581972602929101bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/apkzlib/8.2.2/apkzlib-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download2476344924509244494bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/jetifier/jetifier-core/1.0.0-beta10/jetifier-core-1.0.0-beta10.jar to C:\Users\aster\.gradle\.tmp\gradle_download17345913584591508964bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-java-util/3.19.3/protobuf-java-util-3.19.3.jar to C:\Users\aster\.gradle\.tmp\gradle_download13075651591763462851bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-protobuf/1.45.1/grpc-protobuf-1.45.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download11379373519099190758bin
+Downloading https://repo.maven.apache.org/maven2/com/google/api/grpc/proto-google-common-protos/2.0.1/proto-google-common-protos-2.0.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download2755875237218156906bin
+Downloading https://repo.maven.apache.org/maven2/com/google/crypto/tink/tink/1.7.0/tink-1.7.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download11256497411786071334bin
+Downloading https://repo.maven.apache.org/maven2/org/glassfish/jaxb/jaxb-runtime/2.3.2/jaxb-runtime-2.3.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download18208493571452068397bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/protos/31.2.2/protos-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download4963403134272515268bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-java/3.19.3/protobuf-java-3.19.3.jar to C:\Users\aster\.gradle\.tmp\gradle_download6859155946680048067bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-netty/1.45.1/grpc-netty-1.45.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download15727104822658124863bin
+Downloading https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.10/gson-2.10.jar to C:\Users\aster\.gradle\.tmp\gradle_download17415577546301131383bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-core/1.45.1/grpc-core-1.45.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download9516332110820322429bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-stub/1.45.1/grpc-stub-1.45.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download13952368359724083597bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/testing/platform/core-proto/0.0.8-alpha08/core-proto-0.0.8-alpha08.jar to C:\Users\aster\.gradle\.tmp\gradle_download13324520092642925240bin
+Downloading https://repo.maven.apache.org/maven2/org/tensorflow/tensorflow-lite-metadata/0.1.0-rc2/tensorflow-lite-metadata-0.1.0-rc2.jar to C:\Users\aster\.gradle\.tmp\gradle_download4413106282968961046bin
+Downloading https://repo.maven.apache.org/maven2/com/google/jimfs/jimfs/1.1/jimfs-1.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download358751789124969292bin
+Downloading https://repo.maven.apache.org/maven2/com/google/flatbuffers/flatbuffers-java/1.12.0/flatbuffers-java-1.12.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download10811058787657656168bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-protobuf-lite/1.45.1/grpc-protobuf-lite-1.45.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download9181977379953994709bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-api/1.45.1/grpc-api-1.45.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download14415067676454300002bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava/31.1-jre/guava-31.1-jre.jar to C:\Users\aster\.gradle\.tmp\gradle_download5720284665938279247bin
+Downloading https://repo.maven.apache.org/maven2/com/google/dagger/dagger/2.28.3/dagger-2.28.3.jar to C:\Users\aster\.gradle\.tmp\gradle_download17526691873817113648bin
+Downloading https://repo.maven.apache.org/maven2/javax/inject/javax.inject/1/javax.inject-1.jar to C:\Users\aster\.gradle\.tmp\gradle_download7642611057894928634bin
+Downloading https://repo.maven.apache.org/maven2/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download2323069568624916232bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk15on/1.67/bcprov-jdk15on-1.67.jar to C:\Users\aster\.gradle\.tmp\gradle_download18115408262030875815bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/intellij/deps/trove4j/1.0.20200330/trove4j-1.0.20200330.jar to C:\Users\aster\.gradle\.tmp\gradle_download11368932485687312860bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-reflect/1.9.0/kotlin-reflect-1.9.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download8402439888344840209bin
+Downloading https://repo.maven.apache.org/maven2/xerces/xercesImpl/2.12.0/xercesImpl-2.12.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download11684165204109396585bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-compress/1.21/commons-compress-1.21.jar to C:\Users\aster\.gradle\.tmp\gradle_download9650183139225895656bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpclient/4.5.14/httpclient-4.5.14.jar to C:\Users\aster\.gradle\.tmp\gradle_download14194924099560325140bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar to C:\Users\aster\.gradle\.tmp\gradle_download18446668326321881281bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/activation/javax.activation/1.2.0/javax.activation-1.2.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download9906629464168394136bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/1.9.0/kotlin-stdlib-1.9.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download273771731664513583bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.9.0/kotlin-stdlib-jdk7-1.9.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download2728608060394305703bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/annotations/13.0/annotations-13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download11472845424476681602bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/signflinger/8.2.2/signflinger-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download9048062897437105151bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/zipflinger/8.2.2/zipflinger-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download10898148171210433322bin
+Downloading https://repo.maven.apache.org/maven2/net/java/dev/jna/jna-platform/5.6.0/jna-platform-5.6.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download3538054628555508575bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/annotations/31.2.2/annotations-31.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download4565712363657874228bin
+Downloading https://repo.maven.apache.org/maven2/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download16283010558449807699bin
+Downloading https://repo.maven.apache.org/maven2/com/googlecode/juniversalchardet/juniversalchardet/1.0.3/juniversalchardet-1.0.3.jar to C:\Users\aster\.gradle\.tmp\gradle_download1832933441018322267bin
+Downloading https://repo.maven.apache.org/maven2/org/jvnet/staxex/stax-ex/1.8.1/stax-ex-1.8.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download6112845317377729365bin
+Downloading https://repo.maven.apache.org/maven2/jakarta/xml/bind/jakarta.xml.bind-api/2.3.2/jakarta.xml.bind-api-2.3.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download7632563036227793901bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/istack/istack-commons-runtime/3.0.8/istack-commons-runtime-3.0.8.jar to C:\Users\aster\.gradle\.tmp\gradle_download565395212718195164bin
+Downloading https://repo.maven.apache.org/maven2/org/glassfish/jaxb/txw2/2.3.2/txw2-2.3.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download1436253382521243802bin
+Downloading https://repo.maven.apache.org/maven2/com/sun/xml/fastinfoset/FastInfoset/1.2.16/FastInfoset-1.2.16.jar to C:\Users\aster\.gradle\.tmp\gradle_download9381206853450689285bin
+Downloading https://repo.maven.apache.org/maven2/com/google/auto/value/auto-value-annotations/1.6.2/auto-value-annotations-1.6.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download18157671898745440318bin
+Downloading https://repo.maven.apache.org/maven2/jakarta/activation/jakarta.activation-api/1.2.1/jakarta.activation-api-1.2.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download6187132243412249727bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.11.0/error_prone_annotations-2.11.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download13692262383748186133bin
+Downloading https://repo.maven.apache.org/maven2/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar to C:\Users\aster\.gradle\.tmp\gradle_download17109422803302578619bin
+Downloading https://repo.maven.apache.org/maven2/org/jdom/jdom2/2.0.6/jdom2-2.0.6.jar to C:\Users\aster\.gradle\.tmp\gradle_download11876139573607862117bin
+Downloading https://repo.maven.apache.org/maven2/org/bitbucket/b_c/jose4j/0.7.0/jose4j-0.7.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download4349385200359924131bin
+Downloading https://repo.maven.apache.org/maven2/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3.jar to C:\Users\aster\.gradle\.tmp\gradle_download9827302161927255617bin
+Downloading https://repo.maven.apache.org/maven2/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4.jar to C:\Users\aster\.gradle\.tmp\gradle_download5427678285683049566bin
+Downloading https://repo.maven.apache.org/maven2/io/perfmark/perfmark-api/0.23.0/perfmark-api-0.23.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download14398439364239064706bin
+Downloading https://repo.maven.apache.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download5667509954420726441bin
+Downloading https://repo.maven.apache.org/maven2/org/codehaus/mojo/animal-sniffer-annotations/1.19/animal-sniffer-annotations-1.19.jar to C:\Users\aster\.gradle\.tmp\gradle_download3032329477313433504bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-http2/4.1.72.Final/netty-codec-http2-4.1.72.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download1577229890451772987bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-handler-proxy/4.1.72.Final/netty-handler-proxy-4.1.72.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download4735529538151062376bin
+Downloading https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.12.0/checker-qual-3.12.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download13326333415484583605bin
+Downloading https://repo.maven.apache.org/maven2/commons-codec/commons-codec/1.11/commons-codec-1.11.jar to C:\Users\aster\.gradle\.tmp\gradle_download15427162944726405361bin
+Downloading https://repo.maven.apache.org/maven2/com/squareup/javawriter/2.5.0/javawriter-2.5.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download11009163895717848223bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download2384670816789595594bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar to C:\Users\aster\.gradle\.tmp\gradle_download9558130676154991682bin
+Downloading https://repo.maven.apache.org/maven2/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar to C:\Users\aster\.gradle\.tmp\gradle_download1953924798199371411bin
+Downloading https://repo.maven.apache.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download16848941446181392689bin
+Downloading https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.6.0/jna-5.6.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download1699274394007650807bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/1.9.0/kotlin-stdlib-common-1.9.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download12107858038898887505bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/apksig/8.2.2/apksig-8.2.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download10242927425994747753bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-http/4.1.72.Final/netty-codec-http-4.1.72.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download1292015999164118113bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-handler/4.1.72.Final/netty-handler-4.1.72.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download9854106441619616146bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-socks/4.1.72.Final/netty-codec-socks-4.1.72.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download14965737397165227010bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec/4.1.72.Final/netty-codec-4.1.72.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download9954402103023436630bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-transport/4.1.72.Final/netty-transport-4.1.72.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download8191663701867208101bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-buffer/4.1.72.Final/netty-buffer-4.1.72.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download6057211127549420615bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-resolver/4.1.72.Final/netty-resolver-4.1.72.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download9868900018474162637bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-common/4.1.72.Final/netty-common-4.1.72.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download3125060192783153173bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-tcnative-classes/2.0.46.Final/netty-tcnative-classes-2.0.46.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download10026060871085271227bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-context/1.45.1/grpc-context-1.45.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download2433198540921570418bin
+Compiling build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\build.gradle' using BuildScriptTransformer.
+Compiling script 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\variables.gradle' using SubsetScriptTransformer.
+Compiling script 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\variables.gradle' using BuildScriptTransformer.
+
+> Configure project :app
+Evaluating project ':app' using build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\app\build.gradle'.
+Compiling build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\app\build.gradle' using SubsetScriptTransformer.
+Compiling build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\app\build.gradle' using BuildScriptTransformer.
+Using default execution profile
+Compiling script 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\app\capacitor.build.gradle' using SubsetScriptTransformer.
+
+Invalidating in-memory cache of C:\Users\aster\.gradle\caches\journal-1\file-access.bin
+
+> Configure project :app
+Compiling script 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\app\capacitor.build.gradle' using BuildScriptTransformer.
+Invalidating in-memory cache of C:\Users\aster\.gradle\caches\8.2\fileHashes\fileHashes.bin
+Invalidating in-memory cache of C:\Users\aster\.gradle\caches\8.2\fileHashes\resourceHashesCache.bin
+Compiling script 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\capacitor-cordova-android-plugins\cordova.variables.gradle' using SubsetScriptTransformer.
+Compiling script 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\capacitor-cordova-android-plugins\cordova.variables.gradle' using BuildScriptTransformer.
+google-services.json not found, google-services plugin not applied. Push Notifications won't work
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-android
+Evaluating project ':capacitor-android' using build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\node_modules\@capacitor\android\capacitor\build.gradle'.
+Compiling build file 'C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\node_modules\@capacitor\android\capacitor\build.gradle' using SubsetScriptTransformer.
+Invalidating in-memory cache of C:\Users\aster\.gradle\caches\8.2\fileHashes\fileHashes.bin
+Invalidating in-memory cache of C:\Users\aster\.gradle\caches\8.2\fileHashes\resourceHashesCache.bin
+
+Invalidating in-memory cache of C:\Users\aster\.gradle\caches\journal-1\file-access.bin
+
+> Configure project :capacitor-android
+The configuration :capacitor-android:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :capacitor-android:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+The configuration :capacitor-android:classpath is both resolvable and consumable. This is considered a legacy configuration and it will eventually only be possible to be one of these.
+The configuration :capacitor-android:classpath is both consumable and declarable. This combination is incorrect, only one of these flags should be set.
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/8.13.0/gradle-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download6761766068390903203bin
+Invalidating in-memory cache of C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\.gradle\8.2\checksums\md5-checksums.bin
+Invalidating in-memory cache of C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\.gradle\8.2\checksums\sha256-checksums.bin
+Invalidating in-memory cache of C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\.gradle\8.2\checksums\sha1-checksums.bin
+Invalidating in-memory cache of C:\Users\aster\OneDrive\Documents\GitHub\viewer-social\android\.gradle\8.2\checksums\sha512-checksums.bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/8.13.0/gradle-8.13.0.module to C:\Users\aster\.gradle\.tmp\gradle_download12298066225162953342bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-settings-api/8.13.0/gradle-settings-api-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download11157787146279756105bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/sdk-common/31.13.0/sdk-common-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download9376809385364902483bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/repository/31.13.0/repository-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download6691043857800645478bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/sdklib/31.13.0/sdklib-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download12778513138386158873bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-settings-api/8.13.0/gradle-settings-api-8.13.0.module to C:\Users\aster\.gradle\.tmp\gradle_download3372731765815833558bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2-proto/8.13.0-13719691/aapt2-proto-8.13.0-13719691.pom to C:\Users\aster\.gradle\.tmp\gradle_download5803850582777314446bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/ddms/ddmlib/31.13.0/ddmlib-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download2029973980993134351bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aaptcompiler/8.13.0/aaptcompiler-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download2384671099226196326bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/crash/31.13.0/crash-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download17884665945003156932bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2-proto/8.13.0-13719691/aapt2-proto-8.13.0-13719691.module to C:\Users\aster\.gradle\.tmp\gradle_download2479517615243239780bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/lint/lint-model/31.13.0/lint-model-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download4489562470456317565bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aaptcompiler/8.13.0/aaptcompiler-8.13.0.module to C:\Users\aster\.gradle\.tmp\gradle_download4633767486938811145bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/shared/31.13.0/shared-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download10083598963797954575bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/databinding/databinding-common/8.13.0/databinding-common-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download16682943704750969499bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/databinding/baseLibrary/8.13.0/baseLibrary-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download14374971933398954935bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/lint/lint-typedef-remover/31.13.0/lint-typedef-remover-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download2361681020314715623bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/databinding/databinding-compiler-common/8.13.0/databinding-compiler-common-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download12865490255212226820bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/layoutlib/layoutlib-api/31.13.0/layoutlib-api-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download4676973521128531812bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-device-provider-profile-proto/31.13.0/android-device-provider-profile-proto-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download8321266524053626183bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-device-provider-ddmlib-proto/31.13.0/android-device-provider-ddmlib-proto-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download17190391443065986192bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-test-api/8.13.0/builder-test-api-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download8951310330324919842bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-additional-test-output-proto/31.13.0/android-test-plugin-host-additional-test-output-proto-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download18442498028808223107bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-emulator-control-proto/31.13.0/android-test-plugin-host-emulator-control-proto-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download217650124551281747bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-test-api/8.13.0/builder-test-api-8.13.0.module to C:\Users\aster\.gradle\.tmp\gradle_download13202514141218072819bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-coverage-proto/31.13.0/android-test-plugin-host-coverage-proto-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download2815673399992423563bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-logcat-proto/31.13.0/android-test-plugin-host-logcat-proto-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download10396882309794863498bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-apk-installer-proto/31.13.0/android-test-plugin-host-apk-installer-proto-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download14630834297628172826bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.2.0/kotlin-stdlib-2.2.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download7239831859409769824bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.8/asm-9.8.pom to C:\Users\aster\.gradle\.tmp\gradle_download12238573810838393888bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.2.0/kotlin-stdlib-2.2.0.module to C:\Users\aster\.gradle\.tmp\gradle_download3992284532235225173bin
+Downloading https://repo.maven.apache.org/maven2/commons-io/commons-io/2.16.1/commons-io-2.16.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download15972765610279228251bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/ow2/1.5.1/ow2-1.5.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download14423462290562800350bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-analysis/9.8/asm-analysis-9.8.pom to C:\Users\aster\.gradle\.tmp\gradle_download8281644267014464982bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/69/commons-parent-69.pom to C:\Users\aster\.gradle\.tmp\gradle_download11815584252957706455bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-result-listener-gradle-proto/31.13.0/android-test-plugin-result-listener-gradle-proto-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download15021791887979247238bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/31/apache-31.pom to C:\Users\aster\.gradle\.tmp\gradle_download9167416086931721948bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-commons/9.8/asm-commons-9.8.pom to C:\Users\aster\.gradle\.tmp\gradle_download12115483803996212991bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcpkix-jdk18on/1.79/bcpkix-jdk18on-1.79.pom to C:\Users\aster\.gradle\.tmp\gradle_download18369879246769000432bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-util/9.8/asm-util-9.8.pom to C:\Users\aster\.gradle\.tmp\gradle_download17262311037645128240bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.10.2/junit-bom-5.10.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download3935965192988509538bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/bundletool/1.18.1/bundletool-1.18.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download16124311193714121640bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.10.2/junit-bom-5.10.2.module to C:\Users\aster\.gradle\.tmp\gradle_download16497503040542030369bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-java/3.25.5/protobuf-java-3.25.5.pom to C:\Users\aster\.gradle\.tmp\gradle_download16090518913332612792bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-java-util/3.25.5/protobuf-java-util-3.25.5.pom to C:\Users\aster\.gradle\.tmp\gradle_download10789461495058702363bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-parent/3.25.5/protobuf-parent-3.25.5.pom to C:\Users\aster\.gradle\.tmp\gradle_download11614678702441899217bin
+Downloading https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.11.0/gson-2.11.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download5469914071326109244bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-bom/3.25.5/protobuf-bom-3.25.5.pom to C:\Users\aster\.gradle\.tmp\gradle_download743680366101355736bin
+Downloading https://repo.maven.apache.org/maven2/com/google/code/gson/gson-parent/2.11.0/gson-parent-2.11.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download5740066150165450310bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-core/1.69.1/grpc-core-1.69.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download4303121280910089554bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-netty/1.69.1/grpc-netty-1.69.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download290533098204644522bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-protobuf/1.69.1/grpc-protobuf-1.69.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download3834619703860936157bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-stub/1.69.1/grpc-stub-1.69.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download11380378217963233098bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-inprocess/1.69.1/grpc-inprocess-1.69.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download11695388136500626866bin
+Downloading https://repo.maven.apache.org/maven2/org/tensorflow/tensorflow-lite-metadata/0.2.0/tensorflow-lite-metadata-0.2.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download18250741289009388744bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/testing/platform/core-proto/0.0.9-alpha03/core-proto-0.0.9-alpha03.pom to C:\Users\aster\.gradle\.tmp\gradle_download18305635853212557552bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-model/8.13.0/builder-model-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download9900906778967466892bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-api/8.13.0/gradle-api-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download10452666917953578964bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder/8.13.0/builder-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download1265731784275714897bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-api/8.13.0/gradle-api-8.13.0.module to C:\Users\aster\.gradle\.tmp\gradle_download6399228752237518787bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder/8.13.0/builder-8.13.0.module to C:\Users\aster\.gradle\.tmp\gradle_download17824955697908128741bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-model/8.13.0/builder-model-8.13.0.module to C:\Users\aster\.gradle\.tmp\gradle_download12158229105724444855bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-common-api/8.13.0/gradle-common-api-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download7208375300319344267bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-common-api/8.13.0/gradle-common-api-8.13.0.module to C:\Users\aster\.gradle\.tmp\gradle_download697722091834105290bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-reflect/2.2.0/kotlin-reflect-2.2.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download10021845931460253994bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk18on/1.79/bcprov-jdk18on-1.79.pom to C:\Users\aster\.gradle\.tmp\gradle_download11854880076667777028bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava/33.3.1-jre/guava-33.3.1-jre.pom to C:\Users\aster\.gradle\.tmp\gradle_download6141338334049853249bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava-parent/33.3.1-jre/guava-parent-33.3.1-jre.pom to C:\Users\aster\.gradle\.tmp\gradle_download18048262495999589138bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/2.2.0/kotlin-stdlib-jdk8-2.2.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download1843616703494548064bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/common/31.13.0/common-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download12582938161699156607bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava/33.3.1-jre/guava-33.3.1-jre.module to C:\Users\aster\.gradle\.tmp\gradle_download13595893341722244073bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/dvlib/31.13.0/dvlib-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download4293975923761999915bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.9.0/kotlinx-coroutines-core-1.9.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download2328184312598949862bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-bom/1.9.0/kotlinx-coroutines-bom-1.9.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download2629088255537900899bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.9.0/kotlinx-coroutines-core-1.9.0.module to C:\Users\aster\.gradle\.tmp\gradle_download11696392208234493920bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/annotations/23.0.0/annotations-23.0.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download8904934636070914219bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/annotations/31.13.0/annotations-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download3417618949032850732bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/protos/31.13.0/protos-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download1188788315937999462bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-tree/9.8/asm-tree-9.8.pom to C:\Users\aster\.gradle\.tmp\gradle_download10228535307678744256bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcutil-jdk18on/1.79/bcutil-jdk18on-1.79.pom to C:\Users\aster\.gradle\.tmp\gradle_download3613273400723734166bin
+Downloading https://repo.maven.apache.org/maven2/org/bitbucket/b_c/jose4j/0.9.5/jose4j-0.9.5.pom to C:\Users\aster\.gradle\.tmp\gradle_download8816873226686345750bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.18.0/error_prone_annotations-2.18.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download10439878219507051965bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_parent/2.18.0/error_prone_parent-2.18.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download3028206789367265459bin
+Downloading https://repo.maven.apache.org/maven2/com/google/j2objc/j2objc-annotations/2.8/j2objc-annotations-2.8.pom to C:\Users\aster\.gradle\.tmp\gradle_download5931299235264797487bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.27.0/error_prone_annotations-2.27.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download4628896117419170293bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_parent/2.27.0/error_prone_parent-2.27.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download2068447727830219640bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.30.0/error_prone_annotations-2.30.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download14401489129005945758bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_parent/2.30.0/error_prone_parent-2.30.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download2014476913150023246bin
+Downloading https://repo.maven.apache.org/maven2/org/codehaus/mojo/animal-sniffer-annotations/1.24/animal-sniffer-annotations-1.24.pom to C:\Users\aster\.gradle\.tmp\gradle_download201995300352206484bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-api/1.69.1/grpc-api-1.69.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download2117076038586537090bin
+Downloading https://repo.maven.apache.org/maven2/io/perfmark/perfmark-api/0.27.0/perfmark-api-0.27.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download10176315873791123772bin
+Downloading https://repo.maven.apache.org/maven2/org/codehaus/mojo/animal-sniffer-parent/1.24/animal-sniffer-parent-1.24.pom to C:\Users\aster\.gradle\.tmp\gradle_download11869955784753215848bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-context/1.69.1/grpc-context-1.69.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download10975312619020546767bin
+Downloading https://repo.maven.apache.org/maven2/org/codehaus/mojo/mojo-parent/84/mojo-parent-84.pom to C:\Users\aster\.gradle\.tmp\gradle_download17121092927890813878bin
+Downloading https://repo.maven.apache.org/maven2/io/perfmark/perfmark-api/0.27.0/perfmark-api-0.27.0.module to C:\Users\aster\.gradle\.tmp\gradle_download1728594944373693441bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-handler-proxy/4.1.110.Final/netty-handler-proxy-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download17101914775212139602bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-util/1.69.1/grpc-util-1.69.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download9549938299801074165bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-http2/4.1.110.Final/netty-codec-http2-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download8143524704647726879bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-transport-native-unix-common/4.1.110.Final/netty-transport-native-unix-common-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download366995010614066590bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-parent/4.1.110.Final/netty-parent-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download17046673987130544182bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-protobuf-lite/1.69.1/grpc-protobuf-lite-1.69.1.pom to C:\Users\aster\.gradle\.tmp\gradle_download15502032643968835804bin
+Downloading https://repo.maven.apache.org/maven2/com/google/api/grpc/proto-google-common-protos/2.48.0/proto-google-common-protos-2.48.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download9200641023235170119bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/tracker/31.13.0/tracker-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download3000324811608857857bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/zipflinger/8.13.0/zipflinger-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download375304032364076386bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/signflinger/8.13.0/signflinger-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download18343036786669134664bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/manifest-merger/31.13.0/manifest-merger-31.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download12037983586703432835bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/apkzlib/8.13.0/apkzlib-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download10022738333799211508bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/apksig/8.13.0/apksig-8.13.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download8147321984473842065bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/manifest-merger/31.13.0/manifest-merger-31.13.0.module to C:\Users\aster\.gradle\.tmp\gradle_download8038214189635006271bin
+Downloading https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.43.0/checker-qual-3.43.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download817712177653055338bin
+Downloading https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.43.0/checker-qual-3.43.0.module to C:\Users\aster\.gradle\.tmp\gradle_download3074048934583136448bin
+Downloading https://repo.maven.apache.org/maven2/com/google/j2objc/j2objc-annotations/3.0.0/j2objc-annotations-3.0.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download5021912883845910396bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.pom to C:\Users\aster\.gradle\.tmp\gradle_download10266007744239639116bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.9.0/kotlinx-coroutines-core-jvm-1.9.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download998067473878340371bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.9.0/kotlinx-coroutines-core-jvm-1.9.0.module to C:\Users\aster\.gradle\.tmp\gradle_download11666510399584507125bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/2.2.0/kotlin-stdlib-jdk7-2.2.0.pom to C:\Users\aster\.gradle\.tmp\gradle_download3012805940961611442bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-buffer/4.1.110.Final/netty-buffer-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download13532401676900782875bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-common/4.1.110.Final/netty-common-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download13536387691185750126bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-transport/4.1.110.Final/netty-transport-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download4481956555075665680bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec/4.1.110.Final/netty-codec-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download218093066127031825bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-handler/4.1.110.Final/netty-handler-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download14325438266592922728bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-http/4.1.110.Final/netty-codec-http-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download10559963116006589753bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-socks/4.1.110.Final/netty-codec-socks-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download4814203698962585192bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-resolver/4.1.110.Final/netty-resolver-4.1.110.Final.pom to C:\Users\aster\.gradle\.tmp\gradle_download4396797124907249166bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/8.13.0/gradle-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download17415362275655833516bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-settings-api/8.13.0/gradle-settings-api-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download15870251113469300224bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-api/8.13.0/gradle-api-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download2083144558565450722bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle-common-api/8.13.0/gradle-common-api-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download2359084335315514313bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/lint/lint-model/31.13.0/lint-model-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download4393533083130672031bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder/8.13.0/builder-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download12625104815207370638bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/manifest-merger/31.13.0/manifest-merger-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download1087110596156844531bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/sdk-common/31.13.0/sdk-common-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download9616245413616759373bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/sdklib/31.13.0/sdklib-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download2963118004899543762bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/repository/31.13.0/repository-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download2025696827612155631bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-test-api/8.13.0/builder-test-api-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download1108984299305156471bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/ddms/ddmlib/31.13.0/ddmlib-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download1611708803717953709bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/bundletool/1.18.1/bundletool-1.18.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download17078581153463950425bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aaptcompiler/8.13.0/aaptcompiler-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download9690352419081026752bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/aapt2-proto/8.13.0-13719691/aapt2-proto-8.13.0-13719691.jar to C:\Users\aster\.gradle\.tmp\gradle_download3183369975032755236bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/crash/31.13.0/crash-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download9932594650639950734bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/tracker/31.13.0/tracker-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download14158348620922464087bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/shared/31.13.0/shared-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download3023168580592446042bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/lint/lint-typedef-remover/31.13.0/lint-typedef-remover-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download10847943715608965265bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/databinding/databinding-common/8.13.0/databinding-common-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download788919005580601784bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/databinding/databinding-compiler-common/8.13.0/databinding-compiler-common-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download12436930719800289016bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/databinding/baseLibrary/8.13.0/baseLibrary-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download5946388488793113010bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-device-provider-ddmlib-proto/31.13.0/android-device-provider-ddmlib-proto-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download8087492250866109803bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/layoutlib/layoutlib-api/31.13.0/layoutlib-api-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download17174494997831933029bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-additional-test-output-proto/31.13.0/android-test-plugin-host-additional-test-output-proto-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download2797749902868480611bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-device-provider-profile-proto/31.13.0/android-device-provider-profile-proto-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download16315755425499269911bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-emulator-control-proto/31.13.0/android-test-plugin-host-emulator-control-proto-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download9754386461321196353bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-logcat-proto/31.13.0/android-test-plugin-host-logcat-proto-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download12956590225314920917bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-coverage-proto/31.13.0/android-test-plugin-host-coverage-proto-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download8938605235437956952bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-host-apk-installer-proto/31.13.0/android-test-plugin-host-apk-installer-proto-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download6004340051344067193bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/utp/android-test-plugin-result-listener-gradle-proto/31.13.0/android-test-plugin-result-listener-gradle-proto-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download712221914338209112bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/builder-model/8.13.0/builder-model-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download819461855366234630bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-reflect/2.2.0/kotlin-reflect-2.2.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download15822090122016089518bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/dvlib/31.13.0/dvlib-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download8634023531823928729bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/common/31.13.0/common-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download4911507267810953007bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/2.2.0/kotlin-stdlib-jdk8-2.2.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download14588199013516863637bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.9.0/kotlinx-coroutines-core-jvm-1.9.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download12182108229277130980bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/2.2.0/kotlin-stdlib-jdk7-2.2.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download18353061040754701103bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.2.0/kotlin-stdlib-2.2.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download4890690010869222313bin
+Downloading https://repo.maven.apache.org/maven2/commons-io/commons-io/2.16.1/commons-io-2.16.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download11321036322304272432bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-commons/9.8/asm-commons-9.8.jar to C:\Users\aster\.gradle\.tmp\gradle_download7475763882643534009bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-analysis/9.8/asm-analysis-9.8.jar to C:\Users\aster\.gradle\.tmp\gradle_download12085569534604968393bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-util/9.8/asm-util-9.8.jar to C:\Users\aster\.gradle\.tmp\gradle_download4615515723640697813bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm-tree/9.8/asm-tree-9.8.jar to C:\Users\aster\.gradle\.tmp\gradle_download7956515798260521719bin
+Downloading https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.8/asm-9.8.jar to C:\Users\aster\.gradle\.tmp\gradle_download16839039458517238818bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcpkix-jdk18on/1.79/bcpkix-jdk18on-1.79.jar to C:\Users\aster\.gradle\.tmp\gradle_download801609468358635047bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/apkzlib/8.13.0/apkzlib-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download10568395339146972147bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-java-util/3.25.5/protobuf-java-util-3.25.5.jar to C:\Users\aster\.gradle\.tmp\gradle_download14527295856865959819bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-protobuf/1.69.1/grpc-protobuf-1.69.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download5019842538786641930bin
+Downloading https://dl.google.com/dl/android/maven2/com/google/testing/platform/core-proto/0.0.9-alpha03/core-proto-0.0.9-alpha03.jar to C:\Users\aster\.gradle\.tmp\gradle_download16569610176604672276bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/analytics-library/protos/31.13.0/protos-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download9932423189452440526bin
+Downloading https://repo.maven.apache.org/maven2/com/google/api/grpc/proto-google-common-protos/2.48.0/proto-google-common-protos-2.48.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download4487083967798737062bin
+Downloading https://repo.maven.apache.org/maven2/com/google/protobuf/protobuf-java/3.25.5/protobuf-java-3.25.5.jar to C:\Users\aster\.gradle\.tmp\gradle_download6484486522506934209bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-netty/1.69.1/grpc-netty-1.69.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download13425242306113041800bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-inprocess/1.69.1/grpc-inprocess-1.69.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download18340401238399892931bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-util/1.69.1/grpc-util-1.69.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download17170376703633292815bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-core/1.69.1/grpc-core-1.69.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download11110156581131708341bin
+Downloading https://repo.maven.apache.org/maven2/com/google/code/gson/gson/2.11.0/gson-2.11.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download7200416724039740330bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-stub/1.69.1/grpc-stub-1.69.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download6017203812986202761bin
+Downloading https://repo.maven.apache.org/maven2/org/tensorflow/tensorflow-lite-metadata/0.2.0/tensorflow-lite-metadata-0.2.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download6564351596538634842bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-context/1.69.1/grpc-context-1.69.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download14535731364104648154bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-protobuf-lite/1.69.1/grpc-protobuf-lite-1.69.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download3877730024991826280bin
+Downloading https://repo.maven.apache.org/maven2/io/grpc/grpc-api/1.69.1/grpc-api-1.69.1.jar to C:\Users\aster\.gradle\.tmp\gradle_download10209356081163775981bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava/33.3.1-jre/guava-33.3.1-jre.jar to C:\Users\aster\.gradle\.tmp\gradle_download2715200735568339055bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcutil-jdk18on/1.79/bcutil-jdk18on-1.79.jar to C:\Users\aster\.gradle\.tmp\gradle_download12255794902777695074bin
+Invalidating in-memory cache of C:\Users\aster\.gradle\caches\journal-1\file-access.bin
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bcprov-jdk18on/1.79/bcprov-jdk18on-1.79.jar to C:\Users\aster\.gradle\.tmp\gradle_download3808626243807767980bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/annotations/23.0.0/annotations-23.0.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download7809333880615642106bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/signflinger/8.13.0/signflinger-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download8486495577972662382bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/zipflinger/8.13.0/zipflinger-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download3279938217243307398bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/annotations/31.13.0/annotations-31.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download11196303614266711525bin
+Downloading https://repo.maven.apache.org/maven2/com/google/errorprone/error_prone_annotations/2.30.0/error_prone_annotations-2.30.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download16496011102848344165bin
+Downloading https://repo.maven.apache.org/maven2/org/bitbucket/b_c/jose4j/0.9.5/jose4j-0.9.5.jar to C:\Users\aster\.gradle\.tmp\gradle_download14111471125599292414bin
+Downloading https://repo.maven.apache.org/maven2/com/google/j2objc/j2objc-annotations/3.0.0/j2objc-annotations-3.0.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download14003053762768987678bin
+Downloading https://repo.maven.apache.org/maven2/org/codehaus/mojo/animal-sniffer-annotations/1.24/animal-sniffer-annotations-1.24.jar to C:\Users\aster\.gradle\.tmp\gradle_download489205269553527459bin
+Downloading https://repo.maven.apache.org/maven2/io/perfmark/perfmark-api/0.27.0/perfmark-api-0.27.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download10878821116753562528bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-http2/4.1.110.Final/netty-codec-http2-4.1.110.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download14729386874393896297bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-handler-proxy/4.1.110.Final/netty-handler-proxy-4.1.110.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download14382519716849983906bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-http/4.1.110.Final/netty-codec-http-4.1.110.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download9812408092583280177bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-handler/4.1.110.Final/netty-handler-4.1.110.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download14761511954198395621bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-transport-native-unix-common/4.1.110.Final/netty-transport-native-unix-common-4.1.110.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download18281351548792653063bin
+Downloading https://repo.maven.apache.org/maven2/org/checkerframework/checker-qual/3.43.0/checker-qual-3.43.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download8511824433189911121bin
+Downloading https://dl.google.com/dl/android/maven2/com/android/tools/build/apksig/8.13.0/apksig-8.13.0.jar to C:\Users\aster\.gradle\.tmp\gradle_download17843615663746054159bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar to C:\Users\aster\.gradle\.tmp\gradle_download16088719205976729208bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec-socks/4.1.110.Final/netty-codec-socks-4.1.110.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download4919445173037160553bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-codec/4.1.110.Final/netty-codec-4.1.110.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download14097676750768686145bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-transport/4.1.110.Final/netty-transport-4.1.110.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download3183809871593257081bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-buffer/4.1.110.Final/netty-buffer-4.1.110.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download7876310675866492495bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-resolver/4.1.110.Final/netty-resolver-4.1.110.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download16217489968768174061bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-common/4.1.110.Final/netty-common-4.1.110.Final.jar to C:\Users\aster\.gradle\.tmp\gradle_download15554544504466983703bin
+Invalidating in-memory cache of C:\Users\aster\.gradle\caches\journal-1\file-access.bin
+Invalidating in-memory cache of C:\Users\aster\.gradle\caches\8.2\fileHashes\fileHashes.bin
+Invalidating in-memory cache of C:\Users\aster\.gradle\caches\8.2\fileHashes\resourceHashesCache.bin
+
+Invalidating in-memory cache of C:\Users\aster\.gradle\caches\journal-1\file-access.bin
+Watched directory hierarchies: []
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+A problem occurred configuring project ':capacitor-android'.
+> java.util.concurrent.ExecutionException: org.gradle.api.GradleException: Failed to create Jar file C:\Users\aster\.gradle\caches\jars-9\18366b31678c0171857be093a3b8ec22\bcprov-jdk18on-1.79.jar.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 4m 15s

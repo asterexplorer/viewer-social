@@ -13,13 +13,29 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import SavedTab from './SavedTab';
 import MonetizationTab from './MonetizationTab';
 import Image from 'next/image';
-import { updateUserSettings } from '@/app/actions';
+import SettingsTab from './SettingsTab';
 
-import Footer from '@/components/layout/Footer';
-import PostDetailModal from '@/components/modals/PostDetailModal';
-import Loader from '@/components/common/Loader';
+import { useAuth } from '../../contexts/AuthContext';
+import Loader from '../../components/common/Loader';
+import Footer from '../../components/layout/Footer';
+import PostDetailModal from '../../components/modals/PostDetailModal';
 
-interface Post {
+// Local interfaces for ProfilePage to ensure types are available
+export interface User {
+    id: string;
+    username: string;
+    avatar: string;
+    bio?: string | null;
+    followers: number;
+    following: number;
+    website?: string;
+    category?: string;
+    isPrivate: boolean;
+    posts: Post[];
+    shots: any[];
+}
+
+export interface Post {
     id: string;
     image: string;
     likes: number;
@@ -37,185 +53,8 @@ interface Post {
     };
 }
 
-interface Shot {
-    id: string;
-    video: string;
-    likes: number;
-    comments: number;
-    userId: string;
-}
-
-interface User {
-    id: string;
-    username: string;
-    avatar: string;
-    bio: string | null;
-    followers: number;
-    following: number;
-    posts: Post[];
-    shots: Shot[];
-    website?: string;
-    category?: string;
-    isPrivate?: boolean;
-    fullName?: string;
-}
-
-const SettingsContent = ({ user, setUser }: { user: User, setUser: (u: User) => void }) => {
-    const [activeTab, setActiveTab] = useState('profile');
-    const [isPending, startTransition] = useTransition();
-    const [status, setStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
-    const router = useRouter();
-
-    const [formData, setFormData] = useState({
-        fullName: user.fullName || '',
-        username: user.username || '',
-        bio: user.bio || '',
-        website: user.website || '',
-        isPrivate: user.isPrivate || false
-    });
-
-    const handleSave = async () => {
-        setStatus(null);
-        startTransition(async () => {
-            const result = await updateUserSettings(formData);
-            if (result.success) {
-                setStatus({ type: 'success', message: 'Settings updated successfully!' });
-                // @ts-expect-error - Prisma user to our User interface
-                setUser({ ...user, ...result.user });
-            } else {
-                setStatus({ type: 'error', message: result.error || 'Failed to update settings' });
-            }
-        });
-    };
-
-    const navItems = [
-        { id: 'profile', icon: UserSquare2, label: 'Edit Profile' },
-        { id: 'security', icon: Lock, label: 'Security' },
-        { id: 'notifications', icon: Bell, label: 'Notifications' },
-        { id: 'privacy', icon: Shield, label: 'Privacy' },
-        { id: 'language', icon: Globe, label: 'Language' },
-        { id: 'advanced', icon: Key, label: 'Advanced' }
-    ];
-
-    const renderSettingsContent = () => {
-        switch (activeTab) {
-            case 'profile':
-                return (
-                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                        <h2 className={styles.settingsContentTitle}>Edit Profile</h2>
-                        <div className={styles.settingsFormGroup}>
-                            <label className={styles.settingsLabel}>Full Name</label>
-                            <input
-                                className={styles.settingsInput}
-                                value={formData.fullName}
-                                onChange={e => setFormData({ ...formData, fullName: e.target.value })}
-                                placeholder="Enter your full name"
-                            />
-                        </div>
-                        <div className={styles.settingsFormGroup}>
-                            <label className={styles.settingsLabel}>Username</label>
-                            <input
-                                className={styles.settingsInput}
-                                value={formData.username}
-                                onChange={e => setFormData({ ...formData, username: e.target.value })}
-                                placeholder="Enter your username"
-                            />
-                        </div>
-                        <div className={styles.settingsFormGroup}>
-                            <label className={styles.settingsLabel}>Website</label>
-                            <input
-                                className={styles.settingsInput}
-                                value={formData.website}
-                                onChange={e => setFormData({ ...formData, website: e.target.value })}
-                                placeholder="https://example.com"
-                            />
-                        </div>
-                        <div className={styles.settingsFormGroup}>
-                            <label className={styles.settingsLabel}>Bio</label>
-                            <textarea
-                                className={styles.settingsTextarea}
-                                value={formData.bio}
-                                onChange={e => setFormData({ ...formData, bio: e.target.value })}
-                                placeholder="Write something about yourself..."
-                            />
-                        </div>
-                        <button className={styles.settingsSaveBtn} onClick={handleSave} disabled={isPending}>
-                            {isPending ? 'Saving...' : 'Save Changes'}
-                        </button>
-                        {status && (
-                            <div className={`${styles.settingsStatusMessage} ${styles[status.type === 'success' ? 'settingsSuccess' : 'settingsError']}`}>
-                                {status.type === 'success' ? <Check size={18} /> : <AlertCircle size={18} />}
-                                {status.message}
-                            </div>
-                        )}
-                    </motion.div>
-                );
-            case 'privacy':
-                return (
-                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                        <h2 className={styles.settingsContentTitle}>Account Privacy</h2>
-                        <div className={styles.settingsToggleRow}>
-                            <div>
-                                <div className={styles.settingsToggleLabel}>Private Account</div>
-                                <div className={styles.settingsToggleDescription}>Only people you approve can see your visions.</div>
-                            </div>
-                            <div
-                                className={`${styles.settingsSwitch} ${formData.isPrivate ? styles.settingsSwitchActive : ''}`}
-                                onClick={() => setFormData({ ...formData, isPrivate: !formData.isPrivate })}
-                            >
-                                <div className={styles.settingsKnob} />
-                            </div>
-                        </div>
-                        <button className={styles.settingsSaveBtn} onClick={handleSave} disabled={isPending}>Save Preferences</button>
-                    </motion.div>
-                );
-            default:
-                return (
-                    <div className={styles.settingsEmptyContent}>
-                        <HelpCircle size={48} color="var(--foreground-muted)" />
-                        <p>This section is coming soon.</p>
-                    </div>
-                );
-        }
-    };
-
-    return (
-        <div className={styles.settingsContainer}>
-            <div className={styles.settingsSidebar}>
-                <h1 className={styles.settingsSidebarTitle}>Settings</h1>
-                {navItems.map((item) => (
-                    <button
-                        key={item.id}
-                        className={`${styles.settingsNavItem} ${activeTab === item.id ? styles.settingsNavItemActive : ''}`}
-                        onClick={() => setActiveTab(item.id)}
-                    >
-                        <item.icon size={20} />
-                        <span>{item.label}</span>
-                    </button>
-                ))}
-                <button
-                    className={`${styles.settingsNavItem}`}
-                    style={{ color: '#ef4444', marginTop: 'auto' }}
-                    onClick={async () => {
-                        await fetch('/api/auth', { method: 'DELETE' });
-                        router.push('/');
-                        window.location.reload();
-                    }}
-                >
-                    <LogOut size={20} />
-                    <span>Log Out</span>
-                </button>
-            </div>
-            <div className={styles.settingsContent}>
-                <AnimatePresence mode="wait" key={activeTab}>
-                    {renderSettingsContent()}
-                </AnimatePresence>
-            </div>
-        </div>
-    );
-};
-
 const ProfilePage = () => {
+    const { user: authUser, isLoading: authLoading } = useAuth();
     const [activeTab, setActiveTab] = useState<'posts' | 'shots' | 'saved' | 'tagged' | 'monetization' | 'settings'>('posts');
     const [loading, setLoading] = useState(true);
     const [selectedPost, setSelectedPost] = useState<Post | null>(null);
@@ -236,33 +75,19 @@ const ProfilePage = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const fetchProfile = async () => {
+        const fetchProfileData = async () => {
+            if (!authUser) return;
+
             try {
                 setLoading(true);
-                setError(null);
-
-                const meRes = await fetch('/api/users/me');
-                if (!meRes.ok) {
-                    if (meRes.status === 401) {
-                        router.push('/');
-                        return;
-                    }
-                    // For other errors, try to continue with a fallback user
-                    const errorData = await meRes.json().catch(() => ({}));
-                    console.warn('Profile fetch warning:', errorData.error);
-                    setLoading(false);
-                    return;
-                }
-                const meData = await meRes.json();
-
-                // Fetch posts independently, don't fail profile if posts fail
+                // Fetch posts independently using the authUser id
                 let myPosts: any[] = [];
                 try {
                     const postsRes = await fetch('/api/posts?limit=100');
                     if (postsRes.ok) {
                         const allPosts = await postsRes.json();
                         myPosts = Array.isArray(allPosts)
-                            ? allPosts.filter((p: any) => p.userId === meData.id)
+                            ? allPosts.filter((p: any) => p.userId === authUser.id)
                             : [];
                     }
                 } catch {
@@ -281,21 +106,21 @@ const ProfilePage = () => {
                     isSaved: false,
                     user: {
                         id: post.user?.id || '',
-                        username: post.user?.username || meData.username,
+                        username: post.user?.username || authUser.username,
                         name: post.user?.name || '',
-                        avatar: post.user?.avatar || meData.avatar
+                        avatar: post.user?.avatar || authUser.avatar
                     }
                 }));
 
                 setUser({
-                    id: meData.id,
-                    username: meData.username,
-                    avatar: meData.avatar,
-                    bio: meData.bio || null,
-                    followers: meData._count?.followedBy || 0,
-                    following: meData._count?.following || 0,
-                    website: meData.website || '',
-                    category: meData.category || 'Digital Creator',
+                    id: authUser.id,
+                    username: authUser.username,
+                    avatar: authUser.avatar,
+                    bio: (authUser as any).bio || null, // bio might be in authUser if we expanded it
+                    followers: (authUser as any)._count?.followedBy || 0,
+                    following: (authUser as any)._count?.following || 0,
+                    website: (authUser as any).website || '',
+                    category: (authUser as any).category || 'Digital Creator',
                     isPrivate: false,
                     posts: formattedPosts,
                     shots: [],
@@ -303,16 +128,18 @@ const ProfilePage = () => {
 
                 setPostsState(formattedPosts);
             } catch (err) {
-                console.warn('Profile fetch error (non-critical):', err);
-                // Don't set error state — just show empty profile
+                console.warn('Profile data fetch error:', err);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchProfile();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        if (authUser) {
+            fetchProfileData();
+        } else if (!authLoading) {
+            setLoading(false);
+        }
+    }, [authUser, authLoading]);
 
     const handleEditProfile = () => {
         setActiveTab('settings');
@@ -547,7 +374,7 @@ const ProfilePage = () => {
 
                         {activeTab === 'monetization' && <MonetizationTab />}
 
-                        {activeTab === 'settings' && <SettingsContent user={user} setUser={setUser} />}
+                        {activeTab === 'settings' && <SettingsTab user={user} setUser={setUser} />}
                     </motion.div>
                 </AnimatePresence>
 
@@ -569,7 +396,4 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
-function setError(arg0: null) {
-    throw new Error('Function not implemented.');
-}
 

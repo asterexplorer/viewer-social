@@ -7,6 +7,7 @@ const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-int
 const syne = Syne({ subsets: ["latin"], display: "swap", variable: "--font-syne" });
 const outfit = Outfit({ subsets: ["latin"], display: "swap", variable: "--font-outfit" });
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { AuthProvider } from "../contexts/AuthContext";
 import MainLayout from "@/components/layout/MainLayout";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import AnalyticsTags from "@/components/marketing/AnalyticsTags";
@@ -69,12 +70,14 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${syne.variable} ${outfit.variable}`} suppressHydrationWarning>
-        <ThemeProvider>
-          <MainLayout>
-            {children}
+        <AuthProvider>
+          <ThemeProvider>
+            <MainLayout>
+              {children}
+            </MainLayout>
             <SpeedInsights />
-          </MainLayout>
-        </ThemeProvider>
+          </ThemeProvider>
+        </AuthProvider>
         <Suspense fallback={null}>
           <AnalyticsTags />
         </Suspense>

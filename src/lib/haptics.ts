@@ -5,7 +5,7 @@ export const triggerHaptic = async (style: ImpactStyle = ImpactStyle.Light) => {
     if (Capacitor.isNativePlatform()) {
         try {
             await Haptics.impact({ style });
-        } catch (e) {
+        } catch (_e) {
             // Silently fail
         }
     }
@@ -15,7 +15,7 @@ export const triggerHapticNotification = async (type: NotificationType = Notific
     if (Capacitor.isNativePlatform()) {
         try {
             await Haptics.notification({ type });
-        } catch (e) {
+        } catch (_e) {
             // Silently fail
         }
     }

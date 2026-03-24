@@ -15,6 +15,8 @@ import styles from './Sidebar.module.css';
 
 import { motion } from 'framer-motion';
 
+import { ThemeSwitcher } from './ThemeSwitcher';
+
 const Sidebar = () => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -27,9 +29,6 @@ const Sidebar = () => {
         { icon: PlusSquare, label: 'Create', href: '/create' },
         { icon: User, label: 'Profile', href: '/profile' },
     ];
-
-
-
 
     return (
         <nav className={styles.sidebar}>
@@ -78,6 +77,9 @@ const Sidebar = () => {
                         </Link>
                     );
                 })}
+                <div className={styles.navItem}>
+                    <ThemeSwitcher />
+                </div>
             </div>
 
             <div className={styles.bottomActions}>

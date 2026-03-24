@@ -1,18 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import styles from './StoryBar.module.css';
-import { Plus } from 'lucide-react';
+import { Plus, Loader2 } from 'lucide-react';
 // import { MOCK_STORIES } from '@/constants/mockData';
 import StoryViewer from '../modals/StoryViewer';
 import Image from 'next/image';
 import { pusherClient } from '@/lib/pusher';
+import { createStory } from '@/app/actions';
 
 const StoryBar = () => {
     const [stories, setStories] = useState<any[]>([]);
     const [viewerStories, setViewerStories] = useState<any[]>([]);
     const [selectedStoryIndex, setSelectedStoryIndex] = useState<number | null>(null);
+    const [isUploading, setIsUploading] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     React.useEffect(() => {
         const fetchStories = async () => {
@@ -21,9 +24,7 @@ const StoryBar = () => {
                 const data = await res.json();
                 if (Array.isArray(data)) {
                     setStories(data);
-                    // Flatten for viewer
-                    const flat = data.flatMap((group: any) => group.stories.map((s: any) => ({ ...s, user: group.user })));
-                    setViewerStories(flat);
+                    setViewerStories(data);
                 }
             } catch (err) {
                 console.error('Failed to fetch stories', err);
@@ -47,19 +48,22 @@ const StoryBar = () => {
                     group.latestAt = data.createdAt;
                     // Move to front
                     newGroups.splice(existingGroupIndex, 1);
-                    return [group, ...newGroups];
+                    const updated = [group, ...newGroups];
+                    setViewerStories(updated);
+                    return updated;
                 } else {
-                    return [{
+                    const newGroup = {
                         id: data.userId,
                         user: data.user,
                         stories: [data],
                         hasViewed: false,
                         latestAt: data.createdAt
-                    }, ...prev];
+                    };
+                    const updated = [newGroup, ...prev];
+                    setViewerStories(updated);
+                    return updated;
                 }
             });
-
-            setViewerStories(prev => [{ ...data, user: data.user }, ...prev]);
         });
 
         return () => {
@@ -68,11 +72,29 @@ const StoryBar = () => {
     }, []);
 
     const handleStoryClick = (userIndex: number) => {
-        // Find the index in the flat list where this user's stories start
-        if (!stories[userIndex]) return;
-        const firstStoryId = stories[userIndex].stories[0]?.id;
-        const flatIndex = viewerStories.findIndex(s => s.id === firstStoryId);
-        setSelectedStoryIndex(flatIndex >= 0 ? flatIndex : 0);
+        setSelectedStoryIndex(userIndex);
+    };
+
+    const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setIsUploading(true);
+        try {
+            const formData = new FormData();
+            
+            // Read file as basic data URL (in real app, use S3 or similar before server)
+            const reader = new FileReader();
+            reader.onloadend = async () => {
+                formData.append('image', reader.result as string);
+                await createStory(formData);
+                setIsUploading(false);
+            };
+            reader.readAsDataURL(file);
+        } catch (error) {
+            console.error('Failed to upload story', error);
+            setIsUploading(false);
+        }
     };
 
     const containerVariants = {
@@ -99,14 +121,26 @@ const StoryBar = () => {
                 animate="show"
             >
                 {/* Your Story */}
-                <motion.div className={styles.storyContainer} variants={itemVariants}>
+                <input
+                    type="file"
+                    accept="image/*,video/*"
+                    style={{ display: 'none' }}
+                    ref={fileInputRef}
+                    onChange={handleUpload}
+                />
+                <motion.div 
+                    className={styles.storyContainer} 
+                    variants={itemVariants}
+                    onClick={() => fileInputRef.current?.click()}
+                    style={{ cursor: 'pointer', opacity: isUploading ? 0.5 : 1 }}
+                >
                     <div className={`${styles.storyCircle} ${styles.yourStory}`}>
                         <Image src="https://i.pravatar.cc/150?u=me" alt="Your story" className={styles.avatar} width={60} height={60} />
                         <div className={styles.plusBadge}>
-                            <Plus size={12} strokeWidth={3} />
+                            {isUploading ? <Loader2 size={12} strokeWidth={3} style={{ animation: 'spin 1s linear infinite' }} /> : <Plus size={12} strokeWidth={3} />}
                         </div>
                     </div>
-                    <span className={styles.username}>Your story</span>
+                    <span className={styles.username}>{isUploading ? 'Uploading...' : 'Your story'}</span>
                 </motion.div>
 
                 {stories.map((group, index) => (

@@ -1,24 +1,23 @@
 :root {
-  /* Premium Light Theme (Default) */
-  --background: #fdfdff;
-  --background-elevated: #f0f2f5;
-  --background-card: rgba(255, 255, 255, 0.8);
-  --foreground: #1c1c2e;
-  --foreground-muted: #6b7280;
+  /* Premium Light Theme (Default: Sunrise Coral) */
+  --background: #fdfbff;
+  --background-elevated: #fff0f5;
+  --background-card: rgba(255, 255, 255, 0.85);
+  /* Unique deep rich plum/magenta for all fonts! */
+  --foreground: #4a0b22;
+  --foreground-muted: #9e466b;
 
-  --primary: #6366f1;
-  /* Indigo */
-  --primary-hover: #4f46e5;
-  --primary-glow: rgba(99, 102, 241, 0.2);
+  --primary: #ff4c60;
+  --primary-hover: #ff334d;
+  --primary-glow: rgba(255, 76, 96, 0.25);
 
-  --secondary: #f3f4f6;
-  --secondary-hover: #e5e7eb;
+  --secondary: #fff1f3;
+  --secondary-hover: #ffe4e8;
 
-  --border: rgba(0, 0, 0, 0.08);
-  --border-hover: rgba(0, 0, 0, 0.15);
+  --border: rgba(255, 76, 96, 0.1);
+  --border-hover: rgba(255, 76, 96, 0.25);
 
-  --accent: #0ea5e9;
-  /* Sky Blue */
+  --accent: #ff9b71;
 
   --danger: #ff0055;
   --success: #00ff9d;
@@ -29,14 +28,14 @@
   --max-width: 935px;
 
   /* Premium Light Gradients */
-  --ig-gradient: linear-gradient(45deg, #6366f1 0%, #8b5cf6 50%, #0ea5e9 100%);
-  --premium-gradient: linear-gradient(135deg, #fdfdff 0%, #f0f2f5 50%, #fdfdff 100%);
+  --ig-gradient: linear-gradient(45deg, #ff4c60 0%, #ff6080 50%, #ff9b71 100%);
+  --premium-gradient: linear-gradient(135deg, #fdfbff 0%, #fff0f5 50%, #fdfbff 100%);
   --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
 
-  --neon-glow: 0 0 20px rgba(99, 102, 241, 0.15), 0 0 40px rgba(14, 165, 233, 0.05);
+  --neon-glow: 0 0 20px rgba(255, 76, 96, 0.15), 0 0 40px rgba(255, 155, 113, 0.05);
 
-  --card-shadow: 0 10px 25px rgba(99, 102, 241, 0.08);
-  --card-shadow-hover: 0 20px 40px rgba(99, 102, 241, 0.15);
+  --card-shadow: 0 10px 25px rgba(255, 76, 96, 0.08);
+  --card-shadow-hover: 0 20px 40px rgba(255, 76, 96, 0.15);
 
   --radius-sm: 8px;
   --radius-md: 16px;
@@ -54,27 +53,107 @@
 }
 
 [data-theme='dark'] {
-  --background: #030014;
-  --background-elevated: #0a0a20;
-  --background-card: rgba(20, 20, 40, 0.6);
-  --foreground: #ffffff;
-  --foreground-muted: #a0a0b0;
+  --background: #09090b;
+  --background-elevated: #111116;
+  --background-card: rgba(17, 17, 22, 0.7);
+  /* Stunning bright cyan-tinted text for Cyberpunk fonts! */
+  --foreground: #ccfaff;
+  --foreground-muted: #00e5ff;
 
-  --primary: #7000ff;
-  --primary-hover: #8a2be2;
-  --primary-glow: rgba(112, 0, 255, 0.4);
+  --primary: #00e5ff;
+  --primary-hover: #00bfff;
+  --primary-glow: rgba(0, 229, 255, 0.4);
 
-  --secondary: #1a1a2e;
-  --secondary-hover: #252540;
+  --secondary: #18181f;
+  --secondary-hover: #22222e;
 
-  --border: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(255, 255, 255, 0.2);
+  --border: rgba(0, 229, 255, 0.15);
+  --border-hover: rgba(0, 229, 255, 0.3);
 
-  --accent: #00f0ff;
+  --accent: #b900ff;
 
-  --ig-gradient: linear-gradient(45deg, #7000ff 0%, #ae00ff 50%, #00f0ff 100%);
-  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --card-shadow-hover: 0 12px 48px rgba(112, 0, 255, 0.15);
+  --ig-gradient: linear-gradient(45deg, #00e5ff 0%, #6a00ff 50%, #b900ff 100%);
+  --premium-gradient: linear-gradient(135deg, #09090b 0%, #111116 50%, #09090b 100%);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+  --card-shadow-hover: 0 12px 48px rgba(0, 229, 255, 0.15);
+}
+
+[data-theme='amethyst'] {
+  --background: #0a0014;
+  --background-elevated: #150029;
+  --background-card: rgba(20, 0, 40, 0.65);
+  /* Fluorescent Pink tinted fonts! */
+  --foreground: #ffe6ff;
+  --foreground-muted: #fca5fc;
+
+  --primary: #ff00ff;
+  --primary-hover: #e600e6;
+  --primary-glow: rgba(255, 0, 255, 0.5);
+
+  --secondary: #2c004f;
+  --secondary-hover: #3e0070;
+
+  --border: rgba(255, 0, 255, 0.25);
+  --border-hover: rgba(255, 0, 255, 0.4);
+
+  --accent: #00ffff;
+
+  --ig-gradient: linear-gradient(45deg, #ff00ff 0%, #b300ff 50%, #00ffff 100%);
+  --premium-gradient: linear-gradient(135deg, #0a0014 0%, #150029 50%, #0a0014 100%);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+  --card-shadow-hover: 0 12px 48px rgba(255, 0, 255, 0.25);
+}
+
+[data-theme='midnight'] {
+  --background: #000b18;
+  --background-elevated: #00152b;
+  --background-card: rgba(0, 21, 43, 0.7);
+  /* Ocean electric blue tinted fonts! */
+  --foreground: #dbeafe;
+  --foreground-muted: #60a5fa;
+
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-glow: rgba(59, 130, 246, 0.5);
+
+  --secondary: #001f40;
+  --secondary-hover: #002b59;
+
+  --border: rgba(59, 130, 246, 0.25);
+  --border-hover: rgba(59, 130, 246, 0.4);
+
+  --accent: #38bdf8;
+
+  --ig-gradient: linear-gradient(45deg, #3b82f6 0%, #0284c7 50%, #38bdf8 100%);
+  --premium-gradient: linear-gradient(135deg, #000b18 0%, #00152b 50%, #000b18 100%);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+  --card-shadow-hover: 0 12px 48px rgba(59, 130, 246, 0.15);
+}
+
+[data-theme='forest'] {
+  --background: #02120c;
+  --background-elevated: #032418;
+  --background-card: rgba(3, 36, 24, 0.7);
+  /* Glowing mint tinted fonts! */
+  --foreground: #d1fae5;
+  --foreground-muted: #10b981;
+
+  --primary: #00ff9d;
+  --primary-hover: #00e68a;
+  --primary-glow: rgba(0, 255, 157, 0.5);
+
+  --secondary: #053a26;
+  --secondary-hover: #075236;
+
+  --border: rgba(0, 255, 157, 0.25);
+  --border-hover: rgba(0, 255, 157, 0.45);
+
+  --accent: #fbff00;
+
+  --ig-gradient: linear-gradient(45deg, #00ff9d 0%, #10b981 50%, #fbff00 100%);
+  --premium-gradient: linear-gradient(135deg, #02120c 0%, #032418 50%, #02120c 100%);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+  --card-shadow-hover: 0 12px 48px rgba(0, 255, 157, 0.15);
 }
 
 * {
@@ -85,7 +164,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: clamp(14px, 1.5vw + 10px, 16px);
 }
 
 body {
@@ -109,27 +188,37 @@ h3 {
   font-family: var(--font-syne), var(--font-inter), sans-serif;
   letter-spacing: -0.04em;
   line-height: 1.1;
-  color: var(--foreground);
+  background: var(--ig-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
   font-weight: 800;
 }
 
 h2 {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: clamp(1.3rem, 4vw, 1.6rem);
   font-weight: 800;
 }
 
 h3 {
-  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  font-weight: 700;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-syne), var(--font-inter), sans-serif;
+  font-size: clamp(1rem, 2vw, 1.1rem);
   font-weight: 700;
 }
 
 .display-text {
   font-family: var(--font-syne), var(--font-inter), sans-serif;
-  font-size: clamp(3rem, 7vw, 6rem);
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 1.0;

@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './SuggestionsSidebar.module.css';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { useState, useEffect } from 'react';
 
@@ -132,7 +133,7 @@ const SuggestionsSidebar = () => {
                     <a href="#">Language</a>
                     <a href="#">Meta Verified</a>
                 </nav>
-                <p className={styles.copyright}>© 2026 VIEWER BY ASTER. <a href="/LICENSE" className={styles.licenseLink}>MIT Licensed</a></p>
+                <p className={styles.copyright}>© 2026 VIEWER BY ASTER. <Link href="/LICENSE" className={styles.licenseLink}>MIT Licensed</Link></p>
             </footer>
         </motion.aside>
     );

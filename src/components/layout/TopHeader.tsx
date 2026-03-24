@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import NotificationModal from '../modals/NotificationModal';
 import { notificationService } from '@/services/notification-service';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { triggerHaptic } from '@/lib/haptics';
 import { ImpactStyle } from '@capacitor/haptics';
 
@@ -16,6 +17,8 @@ const TopHeader = () => {
     const [showNotifications, setShowNotifications] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
     const { theme, toggleTheme } = useTheme();
+    const { user } = useAuth();
+    const isLoggedIn = !!user;
 
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -29,7 +32,7 @@ const TopHeader = () => {
     }, []);
 
     const fetchUnreadCount = async () => {
-        if (pathname === '/') return;
+        if (!isLoggedIn) return;
         try {
             const data = await notificationService.getNotifications();
             if (data && typeof data.unreadCount === 'number') {
@@ -41,11 +44,15 @@ const TopHeader = () => {
     };
 
     useEffect(() => {
-        fetchUnreadCount();
-        // Poll for notifications every 60 seconds
-        const interval = setInterval(fetchUnreadCount, 60000);
-        return () => clearInterval(interval);
-    }, []);
+        if (isLoggedIn) {
+            fetchUnreadCount();
+            // Poll for notifications every 60 seconds
+            const interval = setInterval(fetchUnreadCount, 60000);
+            return () => clearInterval(interval);
+        } else {
+            setUnreadCount(0);
+        }
+    }, [isLoggedIn]);
 
     // Refresh count when notification modal closes
     useEffect(() => {

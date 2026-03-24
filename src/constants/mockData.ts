@@ -23,6 +23,7 @@ export interface Post {
     isLiked: boolean;
     isSaved: boolean;
     createdAt: Date;
+    media?: Array<{ url: string; type: string; order: number }>;
 }
 
 export interface Story {
@@ -34,6 +35,8 @@ export interface Story {
         id: string;
         image: string;
         time: string;
+        createdAt?: string | number | Date;
+        url?: string;
     }[];
 }
 

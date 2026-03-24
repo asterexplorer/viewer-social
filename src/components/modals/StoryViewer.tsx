@@ -6,6 +6,7 @@ import styles from './StoryViewer.module.css';
 import { Story } from '@/constants/mockData';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { formatDistanceToNow } from 'date-fns';
 
 interface StoryViewerProps {
     stories: Story[];
@@ -20,37 +21,42 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
     const [progress, setProgress] = useState(0);
 
     const currentStory = stories[storyIndex];
-    const currentSlide = currentStory.slides[slideIndex];
+    // Support both 'slides' and 'stories' property name for the content array
+    const slides = React.useMemo(() => currentStory.slides || (currentStory as any).stories || [], [currentStory]);
+    const currentSlide = slides[slideIndex];
 
     const nextSlide = useCallback(() => {
-        if (slideIndex < currentStory.slides.length - 1) {
-            setSlideIndex(slideIndex + 1);
+        const slidesCount = slides.length;
+        if (slideIndex < slidesCount - 1) {
+            setSlideIndex(prev => prev + 1);
             setProgress(0);
         } else if (storyIndex < stories.length - 1) {
-            setStoryIndex(storyIndex + 1);
+            setStoryIndex(prev => prev + 1);
             setSlideIndex(0);
             setProgress(0);
         } else {
             onClose();
         }
-    }, [slideIndex, currentStory.slides.length, storyIndex, stories.length, onClose]);
+    }, [slideIndex, slides.length, storyIndex, stories.length, onClose]);
 
     const prevSlide = useCallback(() => {
         if (slideIndex > 0) {
             setSlideIndex(slideIndex - 1);
             setProgress(0);
         } else if (storyIndex > 0) {
+            const prevStory = stories[storyIndex - 1];
+            const prevSlides = prevStory.slides || (prevStory as any).stories || [];
             setStoryIndex(storyIndex - 1);
-            setSlideIndex(stories[storyIndex - 1].slides.length - 1);
+            setSlideIndex(prevSlides.length - 1);
             setProgress(0);
         }
     }, [slideIndex, storyIndex, stories]);
 
     useEffect(() => {
-        if (!isOpen) return;
+        if (!isOpen || !currentSlide) return;
 
-        const duration = 5000; // 5 seconds per slide
-        const interval = 50; // Update progress every 50ms
+        const duration = 5000;
+        const interval = 50;
         const step = (interval / duration) * 100;
 
         const timer = setInterval(() => {
@@ -64,9 +70,9 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
         }, interval);
 
         return () => clearInterval(timer);
-    }, [isOpen, slideIndex, storyIndex, nextSlide]);
+    }, [isOpen, slideIndex, storyIndex, nextSlide, currentSlide]);
 
-    if (!isOpen) return null;
+    if (!isOpen || !currentStory || !currentSlide) return null;
 
     return (
         <div className={styles.overlay} onClick={onClose}>
@@ -77,7 +83,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
             <div className={styles.viewerContainer} onClick={e => e.stopPropagation()}>
                 {/* Progress Bars */}
                 <div className={styles.progressContainer}>
-                    {currentStory.slides.map((_, idx) => (
+                    {slides.map((_: any, idx: number) => (
                         <div key={idx} className={styles.progressBar}>
                             <div
                                 className={styles.progressFill}
@@ -94,7 +100,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
                     <div className={styles.userInfo}>
                         <Image src={currentStory.user.avatar || 'https://i.pravatar.cc/150'} alt={currentStory.user.username} className={styles.avatar} width={32} height={32} />
                         <span className={styles.username}>{currentStory.user.username}</span>
-                        <span className={styles.time}>{currentSlide.time}</span>
+                        <span className={styles.time}>{currentSlide.time || formatDistanceToNow(new Date(currentSlide.createdAt || 0), { addSuffix: true })}</span>
                     </div>
                     <button className={styles.actionBtn}>
                         <MoreHorizontal size={20} />
@@ -113,7 +119,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
                             transition={{ duration: 0.3 }}
                         >
                             <Image
-                                src={currentSlide.image || 'https://picsum.photos/seed/story/800/1200'}
+                                src={currentSlide.image || currentSlide.url || 'https://picsum.photos/seed/story/800/1200'}
                                 alt=""
                                 fill
                                 style={{ objectFit: 'cover' }}

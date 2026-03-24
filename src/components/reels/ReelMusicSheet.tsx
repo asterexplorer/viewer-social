@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { X, Search, Play, Pause, Music, Heart, TrendingUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './ReelMusicSheet.module.css';
@@ -42,11 +42,11 @@ const LOCAL_SONGS: Song[] = [
 interface ReelMusicSheetProps {
     isOpen: boolean;
     onClose: () => void;
-    currentMusic?: string;
+    _currentMusic?: string;
     onSelectSong?: (song: Song) => void;
 }
 
-const ReelMusicSheet: React.FC<ReelMusicSheetProps> = ({ isOpen, onClose, currentMusic, onSelectSong }) => {
+const ReelMusicSheet: React.FC<ReelMusicSheetProps> = ({ isOpen, onClose, _currentMusic, onSelectSong }) => {
     const [tab, setTab] = useState<'international' | 'local'>('international');
     const [search, setSearch] = useState('');
     const [playingId, setPlayingId] = useState<string | null>(null);

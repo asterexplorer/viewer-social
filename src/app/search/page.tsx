@@ -8,7 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { triggerHaptic } from '@/lib/haptics';
 import { ImpactStyle } from '@capacitor/haptics';
-import Loader from '@/components/common/Loader';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 
 const SearchPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -18,6 +18,8 @@ const SearchPage = () => {
     const [results, setResults] = useState<any[]>([]);
     const [recentUsers, setRecentUsers] = useState<any[]>([]);
     const [discoveryPosts, setDiscoveryPosts] = useState<any[]>([]);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
     const handleTabChange = (tabId: string) => {
         setActiveTab(tabId);
@@ -29,23 +31,33 @@ const SearchPage = () => {
         triggerHaptic(ImpactStyle.Light);
     };
 
-    const tabs = [
-        { id: 'Top', icon: <TrendingUp size={16} /> },
-        { id: 'Accounts', icon: <Users size={16} /> },
-        { id: 'Audio', icon: <Music size={16} /> },
-        { id: 'Tags', icon: <Hash size={16} /> },
-        { id: 'Places', icon: <MapPin size={16} /> }
-    ];
+    const loadMoreDiscovery = async () => {
+        if (!hasMore || isLoading || searchTerm) return;
+        
+        try {
+            const nextPage = page + 1;
+            const res = await fetch(`/api/posts?page=${nextPage}`);
+            if (res.ok) {
+                const newPosts = await res.json();
+                if (newPosts.length === 0) {
+                    setHasMore(false);
+                } else {
+                    setDiscoveryPosts(prev => [...prev, ...newPosts]);
+                    setPage(nextPage);
+                }
+            }
+        } catch (err) {
+            console.error('Load more discovery failed', err);
+        }
+    };
 
-    const trendingTags = [
-        { name: '#photography', posts: '1.2M' },
-        { name: '#travel', posts: '890K' },
-        { name: '#ethereal', posts: '42K' },
-        { name: '#visuals', posts: '215K' },
-    ];
+    const { elementRef: lastElementRef } = useInfiniteScroll(loadMoreDiscovery, {
+        enabled: hasMore && !searchTerm && !isLoading
+    });
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true);
             try {
                 // Fetch users for discovery
                 const usersRes = await fetch('/api/users');
@@ -54,14 +66,17 @@ const SearchPage = () => {
                     setRecentUsers(users.slice(0, 4));
                 }
 
-                // Fetch posts for explore
-                const postsRes = await fetch('/api/posts');
+                // Fetch posts for explore (page 1)
+                const postsRes = await fetch('/api/posts?page=1');
                 if (postsRes.ok) {
                     const posts = await postsRes.json();
-                    setDiscoveryPosts(posts.slice(0, 9));
+                    setDiscoveryPosts(posts);
+                    setHasMore(posts.length > 0);
                 }
             } catch (err) {
                 console.error('Search page fetch error', err);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchData();
@@ -147,7 +162,13 @@ const SearchPage = () => {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                     >
-                        {tabs.map(tab => (
+                        {[
+                            { id: 'Top', icon: <TrendingUp size={16} /> },
+                            { id: 'Accounts', icon: <Users size={16} /> },
+                            { id: 'Audio', icon: <Music size={16} /> },
+                            { id: 'Tags', icon: <Hash size={16} /> },
+                            { id: 'Places', icon: <MapPin size={16} /> }
+                        ].map(tab => (
                             <button
                                 key={tab.id}
                                 className={`${styles.tab} ${activeTab === tab.id ? styles.activeTab : ''}`}
@@ -161,56 +182,88 @@ const SearchPage = () => {
                 )}
 
                 <div className={styles.contentArea}>
-                    {isLoading ? (
+                    {isLoading && page === 1 ? (
                         <div className={styles.loadingArea}>
-                            <Loader size="large" />
+                            <Loader2 className={styles.spinner} size={40} />
                             <p className={styles.loadingText}>Curating the best visions...</p>
                         </div>
                     ) : !searchTerm ? (
                         /* Discovery View */
-                        <div className={styles.resultsContainer}>
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6 }}
-                                className={styles.sectionHeader}
-                            >
-                                <h2>Suggested Connections</h2>
-                            </motion.div>
-
-                            <AnimatePresence mode="popLayout">
-                                {recentUsers.map((user, i) => (
-                                    <motion.div
-                                        key={user.id}
-                                        className={styles.resultUserItem}
-                                        initial={{ opacity: 0, scale: 0.95 }}
+                        <div className={styles.discoveryWrapper}>
+                            {/* Explore Grid */}
+                            <div className={styles.exploreGrid}>
+                                {discoveryPosts.map((post, i) => (
+                                    <motion.div 
+                                        key={post.id}
+                                        ref={i === discoveryPosts.length - 1 ? lastElementRef : null}
+                                        className={styles.gridItem}
+                                        initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: i * 0.05 }}
+                                        transition={{ delay: (i % 9) * 0.05 }}
                                     >
-                                        <Link href={`/${user.username}`} prefetch={false} className={styles.avatarWrapper}>
-                                            <Image
-                                                src={user.avatar || `https://ui-avatars.com/api/?name=${user.username}&background=random`}
-                                                alt={user.username}
-                                                className={styles.resultAvatar}
-                                                width={80}
-                                                height={80}
-                                            />
-                                        </Link>
-                                        <div className={styles.resultInfo}>
-                                            <Link href={`/${user.username}`} prefetch={false} className={styles.nameRow}>
-                                                <span className={styles.resultUsername}>{user.username}</span>
-                                                {user.isVerified && <div className={styles.verifiedBadge}>Verified</div>}
-                                            </Link>
-                                            <div className={styles.resultDetails}>
-                                                <span className={styles.resultFullName}>{user.fullName || 'Digital Creator'}</span>
-                                            </div>
-                                        </div>
-                                        <Link href={`/${user.username}`} prefetch={false}>
-                                            <button className={styles.followBtn}>View</button>
-                                        </Link>
+                                        <Image
+                                            src={post.media[0]?.url || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe'}
+                                            alt="Discovery"
+                                            layout="fill"
+                                            objectFit="cover"
+                                            className={styles.gridImage}
+                                        />
+                                        {post.media.length > 1 && <div className={styles.carouselBadge}>+</div>}
                                     </motion.div>
                                 ))}
-                            </AnimatePresence>
+                            </div>
+
+                            {/* Suggested Connections */}
+                            <div className={styles.resultsContainer}>
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6 }}
+                                    className={styles.sectionHeader}
+                                >
+                                    <h2>Suggested Connections</h2>
+                                </motion.div>
+
+                                <AnimatePresence mode="popLayout">
+                                    {recentUsers.map((user, i) => (
+                                        <motion.div
+                                            key={user.id}
+                                            className={styles.resultUserItem}
+                                            initial={{ opacity: 0, scale: 0.95 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: i * 0.05 }}
+                                        >
+                                            <Link href={`/profile/${user.username}`} prefetch={false} className={styles.avatarWrapper}>
+                                                <Image
+                                                    src={user.avatar || `https://ui-avatars.com/api/?name=${user.username}&background=random`}
+                                                    alt={user.username}
+                                                    className={styles.resultAvatar}
+                                                    width={80}
+                                                    height={80}
+                                                />
+                                            </Link>
+                                            <div className={styles.resultInfo}>
+                                                <Link href={`/profile/${user.username}`} prefetch={false} className={styles.nameRow}>
+                                                    <span className={styles.resultUsername}>{user.username}</span>
+                                                    {user.isVerified && <div className={styles.verifiedBadge}>Verified</div>}
+                                                </Link>
+                                                <div className={styles.resultDetails}>
+                                                    <span className={styles.resultFullName}>{user.fullName || 'Digital Creator'}</span>
+                                                </div>
+                                            </div>
+                                            <Link href={`/profile/${user.username}`} prefetch={false}>
+                                                <button className={styles.followBtn}>View</button>
+                                            </Link>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </div>
+
+                            {isLoading && hasMore && (
+                                <div className={styles.infiniteLoader}>
+                                    <Loader2 className={styles.spinner} size={24} />
+                                </div>
+                            )}
                         </div>
                     ) : (
                         /* Search Results View */

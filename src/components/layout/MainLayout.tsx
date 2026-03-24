@@ -16,51 +16,19 @@ import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { SplashScreen } from '@capacitor/splash-screen';
 
+import { useAuth } from '../../contexts/AuthContext';
+
 interface MainLayoutProps {
     children: React.ReactNode;
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [isInitialized, setIsInitialized] = useState<boolean>(false);
+    const { user, isInitialized, logout } = useAuth();
+    const isLoggedIn = !!user;
     const [isClearView, setIsClearView] = useState<boolean>(false);
     const pathname = usePathname();
 
     useEffect(() => {
-        const initAuth = async () => {
-            // Instantly check if we've logged in before to skip the loading screen
-            const hasFastAuth = localStorage.getItem('viewer_demo_auth') === 'true';
-
-            if (hasFastAuth) {
-                // Show the app IMMEDIATELY for returning users!
-                setIsLoggedIn(true);
-            }
-
-            try {
-                // Background check with the real API to verify the cookie
-                const res = await fetch('/api/auth');
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.authenticated) {
-                        setIsLoggedIn(true);
-                        localStorage.setItem('viewer_demo_auth', 'true');
-                    } else {
-                        // Crucial: The cookie expired or their DB record was deleted! Log them out locally.
-                        setIsLoggedIn(false);
-                        localStorage.removeItem('viewer_demo_auth');
-                    }
-                } else {
-                    // 401 Unauthorized or 500
-                    setIsLoggedIn(false);
-                    localStorage.removeItem('viewer_demo_auth');
-                }
-            } catch (err) {
-                console.error('Session check failed', err);
-            } finally {
-                setIsInitialized(true);
-            }
-        };
-
         const initCapacitor = async () => {
             if (Capacitor.isNativePlatform()) {
                 try {
@@ -71,7 +39,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             }
         };
 
-        initAuth();
+        const savedClearView = localStorage.getItem('viewer_clear_view') === 'true';
+        setIsClearView(savedClearView);
+
         initCapacitor();
     }, []);
 
@@ -99,9 +69,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     };
 
     const handleLogin = () => {
-        setIsLoggedIn(true);
-        // Force refresh to ensure all server data and cookies are in sync
-        window.location.reload();
+        // Redundant with AuthContext.login, but we can keep it as a no-op or proxy if needed.
+        // For now, AuthProvider reload will handle it.
     };
 
     if (!isInitialized) {

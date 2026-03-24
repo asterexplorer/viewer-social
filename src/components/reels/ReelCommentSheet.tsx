@@ -19,7 +19,7 @@ interface Comment {
 interface ReelCommentSheetProps {
     isOpen: boolean;
     onClose: () => void;
-    reelId: string;
+    _reelId: string;
     commentsCount: number;
 }
 
@@ -32,7 +32,7 @@ const MOCK_COMMENTS: Comment[] = [
     { id: '6', username: 'urban_frames', avatar: 'https://i.pravatar.cc/150?u=6', text: 'Can you do a tutorial on how you filmed this?', time: '31m', likes: 4, isLiked: false },
 ];
 
-const ReelCommentSheet: React.FC<ReelCommentSheetProps> = ({ isOpen, onClose, reelId, commentsCount }) => {
+const ReelCommentSheet: React.FC<ReelCommentSheetProps> = ({ isOpen, onClose, _reelId, commentsCount }) => {
     const [comments, setComments] = useState<Comment[]>(MOCK_COMMENTS);
     const [input, setInput] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
