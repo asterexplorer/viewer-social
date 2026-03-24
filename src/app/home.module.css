@@ -155,7 +155,12 @@
         border-top: none;
         border-left: none;
         border-right: none;
-        margin-bottom: 16px;
+        margin-bottom: 24px;
+        padding: 24px 20px;
+    }
+
+    .welcomeText h1 {
+        font-size: 36px;
     }
 
     .container {
@@ -165,6 +170,21 @@
     .feedSection {
         max-width: 100%;
         gap: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .pageHeader {
+        padding: 20px 16px;
+        margin-bottom: 16px;
+    }
+
+    .welcomeText h1 {
+        font-size: 28px;
+    }
+
+    .subtitle {
+        font-size: 14px;
     }
 }
 
