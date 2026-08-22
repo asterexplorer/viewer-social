@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { X, Heart, Send, Smile } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './ReelCommentSheet.module.css';
+import { addShotComment } from '@/app/actions';
+import { formatDistanceToNow } from 'date-fns';
 
 interface Comment {
     id: string;
@@ -19,7 +21,7 @@ interface Comment {
 interface ReelCommentSheetProps {
     isOpen: boolean;
     onClose: () => void;
-    _reelId: string;
+    reelId: string;
     commentsCount: number;
 }
 
@@ -32,16 +34,39 @@ const MOCK_COMMENTS: Comment[] = [
     { id: '6', username: 'urban_frames', avatar: 'https://i.pravatar.cc/150?u=6', text: 'Can you do a tutorial on how you filmed this?', time: '31m', likes: 4, isLiked: false },
 ];
 
-const ReelCommentSheet: React.FC<ReelCommentSheetProps> = ({ isOpen, onClose, _reelId, commentsCount }) => {
-    const [comments, setComments] = useState<Comment[]>(MOCK_COMMENTS);
+const ReelCommentSheet: React.FC<ReelCommentSheetProps> = ({ isOpen, onClose, reelId, commentsCount }) => {
+    const [comments, setComments] = useState<Comment[]>([]);
     const [input, setInput] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
+    // Fetch real comments when opened
     useEffect(() => {
-        if (isOpen) {
-            setTimeout(() => inputRef.current?.focus(), 400);
-        }
-    }, [isOpen]);
+        if (!isOpen || !reelId) return;
+        const fetchComments = async () => {
+            try {
+                const res = await fetch(`/api/shots/${reelId}/comments`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setComments(data.map((c: any) => ({
+                        id: c.id,
+                        username: c.user?.username || 'user',
+                        avatar: c.user?.avatar || 'https://i.pravatar.cc/150',
+                        text: c.text,
+                        time: formatDistanceToNow(new Date(c.createdAt), { addSuffix: true }),
+                        likes: 0,
+                        isLiked: false,
+                    })));
+                } else {
+                    setComments(MOCK_COMMENTS);
+                }
+            } catch {
+                setComments(MOCK_COMMENTS);
+            }
+        };
+        fetchComments();
+        setTimeout(() => inputRef.current?.focus(), 400);
+    }, [isOpen, reelId]);
 
     const handleLikeComment = (id: string) => {
         setComments(prev => prev.map(c =>
@@ -51,20 +76,29 @@ const ReelCommentSheet: React.FC<ReelCommentSheetProps> = ({ isOpen, onClose, _r
         ));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!input.trim()) return;
+        if (!input.trim() || isSubmitting) return;
+        const text = input.trim();
+        setIsSubmitting(true);
         const newComment: Comment = {
             id: Date.now().toString(),
             username: 'you',
             avatar: 'https://i.pravatar.cc/150?u=me',
-            text: input.trim(),
+            text,
             time: 'just now',
             likes: 0,
             isLiked: false,
         };
         setComments(prev => [newComment, ...prev]);
         setInput('');
+        try {
+            await addShotComment(reelId, text);
+        } catch (err) {
+            console.error('Failed to post comment', err);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
