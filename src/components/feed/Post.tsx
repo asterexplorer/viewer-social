@@ -56,6 +56,8 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
     const [isFollowingAuthor, setIsFollowingAuthor] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [showComments, setShowComments] = useState(false);
+    const [showCollections, setShowCollections] = useState(false);
+    const [savedToastText, setSavedToastText] = useState<string | null>(null);
     const [comment, setComment] = useState('');
     const [localComments, setLocalComments] = useState(comments);
     const [captionExpanded, setCaptionExpanded] = useState(false);
@@ -375,14 +377,60 @@ const Post: React.FC<PostProps> = ({ id, type = 'post', user, image, video, medi
                         <Send size={22} />
                     </motion.button>
                 </div>
-                <motion.button
-                    whileTap={{ scale: 0.75 }}
-                    className={`${styles.actionButton} ${isSaved ? styles.saved : ''}`}
-                    onClick={handleSave}
-                >
-                    <Bookmark size={24} fill={isSaved ? 'currentColor' : 'none'} />
-                </motion.button>
+                <div style={{ position: 'relative' }}>
+                    <motion.button
+                        whileTap={{ scale: 0.75 }}
+                        className={`${styles.actionButton} ${isSaved ? styles.saved : ''}`}
+                        onClick={handleSave}
+                        onContextMenu={(e) => { e.preventDefault(); setShowCollections(!showCollections); }}
+                    >
+                        <Bookmark size={24} fill={isSaved ? 'currentColor' : 'none'} />
+                    </motion.button>
+
+                    {/* Bookmark Collections Popover */}
+                    <AnimatePresence>
+                        {showCollections && (
+                            <motion.div
+                                className={styles.collectionsPopover}
+                                initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                            >
+                                <div className={styles.collectionsTitle}>Save to Collection</div>
+                                {['⭐ Favorites', '🎨 Design Ideas', '✈️ Travel Bucket List', '🍳 Recipes', '💡 Inspiration'].map(col => (
+                                    <button
+                                        key={col}
+                                        className={styles.collectionItem}
+                                        onClick={() => {
+                                            if (!isSaved) handleSave();
+                                            setShowCollections(false);
+                                            setSavedToastText(`Saved to ${col}`);
+                                            setTimeout(() => setSavedToastText(null), 2000);
+                                        }}
+                                    >
+                                        {col}
+                                    </button>
+                                ))}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </div>
+
+            {/* Saved Toast */}
+            <AnimatePresence>
+                {savedToastText && (
+                    <motion.div
+                        className={styles.savedToast}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                    >
+                        ✅ {savedToastText}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
 
             {/* Engagement */}
             <div className={styles.engagement}>

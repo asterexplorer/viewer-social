@@ -1,15 +1,17 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { X, ChevronLeft, ChevronRight, Heart, Send, MoreHorizontal } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { X, Send, Music } from 'lucide-react';
 import styles from './StoryViewer.module.css';
-import { Story } from '@/constants/mockData';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { formatDistanceToNow } from 'date-fns';
+import { startConversation, sendMessage } from '@/app/actions';
+
+const QUICK_REACTIONS = ['🔥', '❤️', '😂', '😮', '👏'];
 
 interface StoryViewerProps {
-    stories: Story[];
+    stories: any[];
     initialStoryIndex: number;
     isOpen: boolean;
     onClose: () => void;
@@ -19,10 +21,15 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
     const [storyIndex, setStoryIndex] = useState(initialStoryIndex);
     const [slideIndex, setSlideIndex] = useState(0);
     const [progress, setProgress] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
+    const [replyText, setReplyText] = useState('');
+    const [floatingReaction, setFloatingReaction] = useState<string | null>(null);
+
+    // Local poll vote records (storyId -> votedOptionIndex)
+    const [pollVotes, setPollVotes] = useState<Record<string, number>>({});
 
     const currentStory = stories[storyIndex];
-    // Support both 'slides' and 'stories' property name for the content array
-    const slides = React.useMemo(() => currentStory.slides || (currentStory as any).stories || [], [currentStory]);
+    const slides = React.useMemo(() => currentStory?.slides || currentStory?.stories || [], [currentStory]);
     const currentSlide = slides[slideIndex];
 
     const nextSlide = useCallback(() => {
@@ -45,15 +52,16 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
             setProgress(0);
         } else if (storyIndex > 0) {
             const prevStory = stories[storyIndex - 1];
-            const prevSlides = prevStory.slides || (prevStory as any).stories || [];
+            const prevSlides = prevStory.slides || prevStory.stories || [];
             setStoryIndex(storyIndex - 1);
             setSlideIndex(prevSlides.length - 1);
             setProgress(0);
         }
     }, [slideIndex, storyIndex, stories]);
 
+    // Timer & Auto Progression
     useEffect(() => {
-        if (!isOpen || !currentSlide) return;
+        if (!isOpen || !currentSlide || isPaused) return;
 
         const duration = 5000;
         const interval = 50;
@@ -70,17 +78,87 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
         }, interval);
 
         return () => clearInterval(timer);
-    }, [isOpen, slideIndex, storyIndex, nextSlide, currentSlide]);
+    }, [isOpen, slideIndex, storyIndex, nextSlide, currentSlide, isPaused]);
 
     if (!isOpen || !currentStory || !currentSlide) return null;
+
+    // Parse image & metadata
+    const rawImage = currentSlide.image || currentSlide.url || '';
+    let meta: { filter?: string; music?: string; poll?: { question: string; opt1: string; opt2: string } } | null = null;
+    let finalImageUrl = rawImage;
+
+    if (rawImage.startsWith('[STORY_META:')) {
+        const match = rawImage.match(/^\[STORY_META:([\s\S]+?)\]:([\s\S]*)$/);
+        if (match) {
+            try {
+                meta = JSON.parse(match[1]);
+                finalImageUrl = match[2];
+            } catch (e) {
+                console.warn('Failed to parse story meta', e);
+            }
+        }
+    }
+
+    const filterStyle = meta?.filter === 'cyberpunk'
+        ? 'contrast(130%) saturate(160%) hue-rotate(290deg)'
+        : meta?.filter === 'vintage'
+        ? 'sepia(45%) contrast(115%) brightness(95%)'
+        : meta?.filter === 'sunset'
+        ? 'sepia(20%) saturate(150%) brightness(105%) hue-rotate(-15deg)'
+        : meta?.filter === 'noir'
+        ? 'grayscale(100%) contrast(140%)'
+        : meta?.filter === 'vibrant'
+        ? 'saturate(180%) contrast(110%)'
+        : 'none';
+
+    const slideKey = `${currentStory.id || storyIndex}-${slideIndex}`;
+    const userVote = pollVotes[slideKey];
+
+    const handleVote = (optionIndex: number) => {
+        setPollVotes(prev => ({ ...prev, [slideKey]: optionIndex }));
+    };
+
+    const handleSendReaction = async (emoji: string) => {
+        setFloatingReaction(emoji);
+        setTimeout(() => setFloatingReaction(null), 1200);
+
+        if (currentStory.user?.username) {
+            try {
+                const conv = await startConversation(currentStory.user.username);
+                await sendMessage(conv.id, `Reacted ${emoji} to your story! ✨`);
+            } catch (err) {
+                console.warn('Reaction send error', err);
+            }
+        }
+    };
+
+    const handleSendReply = async () => {
+        if (!replyText.trim() || !currentStory.user?.username) return;
+        const text = replyText.trim();
+        setReplyText('');
+
+        try {
+            const conv = await startConversation(currentStory.user.username);
+            await sendMessage(conv.id, `Replied to your story: "${text}"`);
+        } catch (err) {
+            console.error('Reply send error', err);
+        }
+    };
 
     return (
         <div className={styles.overlay} onClick={onClose}>
             <button className={styles.closeBtn} onClick={onClose}>
-                <X size={28} />
+                <X size={22} />
             </button>
 
-            <div className={styles.viewerContainer} onClick={e => e.stopPropagation()}>
+            <div
+                className={styles.viewerContainer}
+                onClick={e => e.stopPropagation()}
+                onMouseDown={() => setIsPaused(true)}
+                onMouseUp={() => setIsPaused(false)}
+                onTouchStart={() => setIsPaused(true)}
+                onTouchEnd={() => setIsPaused(false)}
+            >
                 {/* Progress Bars */}
                 <div className={styles.progressContainer}>
                     {slides.map((_: any, idx: number) => (
@@ -98,56 +176,129 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ stories, initialStoryIndex, i
                 {/* Header */}
                 <div className={styles.header}>
                     <div className={styles.userInfo}>
-                        <Image src={currentStory.user.avatar || 'https://i.pravatar.cc/150'} alt={currentStory.user.username} className={styles.avatar} width={32} height={32} />
-                        <span className={styles.username}>{currentStory.user.username}</span>
-                        <span className={styles.time}>{currentSlide.time || formatDistanceToNow(new Date(currentSlide.createdAt || 0), { addSuffix: true })}</span>
+                        <Image
+                            src={currentStory.user?.avatar || 'https://i.pravatar.cc/150'}
+                            alt={currentStory.user?.username || 'User'}
+                            width={38}
+                            height={38}
+                            className={styles.avatar}
+                        />
+                        <div className={styles.userMeta}>
+                            <span className={styles.username}>{currentStory.user?.username || 'Creator'}</span>
+                            <span className={styles.time}>
+                                {currentSlide.createdAt
+                                    ? formatDistanceToNow(new Date(currentSlide.createdAt), { addSuffix: true })
+                                    : 'Just now'}
+                            </span>
+                        </div>
                     </div>
-                    <button className={styles.actionBtn}>
-                        <MoreHorizontal size={20} />
-                    </button>
-                </div>
 
-                {/* Content */}
-                <div className={styles.storyContent}>
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={currentSlide.id}
-                            className={styles.storyImage}
-                            initial={{ opacity: 0, scale: 1.1 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <Image
-                                src={currentSlide.image || currentSlide.url || 'https://picsum.photos/seed/story/800/1200'}
-                                alt=""
-                                fill
-                                style={{ objectFit: 'cover' }}
-                                sizes="(max-width: 768px) 100vw, 480px"
-                            />
-                        </motion.div>
-                    </AnimatePresence>
-
-                    {/* Nav Buttons */}
-                    {(storyIndex > 0 || slideIndex > 0) && (
-                        <button className={`${styles.navBtn} ${styles.prevBtn}`} onClick={prevSlide}>
-                            <ChevronLeft size={24} />
-                        </button>
+                    {/* Music Badge */}
+                    {meta?.music && (
+                        <div className={styles.musicBadge}>
+                            <Music size={13} color="#6366f1" />
+                            <span>{meta.music.split('•')[0]}</span>
+                            <div className={styles.equalizerWaves}>
+                                <div className={styles.equalizerBar} style={{ animationDelay: '0s' }} />
+                                <div className={styles.equalizerBar} style={{ animationDelay: '0.2s' }} />
+                                <div className={styles.equalizerBar} style={{ animationDelay: '0.4s' }} />
+                            </div>
+                        </div>
                     )}
-                    <button className={`${styles.navBtn} ${styles.nextBtn}`} onClick={nextSlide}>
-                        <ChevronRight size={24} />
-                    </button>
                 </div>
 
-                {/* Controls */}
-                <div className={styles.controls}>
-                    <input type="text" placeholder={`Reply to ${currentStory.user.username}...`} className={styles.replyInput} />
-                    <button className={styles.actionBtn}>
-                        <Heart size={24} />
-                    </button>
-                    <button className={styles.actionBtn}>
-                        <Send size={24} />
-                    </button>
+                {/* Main Story Image */}
+                <div className={styles.storyContent}>
+                    {/* Navigation Tap Zones */}
+                    <div className={styles.navZoneLeft} onClick={prevSlide} />
+                    <div className={styles.navZoneRight} onClick={nextSlide} />
+
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src={finalImageUrl}
+                        alt="Story"
+                        className={styles.storyImage}
+                        style={{ filter: filterStyle }}
+                    />
+
+                    {/* Interactive Poll Sticker */}
+                    {meta?.poll && (
+                        <div className={styles.pollSticker} onClick={e => e.stopPropagation()}>
+                            <div className={styles.pollQuestion}>{meta.poll.question}</div>
+                            <div className={styles.pollOptionsList}>
+                                {[meta.poll.opt1, meta.poll.opt2].map((opt, optIdx) => {
+                                    const hasVoted = userVote !== undefined;
+                                    const isSelected = userVote === optIdx;
+                                    // Animated mock percentages
+                                    const pct = userVote === 0 ? (optIdx === 0 ? 68 : 32) : (optIdx === 0 ? 38 : 62);
+
+                                    return (
+                                        <button
+                                            key={optIdx}
+                                            className={styles.pollOptionBtn}
+                                            onClick={() => handleVote(optIdx)}
+                                        >
+                                            {hasVoted && (
+                                                <div
+                                                    className={styles.pollOptionFill}
+                                                    style={{ width: `${pct}%` }}
+                                                />
+                                            )}
+                                            <span className={styles.pollOptionLabel}>{opt}</span>
+                                            {hasVoted && (
+                                                <span className={styles.pollOptionPct}>{pct}%</span>
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Floating Reaction Burst */}
+                    <AnimatePresence>
+                        {floatingReaction && (
+                            <motion.div
+                                className={styles.floatingReactionBurst}
+                                initial={{ scale: 0, y: 0, opacity: 1 }}
+                                animate={{ scale: [0, 1.4, 1.2], y: -80, opacity: [1, 1, 0] }}
+                                transition={{ duration: 1 }}
+                            >
+                                {floatingReaction}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+
+                {/* Bottom Quick Reactions & Reply Bar */}
+                <div className={styles.controls} onClick={e => e.stopPropagation()}>
+                    <div className={styles.quickReactionRow}>
+                        {QUICK_REACTIONS.map(emoji => (
+                            <button
+                                key={emoji}
+                                className={styles.quickReactionBtn}
+                                onClick={() => handleSendReaction(emoji)}
+                            >
+                                {emoji}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className={styles.inputRow}>
+                        <input
+                            type="text"
+                            placeholder={`Reply to ${currentStory.user?.username || 'story'}...`}
+                            className={styles.replyInput}
+                            value={replyText}
+                            onChange={e => setReplyText(e.target.value)}
+                            onKeyDown={e => {
+                                if (e.key === 'Enter') handleSendReply();
+                            }}
+                        />
+                        <button className={styles.sendReplyBtn} onClick={handleSendReply}>
+                            <Send size={16} />
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
