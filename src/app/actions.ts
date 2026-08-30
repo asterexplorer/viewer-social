@@ -595,3 +595,60 @@ export async function startConversation(participantUsername: string) {
 
     return conversation;
 }
+
+export async function broadcastTyping(conversationId: string, isTyping: boolean) {
+    const user = await requireAuth();
+    try {
+        await pusherServer.trigger(`chat-${conversationId}`, 'typing-status', {
+            userId: user.id,
+            username: user.username,
+            isTyping
+        });
+        return { success: true };
+    } catch (error) {
+        console.error('Typing trigger error:', error);
+        return { success: false };
+    }
+}
+
+export async function broadcastReaction(conversationId: string, messageId: string, emoji: string) {
+    const user = await requireAuth();
+    try {
+        await pusherServer.trigger(`chat-${conversationId}`, 'message-reaction', {
+            messageId,
+            userId: user.id,
+            username: user.username,
+            emoji
+        });
+        return { success: true };
+    } catch (error) {
+        console.error('Reaction trigger error:', error);
+        return { success: false };
+    }
+}
+
+export async function deleteMessage(conversationId: string, messageId: string) {
+    const user = await requireAuth();
+    try {
+        const msg = await prisma.message.findUnique({
+            where: { id: messageId }
+        });
+
+        if (!msg || msg.senderId !== user.id) {
+            throw new Error('Unauthorized or message not found');
+        }
+
+        await prisma.message.delete({
+            where: { id: messageId }
+        });
+
+        await pusherServer.trigger(`chat-${conversationId}`, 'message-deleted', {
+            messageId
+        });
+
+        return { success: true };
+    } catch (error) {
+        console.error('Delete message error:', error);
+        return { success: false, error: (error as Error).message };
+    }
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import styles from './LandingPage.module.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Smartphone, ShieldCheck, Zap, Globe, AlertCircle, LogIn, UserPlus, CheckCircle2, Loader2, Eye, EyeOff, Github } from 'lucide-react';
+import { Smartphone, ShieldCheck, Zap, Globe, AlertCircle, LogIn, UserPlus, CheckCircle2, Loader2, Eye, EyeOff, Github, Sparkles } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,11 +27,12 @@ const LandingContent: React.FC<LandingPageProps & {
     password: string;
     setPassword: (p: string) => void;
     handleSubmit: (e: React.FormEvent) => void;
+    handleDemoLogin: () => void;
     toggleMode: () => void;
     features: any[];
     isSuccess: boolean;
 }> = ({
-    mode, setMode, isLoading, error, setError, username, setUsername, email, setEmail, fullName, setFullName, password, setPassword, handleSubmit, toggleMode, features, isSuccess
+    mode, setMode, isLoading, error, setError, username, setUsername, email, setEmail, fullName, setFullName, password, setPassword, handleSubmit, handleDemoLogin, toggleMode, features, isSuccess
 }) => {
         const searchParams = useSearchParams();
         const referralCode = searchParams.get('ref');
@@ -50,10 +51,10 @@ const LandingContent: React.FC<LandingPageProps & {
             if (oauthError && !error) {
                 // Map OAuth error codes to friendly messages
                 const friendlyErrors: Record<string, string> = {
-                    'OAuthFailed': 'Social login failed. Please try again.',
+                    'OAuthFailed': 'Social login failed. Please try again or use Demo Login.',
                     'UserInfoFailed': 'Failed to retrieve user information from provider.',
                     'TokenExchangeFailed': 'Failed to complete social login.',
-                    'MissingClientId': 'Social login is not configured properly.'
+                    'MissingClientId': 'OAuth Client ID is not configured in .env. You can use Quick Demo Login or login with antigravity_dev / password123.'
                 };
                 setError(friendlyErrors[oauthError] || 'An error occurred during social login.');
             }
@@ -337,6 +338,23 @@ const LandingContent: React.FC<LandingPageProps & {
                                                 </button>
                                             </form>
 
+                                            <button
+                                                type="button"
+                                                className={styles.loginBtn}
+                                                style={{
+                                                    marginTop: '12px',
+                                                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                                                    boxShadow: '0 4px 16px rgba(16, 185, 129, 0.3)',
+                                                    height: '48px',
+                                                    fontSize: '14.5px'
+                                                }}
+                                                onClick={handleDemoLogin}
+                                                disabled={isLoading}
+                                            >
+                                                <Sparkles size={18} />
+                                                One-Click Demo Access (antigravity_dev)
+                                            </button>
+
                                             <div className={styles.divider}>OR</div>
 
                                             {mode !== 'forgot_password' && (
@@ -459,6 +477,27 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
         }
     };
 
+    const handleDemoLogin = async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const res = await fetch('/api/auth/demo', { method: 'POST' });
+            const data = await res.json();
+            if (res.ok && data.success) {
+                setIsSuccess(true);
+                setTimeout(() => {
+                    login(data.user);
+                }, 1000);
+            } else {
+                setError(data?.error || 'Demo login failed');
+            }
+        } catch (err: any) {
+            setError(err.message || 'Connection error');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const features = [
         { icon: Smartphone, text: 'Mobile Ready' },
         { icon: ShieldCheck, text: 'Secure Access' },
@@ -485,6 +524,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => {
                 password={password}
                 setPassword={setPassword}
                 handleSubmit={handleSubmit}
+                handleDemoLogin={handleDemoLogin}
                 toggleMode={toggleMode}
                 features={features}
                 isSuccess={isSuccess}
