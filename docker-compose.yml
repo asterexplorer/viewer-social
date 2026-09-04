@@ -1,39 +1,80 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15
-    container_name: viewer_postgres
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: viewer_app
+    restart: always
+    ports:
+      - "3000:3000"
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: viewer_db
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL:-postgresql://user:password@postgres:5432/viewer_db?schema=public}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      - PUSHER_APP_ID=${PUSHER_APP_ID}
+      - PUSHER_KEY=${PUSHER_KEY}
+      - PUSHER_SECRET=${PUSHER_SECRET}
+      - NEXT_PUBLIC_PUSHER_KEY=${NEXT_PUBLIC_PUSHER_KEY}
+      - NEXT_PUBLIC_PUSHER_CLUSTER=${NEXT_PUBLIC_PUSHER_CLUSTER:-us2}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - CDN_DOMAIN=${CDN_DOMAIN}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - uploads_data:/app/public/uploads
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: viewer_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: ${POSTGRES_DB:-viewer_db}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d viewer_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    container_name: viewer_redis
+    restart: always
+    ports:
+      - "6379:6379"
 
   mongodb:
     image: mongo:latest
     container_name: viewer_mongodb
+    restart: unless-stopped
     ports:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:3-management-alpine
     container_name: viewer_rabbitmq
+    restart: unless-stopped
     ports:
       - "5672:5672"
       - "15672:15672"
 
-  redis:
-    image: redis:alpine
-    container_name: viewer_redis
-    ports:
-      - "6379:6379"
-
 volumes:
   postgres_data:
   mongodb_data:
+  uploads_data:
