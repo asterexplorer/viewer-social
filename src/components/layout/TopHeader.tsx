@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Camera, Heart, Sun, Moon } from 'lucide-react';
+import { Camera, Heart, Sun, Moon, Search, MessageSquare } from 'lucide-react';
 import styles from './TopHeader.module.css';
 import { usePathname } from 'next/navigation';
 import NotificationModal from '../modals/NotificationModal';
@@ -19,7 +19,6 @@ const TopHeader = () => {
     const { theme, toggleTheme } = useTheme();
     const { user } = useAuth();
     const isLoggedIn = !!user;
-
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
@@ -39,14 +38,13 @@ const TopHeader = () => {
                 setUnreadCount(data.unreadCount);
             }
         } catch (error) {
-            // Silently handle auth errors for the header
+            // Silently handle
         }
     };
 
     useEffect(() => {
         if (isLoggedIn) {
             fetchUnreadCount();
-            // Poll for notifications every 60 seconds
             const interval = setInterval(fetchUnreadCount, 60000);
             return () => clearInterval(interval);
         } else {
@@ -54,48 +52,62 @@ const TopHeader = () => {
         }
     }, [isLoggedIn]);
 
-    // Refresh count when notification modal closes
     useEffect(() => {
         if (!showNotifications) {
             fetchUnreadCount();
         }
     }, [showNotifications]);
 
-    // Hide header on reels page for a truly immersive experience
     if (pathname === '/reels') return null;
 
     return (
         <>
             <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
-                <div className={styles.leftSection}></div>
+                <div className={styles.leftSection}>
+                    {/* Mobile Logo */}
+                    <Link href="/" className={styles.mobileLogo}>
+                        <div className={styles.logoIcon}>
+                            <Camera size={18} strokeWidth={2.5} />
+                        </div>
+                        <span className={styles.logoText}>Viewer</span>
+                    </Link>
 
-                <Link href="/" className={styles.logoContainer}>
-                    <div className={styles.logoIcon}>
-                        <Camera size={24} strokeWidth={2.5} />
-                    </div>
-                    <span className={`${styles.logoText} text-gradient`}>viewer</span>
-                </Link>
+                    {/* Desktop Search Shortcut */}
+                    <Link href="/search" className={styles.searchBarShortcut}>
+                        <Search size={16} />
+                        <span>Search creators, tags...</span>
+                        <span className={styles.searchShortcutKey}>⌘K</span>
+                    </Link>
+                </div>
 
                 <div className={styles.rightSection}>
+                    {/* Direct Messages Shortcut on Desktop */}
+                    <Link href="/messages" className={styles.iconBtn} aria-label="Messages">
+                        <MessageSquare size={18} />
+                    </Link>
+
+                    {/* Theme Toggle Button */}
                     <button
-                        className={styles.themeToggleBtn}
+                        className={styles.iconBtn}
                         onClick={() => {
                             toggleTheme();
                             triggerHaptic(ImpactStyle.Light);
                         }}
                         aria-label="Toggle theme"
                     >
-                        {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                        {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                     </button>
+
+                    {/* Notifications Button */}
                     <button
-                        className={styles.notificationBtn}
+                        className={styles.iconBtn}
                         onClick={() => {
                             setShowNotifications(true);
                             triggerHaptic(ImpactStyle.Light);
                         }}
                         aria-label="Notifications"
                     >
-                        <Heart size={24} className={unreadCount > 0 ? styles.activeHeart : ''} />
+                        <Heart size={18} />
                         {unreadCount > 0 && (
                             <span className={styles.badge}>{unreadCount}</span>
                         )}

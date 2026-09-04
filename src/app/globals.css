@@ -1,50 +1,49 @@
 :root {
-  /* Premium Light Theme (Default: Sunrise Coral) */
-  --background: #fdfbff;
-  --background-elevated: #fff0f5;
+  /* Ultra-Clean Modern Light Theme */
+  --background: #f8fafc;
+  --background-elevated: #ffffff;
   --background-card: rgba(255, 255, 255, 0.85);
-  /* Unique deep rich plum/magenta for all fonts! */
-  --foreground: #4a0b22;
-  --foreground-muted: #9e466b;
+  --foreground: #0f172a;
+  --foreground-muted: #64748b;
 
-  --primary: #ff4c60;
-  --primary-hover: #ff334d;
-  --primary-glow: rgba(255, 76, 96, 0.25);
+  --primary: #ff3366;
+  --primary-hover: #e62255;
+  --primary-glow: rgba(255, 51, 102, 0.25);
 
-  --secondary: #fff1f3;
-  --secondary-hover: #ffe4e8;
+  --secondary: #f1f5f9;
+  --secondary-hover: #e2e8f0;
 
-  --border: rgba(255, 76, 96, 0.1);
-  --border-hover: rgba(255, 76, 96, 0.25);
+  --border: rgba(15, 23, 42, 0.08);
+  --border-hover: rgba(15, 23, 42, 0.18);
 
-  --accent: #ff9b71;
+  --accent: #8b5cf6;
 
-  --danger: #ff0055;
-  --success: #00ff9d;
+  --danger: #ef4444;
+  --success: #10b981;
 
-  --sidebar-width: 72px;
-  --sidebar-width-md: 72px;
-  --header-height: 60px;
-  --max-width: 935px;
+  --sidebar-width: 240px;
+  --sidebar-width-md: 78px;
+  --header-height: 64px;
+  --max-width: 960px;
 
-  /* Premium Light Gradients */
-  --ig-gradient: linear-gradient(45deg, #ff4c60 0%, #ff6080 50%, #ff9b71 100%);
-  --premium-gradient: linear-gradient(135deg, #fdfbff 0%, #fff0f5 50%, #fdfbff 100%);
+  /* Vibrant Modern Gradients */
+  --ig-gradient: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  --premium-gradient: linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%);
   --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
 
-  --neon-glow: 0 0 20px rgba(255, 76, 96, 0.15), 0 0 40px rgba(255, 155, 113, 0.05);
+  --neon-glow: 0 0 20px rgba(255, 51, 102, 0.15), 0 0 40px rgba(139, 92, 246, 0.08);
 
-  --card-shadow: 0 10px 25px rgba(255, 76, 96, 0.08);
-  --card-shadow-hover: 0 20px 40px rgba(255, 76, 96, 0.15);
+  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  --card-shadow-hover: 0 16px 36px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
 
   --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
 
-  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-smooth: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  --transition-spring: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-spring: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   /* Safe Areas */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -53,29 +52,28 @@
 }
 
 [data-theme='dark'] {
-  --background: #09090b;
+  --background: #08080b;
   --background-elevated: #111116;
-  --background-card: rgba(17, 17, 22, 0.7);
-  /* Stunning bright cyan-tinted text for Cyberpunk fonts! */
-  --foreground: #ccfaff;
-  --foreground-muted: #00e5ff;
+  --background-card: rgba(18, 18, 24, 0.75);
+  --foreground: #f8fafc;
+  --foreground-muted: #94a3b8;
 
-  --primary: #00e5ff;
-  --primary-hover: #00bfff;
-  --primary-glow: rgba(0, 229, 255, 0.4);
+  --primary: #ff3366;
+  --primary-hover: #ff4d7a;
+  --primary-glow: rgba(255, 51, 102, 0.35);
 
-  --secondary: #18181f;
-  --secondary-hover: #22222e;
+  --secondary: #16161e;
+  --secondary-hover: #20202c;
 
-  --border: rgba(0, 229, 255, 0.15);
-  --border-hover: rgba(0, 229, 255, 0.3);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.18);
 
-  --accent: #b900ff;
+  --accent: #a855f7;
 
-  --ig-gradient: linear-gradient(45deg, #00e5ff 0%, #6a00ff 50%, #b900ff 100%);
-  --premium-gradient: linear-gradient(135deg, #09090b 0%, #111116 50%, #09090b 100%);
-  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
-  --card-shadow-hover: 0 12px 48px rgba(0, 229, 255, 0.15);
+  --ig-gradient: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  --premium-gradient: linear-gradient(135deg, #08080b 0%, #111116 50%, #08080b 100%);
+  --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
+  --card-shadow-hover: 0 20px 48px -8px rgba(0, 0, 0, 0.8);
 }
 
 [data-theme='amethyst'] {

@@ -472,6 +472,25 @@
     font-family: 'Outfit', sans-serif;
 }
 
+@media (max-width: 768px) {
+    .post {
+        margin-bottom: 20px;
+        border-radius: var(--radius-lg);
+    }
+
+    .header {
+        padding: 12px 16px;
+    }
+
+    .actions {
+        padding: 12px 16px 6px;
+    }
+
+    .engagement {
+        padding: 0 16px 16px;
+    }
+}
+
 .collectionsTitle {
     font-size: 11px;
     font-weight: 700;

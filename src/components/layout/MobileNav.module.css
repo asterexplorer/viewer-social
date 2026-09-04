@@ -1,21 +1,19 @@
 .mobileNav {
     position: fixed;
-    bottom: 30px;
-    /* Floating look */
-    left: 20px;
-    right: 20px;
-    height: 72px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 40px;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    height: 64px;
+    background: var(--background-card);
+    backdrop-filter: blur(24px) saturate(190%);
+    -webkit-backdrop-filter: blur(24px) saturate(190%);
+    border: 1px solid var(--border);
+    border-radius: 36px;
     z-index: 999;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.25);
     display: none;
-    /* Desktop hidden */
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all var(--transition-smooth);
 }
 
 .navContainer {
@@ -23,6 +21,7 @@
     justify-content: space-around;
     align-items: center;
     height: 100%;
+    padding: 0 8px;
 }
 
 .navItem {
@@ -30,9 +29,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 8px 12px;
     position: relative;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .iconWrap {
@@ -40,29 +40,23 @@
     align-items: center;
     justify-content: center;
     position: relative;
-}
-
-.label {
-    font-size: 10px;
-    margin-top: 5px;
+    width: 36px;
+    height: 36px;
 }
 
 .activeIndicator {
     position: absolute;
-    bottom: -12px;
-    width: 6px;
-    height: 6px;
+    bottom: -6px;
+    width: 5px;
+    height: 5px;
     background: var(--primary);
     border-radius: 50%;
-    box-shadow: 0 0 12px var(--primary);
+    box-shadow: 0 0 8px var(--primary);
 }
 
 .safeAreaSpacer {
     height: env(safe-area-inset-bottom, 0px);
 }
-
-/* Light mode overrides inside the Nav itself if needed, 
-   but usually it's white to start with glass effect */
 
 @media (max-width: 768px) {
     .mobileNav {
@@ -70,9 +64,8 @@
     }
 }
 
-/* Landscape tablet or smaller tablet */
 @media (min-width: 769px) {
     .mobileNav {
-        display: none;
+        display: none !important;
     }
 }

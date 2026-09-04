@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import {
     Home,
     Search,
@@ -8,47 +11,51 @@ import {
     MessageCircle,
     PlusSquare,
     User,
-    MoreHorizontal,
-    Layout
+    Settings,
+    Sparkles,
+    Camera
 } from 'lucide-react';
 import styles from './Sidebar.module.css';
-
 import { motion } from 'framer-motion';
-
 import { ThemeSwitcher } from './ThemeSwitcher';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Sidebar = () => {
     const pathname = usePathname();
-    const searchParams = useSearchParams();
+    const { user } = useAuth();
 
     const navItems = [
         { icon: Home, label: 'Home', href: '/' },
         { icon: Search, label: 'Search', href: '/search' },
         { icon: Film, label: 'Reels', href: '/reels' },
-        { icon: MessageCircle, label: 'Chat', href: '/messages' },
+        { icon: MessageCircle, label: 'Messages', href: '/messages' },
         { icon: PlusSquare, label: 'Create', href: '/create' },
         { icon: User, label: 'Profile', href: '/profile' },
+        { icon: Settings, label: 'Settings', href: '/settings' },
     ];
 
     return (
-        <nav className={styles.sidebar}>
+        <aside className={styles.sidebar}>
+            {/* Brand Logo Header */}
             <div className={styles.logoSection}>
-                <motion.div
-                    className={styles.logoIcon}
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    whileTap={{ scale: 0.9 }}
-                >
-                    <Layout size={20} fill="white" />
-                </motion.div>
+                <Link href="/" className={styles.logoLink}>
+                    <motion.div
+                        className={styles.logoIcon}
+                        whileHover={{ scale: 1.08, rotate: -4 }}
+                        whileTap={{ scale: 0.94 }}
+                    >
+                        <Camera size={22} strokeWidth={2.5} color="#ffffff" />
+                    </motion.div>
+                    <span className={styles.brandTitle}>
+                        Viewer<span className={styles.brandDot}>.</span>
+                    </span>
+                </Link>
             </div>
 
+            {/* Navigation List */}
             <div className={styles.navItems}>
-                {navItems.map((item, index) => {
-                    const baseHref = item.href.split('?')[0];
-                    const hasQuery = item.href.includes('?');
-                    const tabParam = item.href.split('tab=')[1];
-
-                    const isActive = pathname === baseHref && (!hasQuery || searchParams.get('tab') === tabParam);
+                {navItems.map((item) => {
+                    const isActive = pathname === item.href;
                     const Icon = item.icon;
 
                     return (
@@ -56,46 +63,56 @@ const Sidebar = () => {
                             key={item.label}
                             href={item.href}
                             className={`${styles.navItem} ${isActive ? styles.active : ''}`}
-                            data-tooltip={item.label}
                         >
-                            <motion.div
-                                className={styles.iconWrap}
-                                initial={false}
-                                animate={isActive ? { scale: 1.1 } : { scale: 1 }}
-                                whileHover={{ scale: 1.1, rotate: 5 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                <Icon size={24} strokeWidth={isActive ? 2.5 : 2} />
-                            </motion.div>
-                            <motion.span
-                                className={styles.label}
-                                initial={false}
-                                animate={isActive ? { x: 2 } : { x: 0 }}
-                            >
-                                {item.label}
-                            </motion.span>
+                            {isActive && (
+                                <motion.div
+                                    layoutId="sidebarActivePill"
+                                    className={styles.activePill}
+                                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                                />
+                            )}
+                            <div className={styles.iconWrap}>
+                                <Icon
+                                    size={22}
+                                    strokeWidth={isActive ? 2.5 : 1.9}
+                                    className={styles.navIcon}
+                                />
+                            </div>
+                            <span className={styles.label}>{item.label}</span>
                         </Link>
                     );
                 })}
-                <div className={styles.navItem}>
-                    <ThemeSwitcher />
-                </div>
             </div>
 
-            <div className={styles.bottomActions}>
-                <motion.button
-                    className={styles.navItem}
-                    data-tooltip="More"
-                    whileHover={{ x: 4 }}
-                    whileTap={{ scale: 0.98 }}
-                >
-                    <div className={styles.iconWrap}>
-                        <MoreHorizontal size={24} />
-                    </div>
-                    <span className={styles.label}>More</span>
-                </motion.button>
+            {/* Bottom Actions & User Profile Card */}
+            <div className={styles.bottomSection}>
+                <div className={styles.themeRow}>
+                    <span className={styles.themeLabel}>
+                        <Sparkles size={16} className={styles.sparkleIcon} />
+                        Theme
+                    </span>
+                    <ThemeSwitcher />
+                </div>
+
+                {user && (
+                    <Link href="/profile" className={styles.userProfileCard}>
+                        <div className={styles.userAvatarRing}>
+                            <Image
+                                src={user.avatar || 'https://i.pravatar.cc/150'}
+                                alt={user.username || 'User'}
+                                width={36}
+                                height={36}
+                                className={styles.userAvatar}
+                            />
+                        </div>
+                        <div className={styles.userInfo}>
+                            <span className={styles.userFullName}>{user.fullName || user.username}</span>
+                            <span className={styles.userHandle}>@{user.username}</span>
+                        </div>
+                    </Link>
+                )}
             </div>
-        </nav>
+        </aside>
     );
 };
 

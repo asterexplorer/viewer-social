@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Post from '@/components/feed/Post';
+import StoryBar from '@/components/feed/StoryBar';
 import styles from './home.module.css';
 import Loader from '@/components/common/Loader';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
@@ -19,6 +20,7 @@ export default function Home() {
   const [pullProgress, setPullProgress] = useState(0);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [feedTab, setFeedTab] = useState<'forYou' | 'following'>('forYou');
   const touchStart = useRef(0);
 
   const fetchContent = useCallback(async (pageNum: number) => {
@@ -225,16 +227,48 @@ export default function Home() {
       </motion.div>
 
       <div className={styles.feedSection}>
-        <header className={styles.pageHeader}>
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={styles.welcomeText}
-          >
-            <h1 className="text-gradient">For You</h1>
-            <p className={styles.subtitle}>Curated feed based on your interests</p>
-          </motion.div>
-        </header>
+        {/* Feed Segmented Switcher Tabs */}
+        <div className={styles.tabBarContainer}>
+          <div className={styles.tabGroup}>
+            <button
+              className={`${styles.tabBtn} ${feedTab === 'forYou' ? styles.active : ''}`}
+              onClick={() => {
+                setFeedTab('forYou');
+                triggerHapticNotification(NotificationType.Success);
+              }}
+            >
+              {feedTab === 'forYou' && (
+                <motion.div
+                  layoutId="feedTabIndicator"
+                  className={styles.activeTabPill}
+                  transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                />
+              )}
+              For You
+            </button>
+            <button
+              className={`${styles.tabBtn} ${feedTab === 'following' ? styles.active : ''}`}
+              onClick={() => {
+                setFeedTab('following');
+                triggerHapticNotification(NotificationType.Success);
+              }}
+            >
+              {feedTab === 'following' && (
+                <motion.div
+                  layoutId="feedTabIndicator"
+                  className={styles.activeTabPill}
+                  transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                />
+              )}
+              Following
+            </button>
+          </div>
+        </div>
+
+        {/* Stories Section Card */}
+        <div className={styles.storyBarCard}>
+          <StoryBar />
+        </div>
 
         <motion.div
           className={styles.feedItemsList}

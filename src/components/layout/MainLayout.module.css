@@ -8,14 +8,13 @@
 
 .mainContent {
     flex: 1;
-    transition: padding-bottom var(--transition-smooth);
     display: flex;
     flex-direction: column;
     min-width: 0;
     position: relative;
-    padding-left: 0;
-    padding-bottom: 72px;
-    /* Space for bottom nav */
+    padding-left: 240px;
+    padding-bottom: 32px;
+    transition: padding var(--transition-smooth);
 }
 
 .contentWrapper {
@@ -24,12 +23,9 @@
     display: flex;
     flex-direction: column;
     z-index: 1;
-    padding-top: var(--header-height);
-    /* Clear fixed header */
-    max-width: var(--max-width);
-    /* Align with max page width */
+    padding-top: var(--header-height, 64px);
+    max-width: var(--max-width, 960px);
     margin: 0 auto;
-    /* Center content */
 }
 
 .fullWidthWrapper {
@@ -49,53 +45,52 @@
     background: var(--background);
 }
 
-/* Clear View Styles */
+/* Clear View Mode (Fullscreen Immersive) */
 .clearView .mainContent {
     padding-left: 0 !important;
-    transition: padding-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-bottom: 0 !important;
 }
 
 .clearView .contentWrapper {
     max-width: 100%;
-    padding-top: 20px;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: 0;
 }
 
-/* Floating Clear View Toggle */
 .clearViewToggle {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--background-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 9999;
-    color: white;
-    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    color: var(--foreground);
+    transition: all var(--transition-fast);
+    box-shadow: var(--card-shadow);
 }
 
 .clearViewToggle:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    background: var(--secondary);
+    transform: scale(1.08);
+    box-shadow: var(--card-shadow-hover);
 }
 
 .clearViewToggle.active {
     background: var(--primary);
-    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    border-color: transparent;
 }
 
 .sidebarWrapper {
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+    transition: transform var(--transition-smooth), opacity var(--transition-fast);
 }
 
 .clearView .sidebarWrapper {
@@ -105,7 +100,7 @@
 }
 
 .headerWrapper {
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s ease;
+    transition: transform var(--transition-smooth), opacity var(--transition-fast);
 }
 
 .clearView .headerWrapper {
@@ -114,28 +109,30 @@
     pointer-events: none;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1264px) {
+/* Responsive Breakpoints */
+
+/* Tablet (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
     .mainContent {
-        padding-left: 0;
+        padding-left: 80px;
     }
 }
 
-
+/* Mobile (<= 768px) */
 @media (max-width: 768px) {
     .mainContent {
         padding-left: 0;
-        padding-bottom: 88px;
-        /* Space for bottom tab bar + margin */
+        padding-bottom: 96px;
     }
 
     .contentWrapper {
-        padding: 0;
+        padding-top: var(--header-height, 60px);
+        padding-left: 0;
+        padding-right: 0;
     }
 
     .clearViewToggle {
-        bottom: 100px;
-        /* Above bottom nav on mobile */
-        right: 20px;
+        bottom: 96px;
+        right: 16px;
     }
 }
